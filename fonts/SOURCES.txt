@@ -1,0 +1,14 @@
+Downloaded 2026-10-12. Full font files, no PDF subsets.
+
+Poppins: Google Fonts official distribution
+https://github.com/google/fonts/tree/main/ofl/poppins
+https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Bold.ttf
+https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-ExtraBold.ttf
+https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Black.ttf
+https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/OFL.txt
+License: SIL Open Font License 1.1, attached Poppins-OFL.txt
+
+Aileron: original author DOT COLON / Sora Sagano
+https://dotcolon.net/fonts/aileron/
+https://dotcolon.net/files/fonts/aileron_0102.zip
+License as stated on original author's page: No Rights Reserved. See Aileron-license.txt and Aileron-official-license.html.

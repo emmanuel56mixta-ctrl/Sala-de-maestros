@@ -1,0 +1,272 @@
+{
+  "modules": [
+    {
+      "id": "derechos",
+      "title": "Derechos, inclusión y protección",
+      "lessons": [
+        {
+          "id": "d1",
+          "title": "Del principio al derecho concreto",
+          "minutes": 15
+        },
+        {
+          "id": "d2",
+          "title": "Gratuidad: consecuencias antes que etiquetas",
+          "minutes": 12
+        },
+        {
+          "id": "d3",
+          "title": "Protección, privacidad y alcance de la función",
+          "minutes": 18
+        }
+      ]
+    },
+    {
+      "id": "nem",
+      "title": "Programa Analítico y evaluación",
+      "lessons": [
+        {
+          "id": "n1",
+          "title": "Programa Sintético, Analítico y planeación",
+          "minutes": 18
+        },
+        {
+          "id": "n2",
+          "title": "Los planos y las decisiones contextualizadas",
+          "minutes": 18
+        },
+        {
+          "id": "n3",
+          "title": "Evaluar para que la información cambie el aprendizaje",
+          "minutes": 15
+        }
+      ]
+    },
+    {
+      "id": "mejora",
+      "title": "Planeación y seguimiento de la mejora",
+      "lessons": [
+        {
+          "id": "m1",
+          "title": "De un problema amplio a una prioridad fundamentada",
+          "minutes": 15
+        },
+        {
+          "id": "m2",
+          "title": "Meta, acción e indicador",
+          "minutes": 15
+        },
+        {
+          "id": "m3",
+          "title": "Acordar, implementar y ajustar con el colectivo",
+          "minutes": 18
+        }
+      ]
+    },
+    {
+      "id": "acompanamiento",
+      "title": "Asesoría y juicio profesional",
+      "lessons": [
+        {
+          "id": "a1",
+          "title": "Observar sin convertir inferencias en hechos",
+          "minutes": 15
+        },
+        {
+          "id": "a2",
+          "title": "Elegir el apoyo según la capacidad que falta",
+          "minutes": 15
+        },
+        {
+          "id": "a3",
+          "title": "Devolver evidencia y seguir un acuerdo",
+          "minutes": 15
+        }
+      ]
+    },
+    {
+      "id": "familias",
+      "title": "Participación y corresponsabilidad",
+      "lessons": [
+        {
+          "id": "f1",
+          "title": "Informar, escuchar y construir acuerdos",
+          "minutes": 15
+        },
+        {
+          "id": "f2",
+          "title": "Saberes comunitarios con sentido curricular",
+          "minutes": 15
+        },
+        {
+          "id": "f3",
+          "title": "Participación con atribuciones y privacidad",
+          "minutes": 18
+        }
+      ]
+    },
+    {
+      "id": "alianzas",
+      "title": "Órganos escolares y colaboración",
+      "lessons": [
+        {
+          "id": "i1",
+          "title": "CTE, comité de planeación y CEAP",
+          "minutes": 18
+        },
+        {
+          "id": "i2",
+          "title": "Elegir y coordinar un apoyo externo pertinente",
+          "minutes": 15
+        },
+        {
+          "id": "i3",
+          "title": "Seguimiento, continuidad y protección en la colaboración",
+          "minutes": 18
+        }
+      ]
+    }
+  ],
+  "freeLesson": {
+    "id": "d1",
+    "topic": "derechos",
+    "title": "Del principio al derecho concreto",
+    "goal": "Distinguir equidad, inclusión y no discriminación en una decisión escolar.",
+    "minutes": 15,
+    "source": "lge",
+    "reference": "Arts. 7–9 y 61–62.",
+    "read": "Lee los criterios del artículo 7 y contrástalos con las barreras descritas en los artículos 61 y 62.",
+    "paragraphs": [
+      "Un caso puede mencionar una intención valiosa —ayudar, incluir o mejorar— y proponer una medida poco pertinente. Para analizarlo, identifica primero quién encuentra una barrera, qué no puede hacer por ella y qué condición del entorno la produce. No atribuyas una dificultad de aprendizaje cuando el enunciado solo describe una dificultad de acceso.",
+      "La equidad exige considerar condiciones diferentes. Dar exactamente el mismo recurso a todos puede mantener una desventaja documentada. La inclusión lleva la atención a las barreras que limitan acceso, participación y aprendizaje. Un apoyo es pertinente por su relación con la necesidad; su nombre atractivo o su costo no lo hacen adecuado por sí mismos.",
+      "En subdirección, el razonamiento debe conducir a una decisión de apoyo y coordinación dentro del plantel. Revisa con el colectivo las condiciones y las evidencias, conserva el propósito educativo y define cómo comprobar que el ajuste permite participar. La aplicación depende también de las responsabilidades y acuerdos del centro."
+    ],
+    "compare": [
+      [
+        "Igualdad formal de insumos",
+        "Todos reciben el mismo recurso. No demuestra por sí sola igualdad de oportunidades."
+      ],
+      [
+        "Equidad en el apoyo",
+        "Se atienden condiciones y barreras para hacer efectivo el derecho."
+      ]
+    ],
+    "example": {
+      "case": "Una alumna interpreta gráficas, pero el formato exige trazarlas a mano y la exigencia motriz impide terminar.",
+      "analysis": "La evidencia demuestra interpretación; la dificultad pertenece al medio de respuesta. Reducir el contenido no responde a esa distinción.",
+      "decision": "Examinar un medio accesible que conserve los criterios de interpretación y verificar su uso."
+    },
+    "check": {
+      "prompt": "¿Qué dato necesitas antes de elegir un ajuste?",
+      "options": [
+        "La medida que utilizan más escuelas.",
+        "La barrera concreta y el aprendizaje que se pretende evaluar.",
+        "La alternativa con menor extensión."
+      ],
+      "correct": 1,
+      "feedback": [
+        "La popularidad no demuestra pertinencia.",
+        "La relación entre barrera y propósito permite comparar ajustes.",
+        "La extensión no justifica la decisión."
+      ]
+    },
+    "workshop": "w02"
+  },
+  "source": {
+    "title": "Ley General de Educación",
+    "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGE.pdf",
+    "detail": "Gratuidad, inclusión y atribuciones de CTE, comités y participación escolar: arts. 7, 61–64, 106, 108–109 y 128–132. Coteja la edición de tu convocatoria."
+  },
+  "outline": [
+    {
+      "id": "d1",
+      "title": "Del principio al derecho concreto",
+      "minutes": 15
+    },
+    {
+      "id": "d2",
+      "title": "Gratuidad: consecuencias antes que etiquetas",
+      "minutes": 12
+    },
+    {
+      "id": "d3",
+      "title": "Protección, privacidad y alcance de la función",
+      "minutes": 18
+    },
+    {
+      "id": "n1",
+      "title": "Programa Sintético, Analítico y planeación",
+      "minutes": 18
+    },
+    {
+      "id": "n2",
+      "title": "Los planos y las decisiones contextualizadas",
+      "minutes": 18
+    },
+    {
+      "id": "n3",
+      "title": "Evaluar para que la información cambie el aprendizaje",
+      "minutes": 15
+    },
+    {
+      "id": "m1",
+      "title": "De un problema amplio a una prioridad fundamentada",
+      "minutes": 15
+    },
+    {
+      "id": "m2",
+      "title": "Meta, acción e indicador",
+      "minutes": 15
+    },
+    {
+      "id": "m3",
+      "title": "Acordar, implementar y ajustar con el colectivo",
+      "minutes": 18
+    },
+    {
+      "id": "a1",
+      "title": "Observar sin convertir inferencias en hechos",
+      "minutes": 15
+    },
+    {
+      "id": "a2",
+      "title": "Elegir el apoyo según la capacidad que falta",
+      "minutes": 15
+    },
+    {
+      "id": "a3",
+      "title": "Devolver evidencia y seguir un acuerdo",
+      "minutes": 15
+    },
+    {
+      "id": "f1",
+      "title": "Informar, escuchar y construir acuerdos",
+      "minutes": 15
+    },
+    {
+      "id": "f2",
+      "title": "Saberes comunitarios con sentido curricular",
+      "minutes": 15
+    },
+    {
+      "id": "f3",
+      "title": "Participación con atribuciones y privacidad",
+      "minutes": 18
+    },
+    {
+      "id": "i1",
+      "title": "CTE, comité de planeación y CEAP",
+      "minutes": 18
+    },
+    {
+      "id": "i2",
+      "title": "Elegir y coordinar un apoyo externo pertinente",
+      "minutes": 15
+    },
+    {
+      "id": "i3",
+      "title": "Seguimiento, continuidad y protección en la colaboración",
+      "minutes": 18
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+.pages-account-bar{display:flex;align-items:center;justify-content:flex-end;gap:14px;padding:12px max(32px,calc((100vw - 1280px)/2));border-bottom:1px solid #c3c3c3;background:#ece9e2;color:#555;font-size:.8125rem}
+.pages-account-bar a{display:inline-flex;align-items:center;gap:8px;color:var(--brand-dark);font-weight:700;min-height:32px;text-decoration:underline;text-underline-offset:4px}
+.pages-account-bar a:hover{color:#1a1a1a}
+@media(max-width:767px){.pages-account-bar{padding:10px 24px;gap:10px;justify-content:space-between;font-size:.75rem}}

@@ -50,3 +50,7 @@ next-env.d.ts
 .dev.vars
 .dev.vars.*
 !.env.example
+
+# Temporary GitHub Pages compilation
+/.pages-build/
+/.pages-ssr/

@@ -4,7 +4,7 @@
 
 Plataforma de cursos de NEMC, con portada interactiva, catálogo, páginas de curso y asesor de estudio para subdirección de secundaria. Incluye ruta de estudio, reactivos explicados, talleres de análisis, simulador y seguimiento del avance.
 
-[Sitio actual](https://ascenso-docente-laboratorio.mandrakker.chatgpt.site) · Su acceso conserva la configuración privada actual.
+[Abrir Sala de Maestros](https://emmanuel56mixta-ctrl.github.io/Sala-de-maestros/) · [Entrar al asesor](https://ascenso-docente-laboratorio.mandrakker.chatgpt.site/asesor)
 
 ## Desarrollo local
 
@@ -44,7 +44,15 @@ pnpm start
 
 ## Hosting y servicios
 
-Esta es una aplicación **React/Vinext con servidor Cloudflare Workers y base de datos D1**. GitHub aloja el código; **no es una exportación estática para GitHub Pages**.
+La portada, el catálogo, los detalles de los cuatro cursos y la lección gratuita se publican en **GitHub Pages**. Se generan HTML por ruta, recursos compilados y `.nojekyll` en la raíz de `main`; Pages debe usar **Deploy from a branch → main → / (root)**. Las rutas y los recursos incluyen el prefijo `/Sala-de-maestros/`, por lo que abrir o recargar una página de curso funciona directamente.
+
+```sh
+pnpm publish:pages
+```
+
+Este comando compila y copia la publicación estática a la raíz del repositorio. Hay que confirmar esos archivos junto con los cambios de fuente para actualizar Pages. `pnpm build:pages` permite compilar sin copiar la publicación. La compilación reutiliza los componentes del sitio y regenera únicamente los datos públicos de la lección gratuita.
+
+El asesor completo conserva su servidor **Cloudflare Workers**, la autenticación y la base de datos **D1** en el alojamiento actual. El enlace “Entrar a mi curso” dirige allí. GitHub Pages no ejecuta el servidor ni guarda el avance; no se incluyen sesiones ni datos de docentes en los archivos estáticos.
 
 El hosting actual proporciona la autenticación. Para desplegar fuera de ese entorno hay que integrar autenticación confiable, configurar el binding `DB`, aplicar las migraciones de `drizzle/` y definir `COURSE_OWNER_EMAIL` como variable privada del servidor. No se deben aceptar como prueba de identidad cabeceras enviadas directamente por el cliente.
 
