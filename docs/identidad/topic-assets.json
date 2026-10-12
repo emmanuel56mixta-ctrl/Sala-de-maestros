@@ -1,0 +1,151 @@
+{
+  "asset_count": 12,
+  "original_generation_count": 12,
+  "method": "12 separate original built-in image generation calls, no editing or compositing",
+  "assets": [
+    {
+      "id": "07-cover-derechos",
+      "kind": "unit-cover",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-6a95bab2-d2fa-4ea7-9a37-1c9330d73e0c.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/07-cover-derechos.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone landscape 3:2 course unit cover, 1536x1024. Intended for adult educators preparing to become secondary school supervisors in Mexico for a premium independent exam preparation program. An open doorway in a simplified accessible secondary school facade, connected to a broad smooth ramp. In front, three abstract geometric human forms of equal height stand together with generous space, conveying equal rights and inclusion. Compose as a refined architectural paper sculpture with no literal signage. Style: crisp editorial architectural paper sculpture with flat vector-like geometry and subtle physical depth; meticulously cut matte paper, clean folds, restrained soft shadows, sophisticated adult educational tone. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC on pure white background. White dominates, blue anchors, gold is a small accent. Balanced centered composition, plenty of white negative space all around, entire subject visible. No text, letters, numbers, UI, emblems, official insignia, logos, watermark, beige, sage green, purple, glossy surfaces, or AI blobs. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1565152
+    },
+    {
+      "id": "08-cover-nem",
+      "kind": "unit-cover",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-950dc304-d382-4d04-be0c-9010ca287fb1.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/08-cover-nem.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone landscape 3:2 course unit cover, 1536x1024. Intended for adult educators preparing to become secondary school supervisors in Mexico for a premium independent exam preparation program. An open curricular book made of thick crisp white paper, surrounded by three nested flat paper planes forming a spatial frame around the book to represent nested educational contexts. Clear geometric layers, small cobalt and golden edge accents. Pages completely blank. Style: crisp editorial architectural paper sculpture with flat vector-like geometry and subtle physical depth; meticulously cut matte paper, clean folds, restrained soft shadows, sophisticated adult educational tone. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC on pure white background. White dominates, blue anchors, gold is a small accent. Balanced centered composition, plenty of white negative space all around, entire subject visible. No text, letters, numbers, UI, emblems, official insignia, logos, watermark, beige, sage green, purple, glossy surfaces, or AI blobs. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1485524
+    },
+    {
+      "id": "09-cover-mejora",
+      "kind": "unit-cover",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-368c2f18-9fad-40b2-9096-6ed11225eb41.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/09-cover-mejora.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone landscape 3:2 course unit cover, 1536x1024. Intended for adult educators preparing to become secondary school supervisors in Mexico for a premium independent exam preparation program. A carefully arranged architectural school plan formed as blank white and blue geometric floor-plan blocks on a paper surface, beside a simple rising sequence of three measured steps and a restrained circular inspection lens focusing on one precise portion. No actual map labels, no numerical markings. Style: crisp editorial architectural paper sculpture with flat vector-like geometry and subtle physical depth; meticulously cut matte paper, clean folds, restrained soft shadows, sophisticated adult educational tone. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC on pure white background. White dominates, blue anchors, gold is a small accent. Balanced centered composition, plenty of white negative space all around, entire subject visible. No text, letters, numbers, UI, emblems, official insignia, logos, watermark, beige, sage green, purple, glossy surfaces, or AI blobs. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1726969
+    },
+    {
+      "id": "10-cover-acompanamiento",
+      "kind": "unit-cover",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-17f0de97-2562-42a9-b20d-ec05283d0291.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/10-cover-acompanamiento.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone landscape 3:2 course unit cover, 1536x1024. Intended for adult educators preparing to become secondary school supervisors in Mexico for a premium independent exam preparation program. Exactly two adult educator silhouettes made from folded matte paper, with mature adult proportions and abstract featureless faces, discussing an open blank lesson notebook resting on a simple white shared desk. Their calm collaborative posture and small hand gestures communicate reflective teaching support, with one cobalt silhouette and one navy silhouette and a golden notebook edge. Style: crisp editorial architectural paper sculpture with flat vector-like geometry and subtle physical depth; meticulously cut matte paper, clean folds, restrained soft shadows, sophisticated adult educational tone. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC on pure white background. White dominates, blue anchors, gold is a small accent. Balanced centered composition, plenty of white negative space all around, entire subject visible. No text, letters, numbers, UI, emblems, official insignia, logos, watermark, beige, sage green, purple, glossy surfaces, or AI blobs. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1659427
+    },
+    {
+      "id": "11-cover-familias",
+      "kind": "unit-cover",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-61a6f6a3-1c20-4bbe-bc81-5881809437e7.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/11-cover-familias.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone landscape 3:2 course unit cover, 1536x1024. Intended for adult educators preparing to become secondary school supervisors in Mexico for a premium independent exam preparation program. A small adult school community made of five neutral abstract paper silhouettes with adult proportions, evenly gathered around one open semicircular white table, suggesting respectful participation of families and educators. Featureless round paper heads, restrained navy and cobalt clothing forms, one small golden accent on the table. Every person treated as an equal. Style: crisp editorial architectural paper sculpture with flat vector-like geometry and subtle physical depth; meticulously cut matte paper, clean folds, restrained soft shadows, sophisticated adult educational tone. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC on pure white background. White dominates, blue anchors, gold is a small accent. Balanced centered composition, plenty of white negative space all around, entire subject visible. No text, letters, numbers, UI, emblems, official insignia, logos, watermark, beige, sage green, purple, glossy surfaces, or AI blobs. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1476976
+    },
+    {
+      "id": "12-cover-alianzas",
+      "kind": "unit-cover",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-11aa1f8d-0d8f-40c6-a183-8b17c31f0c28.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/12-cover-alianzas.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone landscape 3:2 course unit cover, 1536x1024. Intended for adult educators preparing to become secondary school supervisors in Mexico for a premium independent exam preparation program. Exactly three distinct small modern secondary school buildings rendered as clean architectural paper miniatures, connected by simple narrow cobalt paper routes around one central shared community plaza with a few abstract paper human forms. Open, balanced network composition with no arrows or markings; cooperation across schools and local community. Style: crisp editorial architectural paper sculpture with flat vector-like geometry and subtle physical depth; meticulously cut matte paper, clean folds, restrained soft shadows, sophisticated adult educational tone. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC on pure white background. White dominates, blue anchors, gold is a small accent. Balanced centered composition, plenty of white negative space all around, entire subject visible. No text, letters, numbers, UI, emblems, official insignia, logos, watermark, beige, sage green, purple, glossy surfaces, or AI blobs. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1508352
+    },
+    {
+      "id": "13-icon-derechos",
+      "kind": "topic-emblem",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-d1712533-ac50-4f09-a118-73299739ab7a.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/13-icon-derechos.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone square 1:1 compact course-topic emblem, 1024x1024, for a premium independent exam preparation program for adult secondary school supervisor educators in Mexico. A single compact illustrative emblem of an open doorway with a simple open circular gathering shape in front, communicating accessibility, inclusion, and equal rights. Use a navy rectangular doorway, cobalt door folded open, tiny golden circle, and white interior. This is a subject illustration, not a corporate logo. Style: crisp editorial architectural paper sculpture, flat vector-like cut-paper geometry with very subtle depth and restrained soft contact shadow, matte paper texture, no gloss. Centered single object occupies only central 52 percent of canvas, generous uninterrupted pure white padding on all four sides. Clear simple silhouette remains legible at small thumbnail size. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC, pure white background. No text, letters, numbers, UI, official insignia, recognizable logos, watermark, beige, sage green, purple, glossy AI blobs. No border, no badge, no enclosing tile, no extra scenery. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 924739
+    },
+    {
+      "id": "14-icon-nem",
+      "kind": "topic-emblem",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-4650d60f-8af3-4882-992f-aa1eb9f08fbb.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/14-icon-nem.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone square 1:1 compact course-topic emblem, 1024x1024, for a premium independent exam preparation program for adult secondary school supervisor educators in Mexico. A single compact illustrative emblem of exactly three layered open paper pages, nested like a small open book with three distinct layers, expressing a curriculum shaped by educational contexts. Navy bottom layer, cobalt middle layer, white top pages, tiny golden edge accent. All pages completely blank. This is a subject illustration, not a corporate logo. Style: crisp editorial architectural paper sculpture, flat vector-like cut-paper geometry with very subtle depth and restrained soft contact shadow, matte paper texture, no gloss. Centered single object occupies only central 52 percent of canvas, generous uninterrupted pure white padding on all four sides. Clear simple silhouette remains legible at small thumbnail size. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC, pure white background. No text, letters, numbers, UI, official insignia, recognizable logos, watermark, beige, sage green, purple, glossy AI blobs. No border, no badge, no enclosing tile, no extra scenery. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 996691
+    },
+    {
+      "id": "15-icon-mejora",
+      "kind": "topic-emblem",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-a379ff57-f62c-4bd8-9004-328ab2eecda6.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/15-icon-mejora.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone square 1:1 compact course-topic emblem, 1024x1024, for a premium independent exam preparation program for adult secondary school supervisor educators in Mexico. A single compact illustrative emblem combining a short architectural ruler with a simple three-step ascending path. Ruler has only a few subtle blank tick marks and no numbers. Steps made of navy, cobalt, and icy white matte paper with one golden top surface, expressing thoughtful steady school improvement. This is a subject illustration, not a corporate logo. Style: crisp editorial architectural paper sculpture, flat vector-like cut-paper geometry with very subtle depth and restrained soft contact shadow, matte paper texture, no gloss. Centered single object occupies only central 52 percent of canvas, generous uninterrupted pure white padding on all four sides. Clear simple silhouette remains legible at small thumbnail size. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC, pure white background. No text, letters, numbers, UI, official insignia, recognizable logos, watermark, beige, sage green, purple, glossy AI blobs. No border, no badge, no enclosing tile, no extra scenery. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1091939
+    },
+    {
+      "id": "16-icon-acompanamiento",
+      "kind": "topic-emblem",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-b871bb39-a634-42c2-9c0e-c4e3b852e72c.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/16-icon-acompanamiento.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone square 1:1 compact course-topic emblem, 1024x1024, for a premium independent exam preparation program for adult secondary school supervisor educators in Mexico. A single compact illustrative emblem of exactly two facing abstract dialogue forms, one navy and one cobalt, with a small open blank white book between them and a tiny golden book spine. The dialogue forms subtly suggest adult educator profiles while staying geometric and featureless. Calm reciprocal exchange. This is a subject illustration, not a corporate logo. Style: crisp editorial architectural paper sculpture, flat vector-like cut-paper geometry with very subtle depth and restrained soft contact shadow, matte paper texture, no gloss. Centered single object occupies only central 52 percent of canvas, generous uninterrupted pure white padding on all four sides. Clear simple silhouette remains legible at small thumbnail size. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC, pure white background. No text, letters, numbers, UI, official insignia, recognizable logos, watermark, beige, sage green, purple, glossy AI blobs. No border, no badge, no enclosing tile, no extra scenery. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1030437
+    },
+    {
+      "id": "17-icon-familias",
+      "kind": "topic-emblem",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-6429b061-7a7d-49a5-ab7f-81654a436ae9.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/17-icon-familias.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone square 1:1 compact course-topic emblem, 1024x1024, for a premium independent exam preparation program for adult secondary school supervisor educators in Mexico. A single compact illustrative emblem of exactly three simple adult person forms arranged in an open semicircle, each formed of a round flat paper head and clean folded torso. Equal scale, one navy form, one cobalt form, one icy-white form with a tiny gold accent. Restrained shared semicircular paper arc links the gathering. This is a subject illustration, not a corporate logo. Style: crisp editorial architectural paper sculpture, flat vector-like cut-paper geometry with very subtle depth and restrained soft contact shadow, matte paper texture, no gloss. Centered single object occupies only central 52 percent of canvas, generous uninterrupted pure white padding on all four sides. Clear simple silhouette remains legible at small thumbnail size. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC, pure white background. No text, letters, numbers, UI, official insignia, recognizable logos, watermark, beige, sage green, purple, glossy AI blobs. No border, no badge, no enclosing tile, no extra scenery. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1012825
+    },
+    {
+      "id": "18-icon-alianzas",
+      "kind": "topic-emblem",
+      "generator": "built-in image_gen__imagegen",
+      "generation_calls": 1,
+      "original_path": "/workspace/scratch/0ef880d09953/generated_images/exec-8a6000ad-1551-4b84-bbe8-16a389174a0d.png",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/18-icon-alianzas.png",
+      "prompt": "Use case: stylized-concept. Asset type: original standalone square 1:1 compact course-topic emblem, 1024x1024, for a premium independent exam preparation program for adult secondary school supervisor educators in Mexico. A single compact illustrative emblem of exactly three small simplified school blocks, each with a tiny square window and rectangular doorway, linked by narrow geometric paper routes. Use one navy school block, one cobalt school block, and one icy-white school block with a small golden roof edge. Balanced triangular arrangement, clear and minimal. This is a subject illustration, not a corporate logo. Style: crisp editorial architectural paper sculpture, flat vector-like cut-paper geometry with very subtle depth and restrained soft contact shadow, matte paper texture, no gloss. Centered single object occupies only central 52 percent of canvas, generous uninterrupted pure white padding on all four sides. Clear simple silhouette remains legible at small thumbnail size. Palette strictly navy #162B48, cobalt #2855D9, golden yellow #FFC851, icy white #F2F6FC, pure white background. No text, letters, numbers, UI, official insignia, recognizable logos, watermark, beige, sage green, purple, glossy AI blobs. No border, no badge, no enclosing tile, no extra scenery. Generate exactly one finished image, not a grid, not a contact sheet.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1020706
+    }
+  ]
+}

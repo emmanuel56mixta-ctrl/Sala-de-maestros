@@ -1,0 +1,12 @@
+import type {Question} from './content';
+import {revisedQuestions} from './revised-questions';
+import {COURSE_ID} from './catalog';
+import {rights} from './bank/rights';
+import {curriculum} from './bank/curriculum';
+import {improvement} from './bank/improvement';
+import {coaching} from './bank/coaching';
+import {families} from './bank/families';
+import {partnerships} from './bank/partnerships';
+import {newPractice} from './bank/practice';
+const retained=revisedQuestions.filter(q=>!q.reserve&&(q.track==='comun'||q.track==='direccion')).map((q,i)=>({...q,id:`SD26-P${String(i+1).padStart(3,'0')}`,profileId:COURSE_ID,track:'direccion' as const}));
+export const subdirectionQuestions:Question[]=[...retained,...newPractice,...rights,...curriculum,...improvement,...coaching,...families,...partnerships];

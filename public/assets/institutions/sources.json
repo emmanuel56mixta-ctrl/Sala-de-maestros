@@ -1,0 +1,42 @@
+[
+  {
+    "id": "sep",
+    "file": "sep-federal.svg",
+    "name": "Secretaría de Educación Pública",
+    "source": "https://www.ipn.mx/",
+    "image": "https://www.ipn.mx/assets/files/main/img/template/header/pleca-educacion.svg",
+    "description": "Escudo nacional dorado con Educación guinda y denominación de la SEP. SVG transparente."
+  },
+  {
+    "id": "jalisco",
+    "file": "jalisco-educacion.png",
+    "name": "Secretaría de Educación Jalisco",
+    "source": "https://apprende.jalisco.gob.mx/",
+    "image": "https://apprende.jalisco.gob.mx/wp-content/uploads/2026/07/logoeducacion-1.png",
+    "description": "Educación rosa y naranja con símbolo floral. PNG transparente 427 × 108, vigente en encabezado Apprende."
+  },
+  {
+    "id": "nuevo-leon",
+    "file": "nuevo-leon-gobierno.svg",
+    "name": "Gobierno de Nuevo León",
+    "source": "https://www.nl.gob.mx/es/educacion",
+    "image": "https://recursos.digital.nl.gob.mx/assets/img/logos/logo_circular.svg",
+    "description": "León naranja rodeado por Gobierno del Nuevo Nuevo León. SVG transparente vigente en portal oficial de Educación."
+  },
+  {
+    "id": "puebla",
+    "file": "puebla-gobierno.svg",
+    "name": "Gobierno del Estado de Puebla",
+    "source": "https://sep.puebla.gob.mx/",
+    "image": "https://sep.puebla.gob.mx/templates/puebla/images/header/logo_puebla_gob.svg",
+    "description": "Escudo estatal, Gobierno del Estado y periodo 2024–2030, negro y guinda. SVG transparente."
+  },
+  {
+    "id": "edomex",
+    "file": "edomex-gobierno.png",
+    "name": "Gobierno del Estado de México",
+    "source": "https://pagosytramites.edomex.gob.mx/recaudacion/",
+    "image": "https://pagosytramites.edomex.gob.mx/recaudacion/imagenes/Plataforma02/NuevoDB/gem_blanco_Vert_8.png",
+    "description": "Escudo del Estado de México en blanco, PNG transparente 217 × 253. Utilizar sobre fondo oscuro. Identidad territorial, no marca de administración."
+  }
+]

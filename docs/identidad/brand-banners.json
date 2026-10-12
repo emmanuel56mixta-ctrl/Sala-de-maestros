@@ -1,0 +1,60 @@
+{
+  "generator": "built-in image_gen__imagegen",
+  "mode": "original image generation; one standalone call per asset",
+  "assets": [
+    {
+      "filename": "01-logo.png",
+      "prompt": "Use case: logo-brand\nAsset type: original compact symbol for NEMC, a polished Spanish educational platform for secondary school supervisors in Mexico.\nCreate one standalone square 1024x1024 image. An elegant distinctive abstract symbol that merges an open book with TWO ascending PARALLEL paths. Confident compact silhouette, precisely balanced sharp flat geometric construction, beautifully legible small. Cobalt #2855D9 and ink navy #162B48 with one tiny golden yellow #FFC851 square accent. Pure white background. Center the symbol with generous breathing room; symbol occupies about 60 percent of square.\nStyle: architectural editorial graphic design, flat vector-like geometry, no texture, no gradients, no shadows.\nNo letters, words, numbers, lettering, UI, official government insignia, seals, people, glossy effects, beige, sage, purple, AI blobs. Output only this single original mark, no contact sheet, no variants, no mockup.",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/01-logo.png",
+      "source_path": "/workspace/scratch/0ef880d09953/generated_images/exec-9ccc8749-1d9c-4d80-9d01-07211447f327.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 824055
+    },
+    {
+      "filename": "02-banner-inicio.png",
+      "prompt": "Use case: stylized-concept\nAsset type: standalone editorial homepage banner for NEMC's Spanish learning platform for secondary school supervisors in Mexico.\nCreate one landscape image, 1536x1024, 3:2. Pure white background. On the RIGHT HALF, compose a supervisor's exceptionally organized abstract desk: an open white book with navy cover, small crisp cobalt and yellow route markers, and a miniature modern school architectural facade. Arrange a concise sculptural group using precise folded paper planes and flat geometric shapes, with modest crisp depth. The entire LEFT 48 percent must remain empty pure white for website copy. Keep comfortable negative space around the right-side scene and all objects fully inside the frame.\nUnified editorial art direction: sophisticated architectural paper sculpture, flat vector-like geometric surfaces, matte paper, sharp edges, purposeful scholarly calm, crisp light shadow only underneath objects, orthographic three-quarter view. Ink navy #162B48, cobalt #2855D9, vivid golden yellow #FFC851 and icy white #F2F6FC ONLY on pure white.\nNo text, letters, numbers, words, watermarks, logos, government emblems, people, UI, screenshots, gradients, glossy blobs, beige, sage, purple, photorealistic clutter. Output only one original standalone artwork, no contact sheet.",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/02-banner-inicio.png",
+      "source_path": "/workspace/scratch/0ef880d09953/generated_images/exec-94b2b3d4-9bb9-4b6f-9bab-e0c3500674dc.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1442695
+    },
+    {
+      "filename": "03-banner-ruta.png",
+      "prompt": "Use case: stylized-concept\nAsset type: standalone learning-route editorial banner for NEMC's Spanish platform for secondary school supervisors in Mexico.\nCreate one landscape image, 1536x1024, 3:2. Pure white background. On the RIGHT HALF, a beautifully constructed stepped path with exactly six booklike volumes forming a rising educational progression, the open clear route winding simply beside or over these architectural book steps. Book forms are solid cobalt and ink navy with icy white page blocks, one deliberate small yellow marker at the destination. Concise purposeful geometry, no chart or data appearance. The entire LEFT 48 percent must remain empty pure white for website copy. Keep comfortable negative space around the right-side sculpture, every object within frame.\nUnified editorial art direction: sophisticated architectural paper sculpture, flat vector-like geometric surfaces, matte paper, sharp edges, modest crisp depth, purposeful scholarly calm, crisp light shadow only underneath objects, orthographic three-quarter view. Ink navy #162B48, cobalt #2855D9, vivid golden yellow #FFC851 and icy white #F2F6FC ONLY on pure white.\nNo text, letters, numbers, words, watermarks, logos, government emblems, people, UI, screenshots, plotted data, gradients, glossy blobs, beige, sage, purple, photorealistic clutter. Output only one original standalone artwork, no contact sheet.",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/03-banner-ruta.png",
+      "source_path": "/workspace/scratch/0ef880d09953/generated_images/exec-a726c657-98e9-4175-9403-3f56ae7ddfab.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1303482
+    },
+    {
+      "filename": "04-banner-practica.png",
+      "prompt": "Use case: stylized-concept\nAsset type: standalone practice-and-reasoning editorial banner for NEMC's Spanish platform for secondary school supervisors in Mexico.\nCreate one landscape image, 1536x1024, 3:2. Pure white background. On the RIGHT HALF, exactly three decision cards made of thick folded paper, arranged as calm geometric choices, with one large focused inspection lens leaning over the front card. Cards use simple abstract shape motifs only, such as a square, a branching line and a circle, never written content; the front card has a deliberate yellow square marker. A meaningful sculptural metaphor for careful educational decision reasoning. The entire LEFT 48 percent must remain empty pure white for website copy. Keep generous breathing room, objects fully within frame.\nUnified editorial art direction: sophisticated architectural paper sculpture, flat vector-like geometric surfaces, matte paper, sharp edges, modest crisp depth, purposeful scholarly calm, crisp light shadow only underneath objects, orthographic three-quarter view. Ink navy #162B48, cobalt #2855D9, vivid golden yellow #FFC851 and icy white #F2F6FC ONLY on pure white.\nNo text, letters, numbers, words, watermarks, logos, government emblems, people, UI, screenshots, gradients, glossy blobs, beige, sage, purple, photorealistic clutter. Output only one original standalone artwork, no contact sheet.",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/04-banner-practica.png",
+      "source_path": "/workspace/scratch/0ef880d09953/generated_images/exec-9b945364-7811-4e45-814c-6ea226fbd175.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1353620
+    },
+    {
+      "filename": "05-banner-simulacion.png",
+      "prompt": "Use case: stylized-concept\nAsset type: standalone exam simulation editorial banner for NEMC's Spanish platform for secondary school supervisors in Mexico.\nCreate one landscape image, 1536x1024, 3:2. Pure white background. On the RIGHT HALF, a refined navy and cobalt analog timer with absolutely NO numerals or letters, a few minimalist tick marks and a yellow hand, standing next to orderly icy white response sheets with neat rows of empty small geometric circles and one yellow pencil. A compact, carefully balanced paper sculpture evoking composed concentration and preparation. The entire LEFT 48 percent must remain empty pure white for website copy. Keep generous breathing room around the right-side object group, every object fully within frame.\nUnified editorial art direction: sophisticated architectural paper sculpture, flat vector-like geometric surfaces, matte paper, sharp edges, modest crisp depth, purposeful scholarly calm, crisp light shadow only underneath objects, orthographic three-quarter view. Ink navy #162B48, cobalt #2855D9, vivid golden yellow #FFC851 and icy white #F2F6FC ONLY on pure white.\nNo text, letters, numbers, words, watermarks, logos, government emblems, people, UI, screenshots, gradients, glossy blobs, beige, sage, purple, photorealistic clutter. Output only one original standalone artwork, no contact sheet.",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/05-banner-simulacion.png",
+      "source_path": "/workspace/scratch/0ef880d09953/generated_images/exec-def4c436-0544-4aa3-9029-516317658ad3.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1443832
+    },
+    {
+      "filename": "06-banner-avance.png",
+      "prompt": "Use case: stylized-concept\nAsset type: standalone personal progress editorial banner for NEMC's Spanish platform for secondary school supervisors in Mexico.\nCreate one landscape image, 1536x1024, 3:2. Pure white background. On the RIGHT HALF, a small architectural paper sculpture: exactly six little square columns with restrained varying heights distributed in an open spatial arrangement alongside a clean ascending open path or ramp. A small golden yellow square rests at the upper end of the path. This is an architectural metaphor of growing mastery, NOT a chart: no axis, baseline, grid, plotted line, data or numeric claims. Restrained composition with more space than objects. The entire LEFT 48 percent must remain empty pure white for website copy. Every object fully within frame.\nUnified editorial art direction: sophisticated architectural paper sculpture, flat vector-like geometric surfaces, matte paper, sharp edges, modest crisp depth, purposeful scholarly calm, crisp light shadow only underneath objects, orthographic three-quarter view. Ink navy #162B48, cobalt #2855D9, vivid golden yellow #FFC851 and icy white #F2F6FC ONLY on pure white.\nNo text, letters, numbers, words, watermarks, logos, government emblems, people, UI, screenshots, gradients, glossy blobs, beige, sage, purple, photorealistic clutter. Output only one original standalone artwork, no contact sheet.",
+      "path": "/workspace/scratch/0ef880d09953/nemc-assets/06-banner-avance.png",
+      "source_path": "/workspace/scratch/0ef880d09953/generated_images/exec-aa674a22-3456-4386-8c03-eb1836e8b236.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1259661
+    }
+  ]
+}
