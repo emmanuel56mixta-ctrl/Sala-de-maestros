@@ -15,7 +15,7 @@ export default function CatalogPage({ section }: { section?: CourseSection }) {
 
   return <CatalogShell backTo={section ? '/cursos/' : '/'} backLabel={section ? 'Todos los cursos' : 'Sala de Maestros'}>
     <div className={section ? 'course-section-arrival' : undefined}>
-    {section ? <CourseSectionHero section={section} courseCount={courses.length} availableCount={availableCount} /> : <section className="catalog-intro catalog-intro-with-photo">
+    {section ? <CourseSectionHero section={section} availableCount={availableCount} /> : <section className="catalog-intro catalog-intro-with-photo">
       <div className="catalog-intro-copy">
         <p className="eyebrow">APRENDE A TU RITMO</p>
         <h1>Tu siguiente paso<br />empieza aquí.</h1>

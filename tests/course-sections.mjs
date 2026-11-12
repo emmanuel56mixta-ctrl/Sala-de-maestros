@@ -94,11 +94,21 @@ function verifyCatalog(html, section, prefix = '') {
   assert.equal(actualCards.length, section ? 2 : 4, 'A category shows two cards; the full catalog retains all four.');
   assert.deepEqual(actualCards.map(card => cardSlug(card, prefix)).sort(), offerings.map(course => course.slug).sort());
   const plainHtml = html.replace(/<!--[\s\S]*?-->/g, '');
-  const countList = plainHtml.match(/<dl\b[^>]*class="course-section-counts"[^>]*>[\s\S]*?<\/dl>/)?.[0];
-  const displayedCounts = section
-    ? [...(countList ?? '').matchAll(/<dd>(\d+)<\/dd>/g)].map(match => Number(match[1]))
-    : plainHtml.match(/(\d+) propuestas? · (\d+) cursos? disponibles?/)?.slice(1).map(Number);
-  assert.deepEqual(displayedCounts, [offerings.length, offerings.filter(course => course.available).length], 'Rendered counts must distinguish proposals from available courses, including zero availability.');
+  if (section) {
+    const hero = plainHtml.match(/<section\b[^>]*class="[^\"]*\bcourse-section-hero\b[^\"]*"[^>]*>[\s\S]*?<\/section>/)?.[0];
+    assert.ok(hero, 'Category context must remain present without aggregate counters.');
+    assert.doesNotMatch(hero, /<dl\b/, 'The category hero must omit the proposals/availability counter list.');
+  } else {
+    const displayedCounts = plainHtml.match(/(\d+) propuestas? · (\d+) cursos? disponibles?/)?.slice(1).map(Number);
+    assert.deepEqual(displayedCounts, [offerings.length, offerings.filter(course => course.available).length], 'The full catalog must retain its proposal and availability counts.');
+  }
+  for (const card of actualCards) {
+    const offering = offerings.find(course => course.slug === cardSlug(card, prefix));
+    const status = card.match(/<p\b[^>]*class="eyebrow"[^>]*>([^<]*)<\/p>/)?.[1];
+    assert.ok(status, `The ${offering.slug} card must disclose its own availability.`);
+    assert.equal(/^DISPONIBLE\b/.test(status), offering.available, `Available status must remain accurate for ${offering.slug}.`);
+    assert.equal(status === 'PRÓXIMAMENTE', !offering.available, `Upcoming status must remain accurate for ${offering.slug}.`);
+  }
   const navigation = html.match(/<nav\b[^>]*class="catalog-sections"[^>]*>[\s\S]*?<\/nav>/)?.[0];
   assert.ok(navigation, 'Category choices must be present in rendered HTML without JavaScript.');
   const links = [...navigation.matchAll(/<a\b[^>]*>/g)].map(match => attrs(match[0]));
@@ -149,4 +159,4 @@ if (process.argv.includes('--pages-build')) {
   for (const course of coursesForSection(digitalSection)) assert.ok(!fs.existsSync(path.join(build, 'cursos', course.slug, 'leccion-gratuita', 'index.html')), 'An upcoming digital course must not generate a lesson route.');
   console.log('PASS: published category HTML, 2/2/4 cards, current navigation, directory links, prefixed photographs and upcoming-course boundaries.');
 }
-console.log('PASS: complete/disjoint category membership, stable regrouping, unchanged course data, real Worker/Pages component renders and stable digital icons.');
+console.log('PASS: complete/disjoint category membership, unchanged course data, category heroes without counters, full-catalog counts, per-card availability, real Worker/Pages renders and stable digital icons.');

@@ -5,7 +5,7 @@
   align-items: end;
   gap: clamp(28px, 4vw, 60px);
   min-height: 510px;
-  padding: 24px 0 26px;
+  padding: 24px 0 0;
   margin-bottom: 26px;
   border-bottom: 1px solid var(--line);
 }
@@ -33,8 +33,9 @@
 }
 .course-section-context {
   grid-area: context;
-  align-self: center;
+  align-self: start;
   min-width: 0;
+  margin-top: clamp(48px, 5vw, 72px);
   padding: clamp(28px, 3.2vw, 40px);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -53,9 +54,10 @@
   color: var(--brand-dark);
   font-family: Poppins, Arial, sans-serif;
   font-size: clamp(2.15rem, 3.7vw, 3.4rem);
-  font-weight: 900;
-  line-height: 1.08;
-  letter-spacing: -.055em;
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -.025em;
+  word-spacing: .04em;
   white-space: normal;
   overflow-wrap: break-word;
   text-wrap: balance;
@@ -66,37 +68,13 @@
   font-size: 1rem;
   line-height: 1.75;
 }
-.course-section-counts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 28px;
-  margin: 24px 0;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-}
-.course-section-counts > div {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-.course-section-counts dt {
-  order: 1;
-  color: var(--text-muted);
-  font-size: .75rem;
-  line-height: 1.5;
-}
-.course-section-counts dd {
-  margin: 0;
-  color: var(--brand-dark);
-  font: 700 1.4rem/1.25 Poppins, Arial, sans-serif;
-  font-variant-numeric: tabular-nums;
-}
 .course-section-enter {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: 32px;
   min-height: 48px;
+  margin-top: 28px;
   padding: 13px 18px;
   border: 1px solid var(--brand);
   border-radius: 4px;
@@ -130,9 +108,6 @@
   .course-section-context {
     padding: 28px;
   }
-  .course-section-counts {
-    gap: 12px 20px;
-  }
 }
 @media (max-width: 767px) {
   .course-section-hero,
@@ -151,6 +126,7 @@
   }
   .course-section-context {
     position: relative;
+    margin-top: 0;
     padding: 24px 20px;
     border-radius: 8px;
   }
@@ -163,10 +139,6 @@
   .course-section-description {
     font-size: .9375rem;
     line-height: 1.7;
-  }
-  .course-section-counts {
-    margin: 20px 0;
-    padding-top: 18px;
   }
   .course-section-enter {
     width: 100%;

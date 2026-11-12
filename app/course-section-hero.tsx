@@ -4,11 +4,10 @@ import './course-section-hero.css';
 
 type CourseSectionHeroProps = {
   section: CourseSection;
-  courseCount: number;
   availableCount: number;
 };
 
-export default function CourseSectionHero({ section, courseCount, availableCount }: CourseSectionHeroProps) {
+export default function CourseSectionHero({ section, availableCount }: CourseSectionHeroProps) {
   const headingId = `course-section-${section.slug}-title`;
   const { portrait } = section;
 
@@ -33,10 +32,6 @@ export default function CourseSectionHero({ section, courseCount, availableCount
       <p className="course-section-kicker">CURSOS</p>
       <h1 id={headingId}>{section.title}</h1>
       <p className="course-section-description">{section.description}</p>
-      <dl className="course-section-counts">
-        <div><dt>{courseCount === 1 ? 'Propuesta' : 'Propuestas'}</dt><dd>{courseCount}</dd></div>
-        <div><dt>{availableCount === 1 ? 'Disponible' : 'Disponibles'}</dt><dd>{availableCount}</dd></div>
-      </dl>
       <a className="course-section-enter" href="#section-courses">
         {availableCount > 0 ? 'Ver cursos' : 'Ver propuestas'}<ArrowDown size={18} aria-hidden="true"/>
       </a>
