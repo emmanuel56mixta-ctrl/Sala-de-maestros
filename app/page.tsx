@@ -3,6 +3,7 @@ import DepthHero from './depth-hero';
 import TeacherCommunity from './teacher-community';
 import InstitutionResources from './institution-resources';
 import WordReveal from './word-reveal';
+import LearningPhoto from './learning-photo';
 
 
 export default function Home() {
@@ -16,6 +17,11 @@ export default function Home() {
           <div>
             <p className="landing-description">Formación para tu práctica docente y tu desarrollo profesional, con lecciones, actividades y una ruta que puedes retomar a tu ritmo.</p>
           </div>
+          <LearningPhoto
+            className="welcome-learning-photo"
+            src="/assets/learning/aprendizaje-entre-colegas.webp"
+            alt="Dos docentes revisan una actividad en la computadora y comparten sus ideas."
+          />
         </section>
         <LearningSteps />
         <TeacherCommunity />

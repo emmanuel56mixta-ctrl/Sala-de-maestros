@@ -2,7 +2,7 @@
 
 **Un espacio propio para encontrarse, aprender y prepararse.**
 
-Plataforma de cursos de NEMC, con portada interactiva, catálogo, páginas de curso y asesor de estudio para subdirección de secundaria. Incluye ruta de estudio, reactivos explicados, talleres de análisis, simulador y seguimiento del avance.
+Plataforma de cursos para docentes, con portada interactiva, catálogo, páginas de curso y asesor de estudio para subdirección de secundaria. Incluye ruta de estudio, reactivos explicados, talleres de análisis, simulador y seguimiento del avance.
 
 [Abrir Sala de Maestros](https://emmanuel56mixta-ctrl.github.io/Sala-de-maestros/) · [Entrar al asesor](https://ascenso-docente-laboratorio.mandrakker.chatgpt.site/asesor)
 

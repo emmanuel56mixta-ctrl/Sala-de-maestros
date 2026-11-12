@@ -11,7 +11,7 @@ const advisorUrl = 'https://ascenso-docente-laboratorio.mandrakker.chatgpt.site/
 const publicPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
 
 export const routes = [
-  { path: '/', title: 'Sala de Maestros · NEMC' },
+  { path: '/', title: 'Sala de Maestros' },
   { path: '/cursos', title: 'Cursos · Sala de Maestros' },
   ...courseOfferings.map(course => ({ path: `/cursos/${course.slug}`, title: `${course.title} · Sala de Maestros` })),
   ...courseOfferings.filter(course => course.available).map(course => ({ path: `/cursos/${course.slug}/leccion-gratuita`, title: `Lección gratuita · ${course.title} · Sala de Maestros` })),

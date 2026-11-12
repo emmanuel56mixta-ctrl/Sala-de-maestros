@@ -5,13 +5,19 @@ import { ArrowUpRight, Pause, Play, Quote } from 'lucide-react';
 import { teacherVoices } from '@/lib/community';
 import WordReveal from './word-reveal';
 import EnrollmentCounter from './enrollment-counter';
+import LearningPhoto from './learning-photo';
 
 export default function TeacherCommunity() {
   const [paused, setPaused] = useState(false);
   const [reading, setReading] = useState(false);
   return <>
-    <section className="enrollment-section" aria-labelledby="community-heading">
-      <div><p className="eyebrow">COMUNIDAD SALA DE MAESTROS</p><h2 id="community-heading"><WordReveal text="Crecer también es acompañarnos."/></h2><p>Cada docente llega con una historia, una meta y algo nuevo por aprender.</p></div>
+    <section className="enrollment-section enrollment-with-photo" aria-labelledby="community-heading">
+      <div className="community-intro"><p className="eyebrow">COMUNIDAD SALA DE MAESTROS</p><h2 id="community-heading"><WordReveal text="Crecer también es acompañarnos."/></h2><p>Cada docente llega con una historia, una meta y algo nuevo por aprender.</p></div>
+      <LearningPhoto
+        className="community-learning-photo"
+        src="/assets/learning/taller-docente.webp"
+        alt="Un grupo de docentes conversa y trabaja con sus computadoras durante un taller."
+      />
       <EnrollmentCounter />
     </section>
     <section className="teacher-voices" aria-labelledby="voices-heading">

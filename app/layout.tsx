@@ -7,9 +7,10 @@ import "./course-hub.css";
 import "./community.css";
 import "./word-reveal.css";
 import "./learning-steps-motion.css";
+import "./learning-photography.css";
 
 export const metadata: Metadata = {
-  title: "Sala de Maestros · NEMC",
+  title: "Sala de Maestros",
   description: "Un espacio propio para encontrarse, aprender y prepararse. Cursos en línea para la práctica docente y el desarrollo profesional, a tu ritmo.",
   icons: {
     icon: "/assets/identity/favicon.svg",

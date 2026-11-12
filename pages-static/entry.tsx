@@ -8,6 +8,7 @@ import '../app/course-hub.css';
 import '../app/community.css';
 import '../app/word-reveal.css';
 import '../app/learning-steps-motion.css';
+import '../app/learning-photography.css';
 import './pages.css';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');

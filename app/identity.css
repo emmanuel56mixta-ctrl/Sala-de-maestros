@@ -89,7 +89,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 /* A short editorial cover, separate from the learning workspace. */
 .landing{width:calc(100% - 96px);max-width:1440px;margin:0 auto;color:var(--ink)}
 .landing-header{display:flex;align-items:center;gap:26px;min-height:112px;border-bottom:1px solid var(--line-strong)}
-.nemc-wordmark{font-family:Poppins,Arial,sans-serif;font-weight:900;letter-spacing:-.055em;font-size:1.5rem;color:var(--brand);line-height:1}
 .landing-header p{font-size:.875rem;line-height:1.5;border-left:1px solid var(--line-strong);padding-left:26px;color:var(--text-muted)}
 .landing-header strong{font-weight:700}
 .landing-edition{margin-left:auto;font-size:.875rem;color:var(--text-muted)}

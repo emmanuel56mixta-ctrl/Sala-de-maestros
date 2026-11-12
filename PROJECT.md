@@ -1,4 +1,4 @@
-# Sala de Maestros · NEMC
+# Sala de Maestros
 
 ## Corrección de lenguaje (12 de noviembre de 2026)
 
@@ -82,7 +82,7 @@ The owner’s video requests a simple operational start, familiar section names 
 
 ## Sala de Maestros brand and course scope
 
-The platform name is **Sala de Maestros**, with the exact tagline **Un espacio propio para encontrarse, aprender y prepararse.** NEMC remains the provider. The platform supports a broader teacher-development offering, not exclusively promotion exams. Do not invent or enable courses whose materials are not implemented.
+The platform name is **Sala de Maestros**, with the exact tagline **Un espacio propio para encontrarse, aprender y prepararse.** Sala de Maestros is the sole visible product name; do not add a separate provider wordmark. The platform supports a broader teacher-development offering, not exclusively promotion exams. Do not invent or enable courses whose materials are not implemented.
 
 The landing presents the general platform, an available-course section and the learning process. USICAMM 2026, promotion details and 18-lesson/90-question counts belong to the subdirección de secundaria course card. `/asesor` continues serving that course and preserves its identifiers and progress. The internal role/profile catalog remains specific to promotion and is not the platform-wide course catalog. New name appears in landing, advisor sidebar and browser metadata. Typography from the previous reference is retained; the current colors are documented in the November palette revision.
 
@@ -175,3 +175,11 @@ The owner requested removal of “Y subiendo” and automatic numerical incremen
 - Correct answers remain green, retries amber and destructive errors red. Annotation categories retain their distinct colors and labels. Answer hover styling no longer replaces a selected or graded answer's border.
 - Calculated contrast: white on the primary button 8.22:1; petroleum on the warm canvas 7.59:1; secondary text on the warm canvas 5.64:1. These are specific color-pair checks, not a claim of a full accessibility audit.
 - Verification: TypeScript, learning/orientation regressions, Pages prerender checks, CSS parsing and both builds pass. Local browser review covers home, catalog, course selection and free-lesson correct/retry feedback; course and lesson remain within the 390 px mobile viewport. No new authenticated D1 round-trip was tested.
+
+## Documentary-style learning photographs and platform-only branding
+
+- Four new fictional photographic scenes accompany the learning experience: peers in the welcome section, a small workshop in community, personal study in the catalog and an individual study conversation in the course sidebar. The owner's supplied snapshots inform photographic style only; the new people do not reproduce the references.
+- The built-in image generator produced 1536×1024 originals. `public/assets/learning/` contains WebP exports (about 636 KiB total) and provenance in `sources.json`. `LearningPhoto` supplies native dimensions, lazy loading, descriptive alt text and an explicit illustrative-AI caption. Public asset paths are transformed by the existing Pages build.
+- At the owner's request, the previous provider name has been removed from active headers, footers, metadata, advisor copy, copied notes and institutional notices. Browser titles and the favicon now use Sala de Maestros/SM. Historical records, third-party citations and legacy internal asset paths do not act as branding and remain unchanged.
+- These photographs do not introduce a new live tutoring service, new enrollment claims or testimonial attribution. The hero portraits, real content, access control and saved learning progress retain their existing behavior.
+- Validation: TypeScript, ESLint on the five photography components, learning/orientation regression suites and Pages prerender checks pass. All four images load with the Pages prefix. Home and catalog were inspected at 390 px without horizontal overflow. All eight generated HTML documents contain no previous provider name. The broader legacy-shell lint check still reports its existing Next plain-anchor rule and an institutional-image warning; native anchors are retained for the shared static/Worker shell.
