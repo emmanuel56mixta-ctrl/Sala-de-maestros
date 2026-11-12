@@ -15,8 +15,8 @@ export default function TeacherCommunity() {
       <div className="community-intro"><p className="eyebrow">COMUNIDAD SALA DE MAESTROS</p><h2 id="community-heading"><WordReveal text="Crecer también es acompañarnos."/></h2><p>Cada docente llega con una historia, una meta y algo nuevo por aprender.</p></div>
       <LearningPhoto
         className="community-learning-photo"
-        src="/assets/learning/taller-docente.webp"
-        alt="Un grupo de docentes conversa y trabaja con sus computadoras durante un taller."
+        src="/assets/learning/colaboracion-docentes-jovenes.webp"
+        alt="Dos docentes jóvenes trabajan juntos con una computadora y un cuaderno durante un taller."
       />
       <EnrollmentCounter />
     </section>

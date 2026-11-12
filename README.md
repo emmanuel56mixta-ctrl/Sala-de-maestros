@@ -23,6 +23,8 @@ El servidor local muestra su dirección al iniciar. Un clon limpio utiliza autom
 pnpm exec tsc --noEmit
 node tests/learning.mjs
 node tests/orientation.mjs
+node tests/course-sections.mjs
+node tests/hero-transition.mjs
 pnpm build
 pnpm start
 ```
@@ -35,6 +37,8 @@ pnpm start
 | --- | --- |
 | `/` | Portada de Sala de Maestros |
 | `/cursos` | Catálogo de cursos |
+| `/cursos/promocion-docente` | Cursos de promoción docente |
+| `/cursos/herramientas-digitales` | Cursos de herramientas digitales e IA |
 | `/cursos/[slug]` | Presentación y secuencia de cada curso |
 | `/asesor` | Espacio de estudio con acceso restringido |
 | `app/api/progress` | Lectura y guardado del avance |
@@ -45,7 +49,7 @@ pnpm start
 
 ## Hosting y servicios
 
-La portada, el catálogo, los detalles de los cuatro cursos y la lección gratuita se publican en **GitHub Pages**. Se generan HTML por ruta, recursos compilados y `.nojekyll` en la raíz de `main`; Pages debe usar **Deploy from a branch → main → / (root)**. Las rutas y los recursos incluyen el prefijo `/Sala-de-maestros/`, por lo que abrir o recargar una página de curso funciona directamente.
+La portada, el catálogo completo, sus dos categorías, los detalles de los cuatro cursos y la lección gratuita se publican en **GitHub Pages**. Se generan HTML por ruta, recursos compilados y `.nojekyll` en la raíz de `main`; Pages debe usar **Deploy from a branch → main → / (root)**. Las rutas y los recursos incluyen el prefijo `/Sala-de-maestros/`, por lo que abrir o recargar una página de curso funciona directamente.
 
 ```sh
 pnpm publish:pages
@@ -54,6 +58,8 @@ pnpm publish:pages
 Este comando compila y copia la publicación estática a la raíz del repositorio. Hay que confirmar esos archivos junto con los cambios de fuente para actualizar Pages. `pnpm build:pages` permite compilar sin copiar la publicación. La compilación reutiliza los componentes del sitio y regenera únicamente los datos públicos de la lección gratuita.
 
 Después de compilar Pages, `node tests/orientation.mjs --pages-build` comprueba las recomendaciones, los enlaces con prefijo, el HTML prerenderizado y que los cursos próximos sigan sin actividades habilitadas.
+
+`node tests/course-sections.mjs --pages-build` verifica las dos categorías, sus tarjetas, la navegación y las fotografías publicadas. La portada permite elegir **Promoción docente** o **Herramientas digitales e IA**; el retrato elegido crece durante 740 ms antes de abrir la categoría. Los enlaces conservan la navegación nativa sin JavaScript, con movimiento reducido, en ventanas bajas y al abrir otra pestaña. `lib/course-sections.ts` define la agrupación mediante identificadores estables; la disponibilidad sigue viniendo del catálogo original.
 
 La página del curso disponible ofrece dos preguntas opcionales (actividad y tiempo), con acceso directo a la lección. La lección gratuita tiene tres etapas: **Lectura → Pregunta → Explicación**. Los enlaces `?paso=comprende` y `?paso=aplica` permiten empezar en la lectura o la pregunta. Las respuestas se conservan al cambiar de etapa durante esa visita; no se escriben en el avance de la cuenta.
 
