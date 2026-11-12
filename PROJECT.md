@@ -1,5 +1,13 @@
 # Sala de Maestros
 
+## Primer caso con análisis de la elección (12 de noviembre de 2026)
+
+- Se investigaron la guía USICAMM 2026–2027 de funciones directivas de secundaria, el marco profesional, LGE vigente, feedback explicativo, señalización y accesibilidad. `docs/case-analysis-research.md` registra fuentes primarias, decisiones y límites: la secuencia es una elaboración didáctica propia y el cursor no tiene una eficacia probada por sí mismo.
+- La primera pregunta pública de d1 muestra un caso completo sobre interpretación de gráficas y una barrera motriz al responder. Se conserva B como clave del ejemplo. La base explicita los criterios de la rúbrica y que ampliar el tiempo ya se intentó sin resolver la barrera, para que el descarte de A no dependa de una suposición. El banco y el ejercicio original de la lección privada no se modifican.
+- Tras responder, A, B y C reciben feedback y recorridos de cinco pasos distintos. El texto del caso reaparece junto a la explicación. `Range.getClientRects()` permite arrastrar una selección visual sobre las líneas reales y conservar subrayados; el cursor decorativo no sustituye el puntero real. La explicación se escribe en sincronía y hay una comparación de las tres opciones.
+- Pausa/continuación, pasos manuales, lectura completa y repetición. La reproducción espera a que el párrafo objetivo sea visible, descontando los controles fijos; pausa en pestaña oculta o al seleccionar texto real. Movimiento reducido muestra el análisis completo estático. Los rangos se recalculan al cambiar ancho o fuentes; listeners, observers y RAF se limpian al desmontar. En móvil se apilan las columnas y los controles dejan de ser fijos para preservar espacio de lectura.
+- Validación: pruebas editoriales/de datos y SSR de `tests/case-analysis.mjs`, frontera de imports públicos, TypeScript, ESLint específico, regresiones de aprendizaje/orientación y compilaciones Worker/Pages. Navegador local: A/B/C, reinicio al cambiar respuesta, crecimiento del texto y desplazamiento del cursor, pausa estable, pasos manuales, «Ver todo», activación con Enter, consola sin avisos/errores y reflujo de 320/390 px. Movimiento reducido se revisó en código; no se cambió la preferencia del sistema. No hay un nuevo ciclo autenticado D1 ni estimación de dominio a partir de este ejercicio.
+
 ## Dos accesos y docentes jóvenes (12 de noviembre de 2026)
 
 - Las tarjetas del hero son entradas a Promoción docente y Herramientas digitales e IA. Cada categoría tiene una ruta real en Worker y Pages; el catálogo compartido permite cambiar de categoría o volver a todos los cursos. La agrupación usa identificadores estables y conserva las cuatro propuestas, con un solo curso disponible.

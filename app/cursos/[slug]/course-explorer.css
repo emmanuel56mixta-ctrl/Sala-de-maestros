@@ -52,6 +52,21 @@
 .lesson-outline-locked > span { font-size:.75rem; margin-top:3px; }
 .lesson-outline-locked > div { flex:1; min-width:0; }
 .lesson-outline-locked > svg { flex-shrink:0; }
+.course-preview-layout.lesson-analysis-layout { grid-template-columns:minmax(0,1fr); }
+.lesson-analysis-layout .lesson-stage-nav { position:static; }
+.lesson-analysis-layout .lesson-outline { max-width:100%; }
+.lesson-case-stem { padding:22px 24px; margin:0 0 24px; background:var(--canvas); border-left:3px solid var(--brand); }
+.lesson-case-stem > p:not(.eyebrow) { margin:14px 0; font-size:1rem; line-height:1.85; }
+.lesson-case-stem > p:last-of-type { font-weight:600; }
+.lesson-case-stem > small { display:block; font-size:.73rem; line-height:1.6; color:var(--text-muted); margin-top:18px; }
+.lesson-option-review { margin:24px 0; padding:0 22px; border:1px solid var(--line); border-radius:6px; }
+.lesson-option-review summary { padding:20px 0; font-weight:700; font-size:.9rem; cursor:pointer; color:var(--brand-dark); }
+.lesson-option-review summary:focus-visible { outline:3px solid var(--brand-dark); outline-offset:4px; }
+.lesson-option-review ol { list-style:none; margin:0; padding:0 0 10px; }
+.lesson-option-review li { border-top:1px solid var(--line); padding:18px 0; }
+.lesson-option-review li strong { font-size:.8rem; color:var(--brand-dark); }
+.lesson-option-review li p { margin-top:10px; font-size:.92rem; line-height:1.75; }
+.lesson-option-review li p + p { color:var(--text-muted); }
 .lesson-stage-nav button:focus-visible,.lesson-outline summary:focus-visible,.lesson-stage > h3:focus-visible { outline:3px solid var(--brand-dark); outline-offset:4px; }
 @media (max-width:760px) {
   .lesson-course-overview .lesson-session-card { display:none; }
@@ -60,6 +75,7 @@
   .lesson-stage-actions { align-items:stretch; }
   .lesson-stage-actions > button { flex:1 1 190px; justify-content:center; }
   .lesson-takeaway,.guided-free-lesson .free-lesson-next { padding:20px; }
+  .lesson-case-stem { padding:16px; }
 }
 @media (prefers-reduced-motion:reduce) {
   .guided-free-lesson *,.lesson-outline * { scroll-behavior:auto !important; }

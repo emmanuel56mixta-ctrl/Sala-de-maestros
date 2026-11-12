@@ -25,6 +25,7 @@ node tests/learning.mjs
 node tests/orientation.mjs
 node tests/course-sections.mjs
 node tests/hero-transition.mjs
+node tests/case-analysis.mjs
 pnpm build
 pnpm start
 ```
@@ -62,6 +63,8 @@ Después de compilar Pages, `node tests/orientation.mjs --pages-build` comprueba
 `node tests/course-sections.mjs --pages-build` verifica las dos categorías, sus tarjetas, la navegación y las fotografías publicadas. La portada permite elegir **Promoción docente** o **Herramientas digitales e IA**; el retrato elegido crece durante 740 ms antes de abrir la categoría. Los enlaces conservan la navegación nativa sin JavaScript, con movimiento reducido, en ventanas bajas y al abrir otra pestaña. `lib/course-sections.ts` define la agrupación mediante identificadores estables; la disponibilidad sigue viniendo del catálogo original.
 
 La página del curso disponible ofrece dos preguntas opcionales (actividad y tiempo), con acceso directo a la lección. La lección gratuita tiene tres etapas: **Lectura → Pregunta → Explicación**. Los enlaces `?paso=comprende` y `?paso=aplica` permiten empezar en la lectura o la pregunta. Las respuestas se conservan al cambiar de etapa durante esa visita; no se escriben en el avance de la cuenta.
+
+La primera pregunta pública incluye un caso completo y cinco pasos de análisis adaptados a la opción elegida. Un cursor ilustrativo selecciona frases del caso mientras aparece su explicación; permite pausar, avanzar, repetir o leer todo de inmediato. Con movimiento reducido se muestra el contenido completo sin animación. El texto y las fuentes están en `lib/case-analysis.ts`; la investigación y los límites del ejemplo se documentan en `docs/case-analysis-research.md`. No cambia las preguntas privadas ni las claves históricas.
 
 La paleta compartida se define en `app/globals.css`: petróleo para acciones y selección, blanco cálido para el fondo y arena para detalles decorativos. Los textos usan tinta oscura; las respuestas correctas, los reintentos y los marcadores didácticos mantienen colores propios. `app/identity.css` conserva las tipografías Poppins y Aileron y la composición de la marca.
 

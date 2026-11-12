@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, ExternalLink, LockKeyhole, X } from 'lucide-react';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { coursePrice, type CourseOffering } from '@/lib/course-offerings';
 import type { Lesson } from '@/lib/course';
+import { analysisForAnswer, firstCase } from '@/lib/case-analysis';
+import CaseAnalysis from '@/app/case-analysis';
 import './course-explorer.css';
 
 type Props = {
@@ -40,7 +42,10 @@ export default function CourseExplorer({ course, lesson, source, outline, hasAcc
   const stepHeading = useRef<HTMLHeadingElement>(null);
   const opener = useRef<HTMLElement | null>(null);
   const returnToLesson = useRef(false);
-  const correct = checked && selected === lesson.check.correct;
+  const isCaseExample = lesson.id === 'd1';
+  const exercise = isCaseExample ? firstCase.check : lesson.check;
+  const correct = checked && selected === exercise.correct;
+  const analysis = useMemo(() => isCaseExample && checked ? analysisForAnswer(selected) : null, [isCaseExample, checked, selected]);
 
   useEffect(() => {
     if (!focusRequest && entryStep === null) return;
@@ -83,9 +88,9 @@ export default function CourseExplorer({ course, lesson, source, outline, hasAcc
       <div><p className="eyebrow">{course.category} · {course.edition}</p><h1>{course.title}</h1><p>{course.description}</p>
         <div className="course-overview-actions"><button className="primary" onClick={explore}>Ir a la lección gratuita <ArrowRight size={18} /></button>{hasAccess && <a href="/asesor" className="secondary">Abrir mi curso</a>}</div>
       </div>
-      <div className="lesson-session-card"><BookOpen size={26} aria-hidden="true" /><span>LECCIÓN GRATUITA</span><strong>Lee, responde<br />y revisa.</strong><p>Incluye una lectura, un ejemplo y una pregunta. No necesitas registrarte.</p><small><Clock3 size={15} aria-hidden="true" />{lesson.minutes} minutos estimados</small></div>
+      <div className="lesson-session-card"><BookOpen size={26} aria-hidden="true" /><span>LECCIÓN GRATUITA</span><strong>Lee, responde<br />y revisa.</strong><p>Incluye una lectura, un caso y el análisis de tu respuesta. No necesitas registrarte.</p><small><Clock3 size={15} aria-hidden="true" />{lesson.minutes} minutos estimados</small></div>
     </section>
-    <div className="course-preview-layout">
+    <div className={`course-preview-layout${step === 2 && analysis ? ' lesson-analysis-layout' : ''}`}>
       <article ref={lessonRef} tabIndex={-1} className="free-lesson guided-free-lesson" aria-labelledby="free-lesson-title">
         <div className="free-lesson-meta"><span>LECCIÓN GRATUITA</span><span><Clock3 size={15} aria-hidden="true" />{lesson.minutes} minutos estimados</span></div>
         <h2 id="free-lesson-title">{lesson.title}</h2><p className="free-lesson-goal">{lesson.goal}</p>
@@ -104,21 +109,26 @@ export default function CourseExplorer({ course, lesson, source, outline, hasAcc
             <div className="lesson-stage-actions lesson-stage-actions-forward"><button className="primary" onClick={() => goToStep(1)}>Contestar la pregunta <ArrowRight size={18} /></button></div>
           </>}
           {step === 1 && <>
-            <section className="free-lesson-check" aria-labelledby="check-title"><h4 id="check-title">{lesson.check.prompt}</h4>
-              <fieldset><legend className="sr-only">Selecciona una respuesta</legend>{lesson.check.options.map((option, index) => <label key={option} className={selected === index ? 'selected' : ''}><input type="radio" name={`free-lesson-answer-${lesson.id}`} value={index} checked={selected === index} onChange={() => { setSelected(index); setChecked(false); }} /><span><b>{String.fromCharCode(65 + index)}.</b> {option}</span></label>)}</fieldset>
+            <section className="free-lesson-check" aria-labelledby="check-title"><h4 id="check-title">{isCaseExample ? firstCase.title : exercise.prompt}</h4>
+              {isCaseExample && <div className="lesson-case-stem"><p className="eyebrow">CASO 01 · INCLUSIÓN</p>{firstCase.paragraphs.map(paragraph => <p key={paragraph.id}>{paragraph.text}</p>)}<small>Ejercicio de práctica creado para esta lección.</small></div>}
+              <fieldset><legend className="sr-only">Selecciona una respuesta</legend>{exercise.options.map((option, index) => <label key={option} className={selected === index ? 'selected' : ''}><input type="radio" name={`free-lesson-answer-${lesson.id}`} value={index} checked={selected === index} onChange={() => { setSelected(index); setChecked(false); }} /><span><b>{String.fromCharCode(65 + index)}.</b> {option}</span></label>)}</fieldset>
               {selected === null && <p className="lesson-answer-note">Selecciona una opción y pulsa Comprobar respuesta.</p>}
             </section>
             <div className="lesson-stage-actions"><button className="secondary" onClick={() => goToStep(0)}><ArrowLeft size={17} />Volver a la lectura</button><button className="primary" disabled={selected === null} onClick={checkAnswer}>{checked ? 'Ver la explicación' : 'Comprobar respuesta'}<ArrowRight size={18} /></button></div>
           </>}
           {step === 2 && checked && selected !== null && <>
-            <div className="lesson-answer-summary"><span>TU RESPUESTA</span><p><b>{String.fromCharCode(65 + selected)}.</b> {lesson.check.options[selected]}</p></div>
-            <div role="status" className={`lesson-review-feedback ${correct ? 'feedback-good' : 'feedback-retry'}`}><strong>{correct ? 'Respuesta correcta' : 'Respuesta incorrecta'}</strong><p>{lesson.check.feedback[selected]}</p></div>
+            <div className="lesson-answer-summary"><span>TU RESPUESTA</span><p><b>{String.fromCharCode(65 + selected)}.</b> {exercise.options[selected]}</p></div>
+            <div role="status" className={`lesson-review-feedback ${correct ? 'feedback-good' : 'feedback-retry'}`}><strong>{correct ? 'Respuesta correcta' : 'Respuesta incorrecta'}</strong><p>{exercise.feedback[selected]}</p></div>
+            {analysis && <>
+              <CaseAnalysis key={analysis.id} plan={analysis} />
+              <details className="lesson-option-review"><summary>Comparar las tres opciones</summary><ol>{exercise.options.map((option, index) => <li key={option}><strong>{String.fromCharCode(65 + index)} · {index === exercise.correct ? 'Correcta' : 'No responde a este caso'}{index === selected ? ' · Tu elección' : ''}</strong><p>{option}</p><p>{exercise.feedback[index]}</p></li>)}</ol></details>
+            </>}
             {correct ? <>
-              <div className="lesson-takeaway"><p className="eyebrow">EN EL EJEMPLO</p><h4>¿Cómo se resuelve?</h4><p>{lesson.example.decision}</p><small>Puedes volver a la lectura o consultar el documento citado si todavía tienes dudas.</small></div>
+              {!analysis && <div className="lesson-takeaway"><p className="eyebrow">EN EL EJEMPLO</p><h4>¿Cómo se resuelve?</h4><p>{lesson.example.decision}</p><small>Puedes volver a la lectura o consultar el documento citado si todavía tienes dudas.</small></div>}
               <div className="lesson-stage-actions"><button className="secondary" onClick={() => goToStep(1)}><ArrowLeft size={17} />Volver a la pregunta</button><button className="text-button" onClick={() => goToStep(0)}>Consultar la lectura <BookOpen size={17} /></button></div>
               <div className="free-lesson-next"><div><p className="eyebrow">CURSO COMPLETO</p><h4>Conoce las demás lecciones</h4><p>El curso incluye 18 lecciones, ejercicios para resolver preguntas y un simulador de práctica.</p></div>{hasAccess ? <a href="/asesor" className="primary">Continuar en mi curso <ArrowRight size={18} /></a> : <button className="primary" onClick={showAccess}>Ver qué incluye el curso <ArrowRight size={18} /></button>}</div>
             </> : <>
-              <div className="lesson-retry-guidance"><h4>Puedes volver a intentarlo</h4><p>Relee la explicación y el ejemplo. Después vuelve a la pregunta y elige otra opción.</p></div>
+              <div className="lesson-retry-guidance"><h4>Puedes volver a intentarlo</h4><p>{analysis ? 'Vuelve a la pregunta y contrasta cada opción con la barrera y el aprendizaje señalados. Un acierto después de esta explicación es práctica con apoyo.' : 'Relee la explicación y el ejemplo. Después vuelve a la pregunta y elige otra opción.'}</p></div>
               <div className="lesson-stage-actions"><button className="secondary" onClick={() => goToStep(1)}><ArrowLeft size={17} />Volver a la pregunta</button><button className="primary" onClick={() => goToStep(0)}>Volver a leer <BookOpen size={17} /></button></div>
             </>}
           </>}
