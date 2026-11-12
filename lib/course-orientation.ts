@@ -2,51 +2,51 @@
 export type StudyGoal = 'comprender' | 'aplicar' | 'organizar';
 export type StudyTime = 'breve' | 'completa';
 
-export const studyGoals: { value: StudyGoal; title: string; description: string; feedback: string }[] = [
-  { value: 'comprender', title: 'Entender el criterio', description: 'Leer con una pregunta clara en mente.', feedback: 'Comenzaremos por distinguir qué criterio orienta una decisión.' },
-  { value: 'aplicar', title: 'Resolver un caso', description: 'Poner a prueba cómo tomaría una decisión.', feedback: 'Podrás elegir una respuesta y contrastarla con su explicación.' },
-  { value: 'organizar', title: 'Organizar mi estudio', description: 'Conocer la ruta y elegir por dónde empezar.', feedback: 'La ruta te ayudará a ubicar los bloques y sus lecciones.' },
+export const studyGoals: { value: StudyGoal; title: string; description: string }[] = [
+  { value: 'comprender', title: 'Leer una lección', description: 'Una explicación sobre equidad e inclusión en la escuela.' },
+  { value: 'aplicar', title: 'Responder una pregunta', description: 'Elige una respuesta y revisa su explicación.' },
+  { value: 'organizar', title: 'Ver el temario', description: 'Consulta los seis bloques y sus lecciones.' },
 ];
 
 export const studyTimes: { value: StudyTime; title: string; description: string }[] = [
-  { value: 'breve', title: 'Un momento breve', description: 'Unos 5 minutos para una acción concreta.' },
-  { value: 'completa', title: 'Una sesión con calma', description: 'Unos 20 minutos para leer y practicar.' },
+  { value: 'breve', title: 'Tengo unos 5 minutos', description: 'Quiero empezar con algo corto.' },
+  { value: 'completa', title: 'Tengo unos 20 minutos', description: 'Puedo dedicarle más tiempo.' },
 ];
 
 export function recommendStart(goal: StudyGoal, time: StudyTime, slug: string, hasAccess: boolean) {
   const brief = time === 'breve';
   const preview = `/cursos/${slug}/leccion-gratuita`;
   if (goal === 'organizar') return {
-    title: 'Encuentra tu primer bloque',
-    reason: 'Quieres organizar tu preparación. Empieza por una decisión pequeña: qué tema vas a estudiar.',
+    title: 'Estos son los temas del curso',
+    reason: 'El temario reúne 18 lecciones en seis bloques. Cada lección indica de qué trata y su tiempo estimado.',
     steps: brief
-      ? ['Revisa los seis bloques de la ruta.', 'Elige una lección y reserva un momento para trabajarla.']
-      : ['Revisa el propósito de los bloques.', 'Elige una lección.', 'Combina su lectura con la actividad que propone.'],
-    href: '#hub-route-title', label: 'Elegir mi primer bloque',
-    note: 'La ruta está debajo. Puedes explorarla sin completar ninguna actividad.',
+      ? ['Revisa los temas de cada bloque.', 'Busca la lección que te interese.']
+      : ['Revisa los temas de cada bloque.', 'Elige una lección.', 'Empieza a leer; la primera es gratuita.'],
+    href: '#hub-route-title', label: 'Ver el temario',
+    note: 'Puedes abrir cada bloque para consultar sus lecciones.',
   };
   if (goal === 'aplicar') return {
-    title: brief ? 'Una decisión, una explicación' : 'Del caso al criterio',
-    reason: 'Quieres practicar. Intenta una respuesta y usa la explicación para reconocer el dato decisivo.',
+    title: hasAccess ? 'Empieza con una pregunta' : 'Prueba una pregunta de la primera lección',
+    reason: 'Después de responder verás si acertaste y por qué. Si tienes dudas, puedes consultar la lectura.',
     steps: hasAccess
       ? brief
-        ? ['Intenta el primer caso de tu recorrido guiado.', 'Revisa su explicación; puedes retomar el siguiente caso después.']
-        : ['Intenta el primer caso sin consultar la explicación.', 'Reconoce el criterio al revisar tu respuesta.', 'Aplica lo aprendido en el segundo caso.']
+        ? ['Responde la primera pregunta.', 'Lee la explicación. Puedes continuar con la otra pregunta después.']
+        : ['Responde la primera pregunta.', 'Lee por qué cada opción es correcta o incorrecta.', 'Responde la segunda pregunta.']
       : brief
-        ? ['Responde el caso de la lección gratuita.', 'Revisa por qué tu opción responde, o no, al encargo.']
-        : ['Responde el caso por tu cuenta.', 'Contrasta tu decisión con la explicación.', 'Vuelve al criterio y consulta la fuente.'],
+        ? ['Elige una respuesta.', 'Comprueba si es correcta y lee la explicación.']
+        : ['Elige una respuesta.', 'Comprueba si es correcta y lee la explicación.', 'Vuelve a la lectura y consulta el documento citado.'],
     href: hasAccess ? '/asesor?seccion=inicio' : `${preview}?paso=aplica`,
-    label: hasAccess ? 'Abrir mi recorrido guiado' : 'Probar el caso gratuito',
-    note: hasAccess ? 'Tu espacio de estudio conserva la prioridad de una sesión pendiente.' : 'Puedes volver a la lectura en cualquier momento. No necesitas registrarte.',
+    label: hasAccess ? 'Entrar a practicar' : 'Responder la pregunta',
+    note: hasAccess ? 'Si dejaste una sesión pendiente, puedes retomarla.' : 'La pregunta es gratuita y no necesitas registrarte.',
   };
   return {
-    title: brief ? 'Empieza por una distinción' : 'Comprende, aplica y revisa',
-    reason: 'Quieres comprender el fundamento. La primera lección conecta una idea con una decisión escolar.',
+    title: brief ? 'Lee la explicación de la primera lección' : 'Lee la lección y contesta la pregunta',
+    reason: 'La primera lección trata sobre equidad, inclusión y no discriminación en la escuela.',
     steps: brief
-      ? ['Lee el criterio y compara las dos ideas.', 'Deja el caso para cuando tengas más tiempo.']
-      : ['Lee el criterio y consulta su fuente.', 'Observa cómo se aplica en el ejemplo.', 'Resuelve el caso y revisa tu respuesta.'],
+      ? ['Lee la explicación y la comparación de conceptos.', 'Puedes dejar la pregunta para otro momento.']
+      : ['Lee la explicación y el documento citado.', 'Revisa el ejemplo de una situación escolar.', 'Contesta la pregunta y comprueba tu respuesta.'],
     href: hasAccess ? '/asesor?seccion=ruta&leccion=d1' : `${preview}?paso=comprende`,
-    label: hasAccess ? 'Estudiar la primera lección' : 'Leer la lección gratuita',
-    note: 'El tiempo es orientativo: tú decides cuánto dedicar a la lectura y a la fuente.',
+    label: hasAccess ? 'Leer la primera lección' : 'Leer la lección gratuita',
+    note: 'La lectura del documento puede tomar más tiempo. No hay límite para esta actividad.',
   };
 }

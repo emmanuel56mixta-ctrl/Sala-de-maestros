@@ -1,5 +1,9 @@
 # Sala de Maestros · NEMC
 
+## Corrección de lenguaje (12 de noviembre de 2026)
+
+El usuario señaló que las terminologías de la nueva entrada se sentían falsas. Los controles ahora nombran acciones reconocibles: leer una lección, responder una pregunta y ver el temario. Las etapas visibles son Lectura, Pregunta y Explicación; los identificadores internos y enlaces existentes no cambian. Se eliminaron confirmaciones de relleno y frases de acompañamiento o personalización que no aportaban información. El feedback dice respuesta correcta o incorrecta, seguido de la explicación: un acierto no se presenta como prueba de comprensión. En botones y encabezados se evitan «construir tu criterio», «dar sentido a tu respuesta», «tu propósito» y fórmulas similares. Los términos académicos permanecen donde el contenido los requiere, no como adornos de navegación.
+
 ## Orientación y lección guiada (12 de noviembre de 2026)
 
 - Se adapta la entrada progresiva observada en Headway al aprendizaje docente: dos preguntas opcionales sobre propósito y tiempo, una recomendación con acciones concretas y acceso directo para quien no necesita orientación. La portada, el catálogo y las páginas individuales conservan sus funciones.
