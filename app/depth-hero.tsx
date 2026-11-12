@@ -2,26 +2,21 @@
 
 /* eslint-disable @next/next/no-html-link-for-pages -- These anchors also serve the static GitHub Pages build. */
 
-import { useEffect, useRef, type MouseEvent } from 'react';
+import { useEffect, useRef } from 'react';
 import { ArrowRight, ArrowDown, BookOpen, Monitor } from 'lucide-react';
-import { expandedPortraitFrame, shouldAnimateCourseLink } from '@/lib/hero-transition';
 import WordReveal from './word-reveal';
 
 const STATIC_HERO_QUERY = '(prefers-reduced-motion: reduce), (max-height: 599px)';
-const ROUTE_TRANSITION_MS = 740;
 const smoothstep = (value: number) => {
   const t = Math.min(1, Math.max(0, value));
   return t * t * (3 - 2 * t);
 };
-
-type StartTransition = (link: HTMLAnchorElement, portraitIndex: number) => boolean;
 
 export default function DepthHero() {
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLDivElement>(null);
   const cards = useRef<HTMLDivElement>(null);
-  const startTransition = useRef<StartTransition | null>(null);
 
   useEffect(() => {
     const section = root.current;
@@ -36,16 +31,10 @@ export default function DepthHero() {
     const courseLinks = Array.from(grid.querySelectorAll<HTMLAnchorElement>('a'));
     let frame = 0;
     let disposed = false;
-    let transitioning = false;
-    let navigationTimer: ReturnType<typeof setTimeout> | undefined;
-    let destination: string | undefined;
-    let overlay: HTMLDivElement | undefined;
-    let lastTrigger: HTMLAnchorElement | undefined;
-    let animations: Animation[] = [];
 
     const update = () => {
       frame = 0;
-      if (disposed || transitioning) return;
+      if (disposed) return;
       if (media.matches) {
         section.removeAttribute('data-motion');
         section.removeAttribute('style');
@@ -95,103 +84,15 @@ export default function DepthHero() {
     };
 
     const schedule = () => {
-      if (!disposed && !transitioning && !frame) frame = requestAnimationFrame(update);
+      if (!disposed && !frame) frame = requestAnimationFrame(update);
     };
 
-    const clearTransition = () => {
-      if (navigationTimer !== undefined) clearTimeout(navigationTimer);
-      navigationTimer = undefined;
-      destination = undefined;
-      animations.forEach(animation => animation.cancel());
-      animations = [];
-      overlay?.remove();
-      overlay = undefined;
-      portraits.forEach(node => { node.style.removeProperty('opacity'); });
-      section.inert = false;
-      section.removeAttribute('aria-busy');
-      transitioning = false;
-    };
-
-    const navigate = () => {
-      if (disposed || !destination) return;
-      const href = destination;
-      destination = undefined;
-      // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- Use the DOM anchor's Pages-prefixed or Worker URL after the transition.
-      window.location.assign(href);
-    };
-
-    startTransition.current = (link, portraitIndex) => {
-      if (transitioning) return true;
-      const portrait = portraits[portraitIndex];
-      const originalImage = portrait?.querySelector('img');
-      if (media.matches || !portrait || !originalImage || typeof portrait.animate !== 'function') return false;
-      const from = portrait.getBoundingClientRect();
-      if (!from.width || !from.height) return false;
-
-      transitioning = true;
-      cancelAnimationFrame(frame);
-      frame = 0;
-      destination = link.href;
-      lastTrigger = link;
-      section.inert = true;
-      section.setAttribute('aria-busy', 'true');
-
-      // A viewport overlay preserves the current portrait frame even if the user
-      // scrolls while the sticky scene is handing off to the destination page.
-      overlay = document.createElement('div');
-      overlay.className = 'hero-route-transition';
-      const veil = document.createElement('div');
-      veil.className = 'hero-route-veil';
-      veil.setAttribute('aria-hidden', 'true');
-      const portraitImage = originalImage.cloneNode(true) as HTMLImageElement;
-      portraitImage.className = 'hero-route-portrait';
-      portraitImage.setAttribute('aria-hidden', 'true');
-      Object.assign(portraitImage.style, {
-        left: `${from.left}px`, top: `${from.top}px`,
-        width: `${from.width}px`, height: `${from.height}px`,
-      });
-      const status = document.createElement('p');
-      status.className = 'sr-only';
-      status.setAttribute('role', 'status');
-      status.textContent = portraitIndex === 0 ? 'Abriendo cursos de promoción.' : 'Abriendo cursos digitales.';
-      overlay.appendChild(veil);
-      overlay.appendChild(portraitImage);
-      overlay.appendChild(status);
-      document.body.appendChild(overlay);
-      portrait.style.opacity = '0';
-
-      const to = expandedPortraitFrame(document.documentElement.clientWidth,
-        window.innerHeight, from.width / from.height);
-      const timing: KeyframeAnimationOptions = {
-        duration: ROUTE_TRANSITION_MS, easing: 'cubic-bezier(.22,.68,.2,1)', fill: 'forwards',
-      };
-      animations.push(
-        veil.animate([{ opacity: 0 }, { opacity: 1 }], { ...timing, duration: ROUTE_TRANSITION_MS * .8 }),
-        portraitImage.animate([
-          { transform: 'translate3d(0,0,0) scale(1)' },
-          { transform: `translate3d(${to.left - from.left}px,${to.top - from.top}px,0) scale(${to.width / from.width})` },
-        ], timing),
-      );
-      // Navigation is timed independently of animation events, including browsers
-      // that suspend animation callbacks in a background tab.
-      navigationTimer = setTimeout(navigate, ROUTE_TRANSITION_MS);
-      return true;
-    };
-
-    const onModeChange = () => {
-      if (media.matches && transitioning) navigate();
-      else schedule();
-    };
     const onPageHide = () => {
       cancelAnimationFrame(frame);
       frame = 0;
-      clearTransition();
     };
-    const onPageShow = (event: PageTransitionEvent) => {
-      clearTransition();
+    const onPageShow = () => {
       update();
-      if (event.persisted && lastTrigger && !grid.inert) lastTrigger.focus({ preventScroll: true });
-      lastTrigger = undefined;
       schedule();
     };
     const resize = new ResizeObserver(schedule);
@@ -200,31 +101,21 @@ export default function DepthHero() {
     window.addEventListener('resize', schedule);
     window.addEventListener('pagehide', onPageHide);
     window.addEventListener('pageshow', onPageShow);
-    media.addEventListener('change', onModeChange);
+    media.addEventListener('change', schedule);
     void document.fonts.ready.then(schedule);
     update();
 
     return () => {
       disposed = true;
-      startTransition.current = null;
       cancelAnimationFrame(frame);
       resize.disconnect();
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
       window.removeEventListener('pagehide', onPageHide);
       window.removeEventListener('pageshow', onPageShow);
-      media.removeEventListener('change', onModeChange);
-      clearTransition();
+      media.removeEventListener('change', schedule);
     };
   }, []);
-
-  const chooseCourse = (event: MouseEvent<HTMLAnchorElement>, portraitIndex: number) => {
-    const link = event.currentTarget;
-    if (!shouldAnimateCourseLink(event, {
-      target: link.target, download: link.hasAttribute('download'),
-    }, window.matchMedia(STATIC_HERO_QUERY).matches)) return;
-    if (startTransition.current?.(link, portraitIndex)) event.preventDefault();
-  };
 
   return <section ref={root} className="depth-hero" aria-labelledby="landing-title">
     <noscript><style>{`.depth-hero{height:auto!important;--bar-fill:1!important}.depth-stage{position:relative!important;height:auto!important;padding-top:80px}.depth-heading{position:relative!important;top:auto!important;transform:none!important}.hero-people{position:relative!important;inset:auto!important;display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-top:20px}.hero-person{position:relative!important;bottom:auto!important;left:auto!important;width:min(44%,300px)!important;height:auto!important;margin:0!important;transform:none!important}.hero-sphere,.hero-scroll-cue{display:none!important}.hero-feature-cards{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;visibility:visible!important;margin-bottom:24px}.depth-actions{position:relative!important;bottom:auto!important;justify-content:flex-end!important;padding-bottom:24px}`}</style></noscript>
@@ -245,7 +136,7 @@ export default function DepthHero() {
           <span><BookOpen size={19} aria-hidden="true"/>01 · PROMOCIÓN</span>
           <h2>Promoción docente</h2>
           <p>Preparación para funciones directivas en secundaria y primaria.</p>
-          <a className="hero-course-link" href="/cursos/promocion-docente/" onClick={event => chooseCourse(event, 0)}>
+          <a className="hero-course-link" href="/cursos/promocion-docente/">
             Ver cursos de promoción<ArrowRight size={18} aria-hidden="true"/>
           </a>
         </article>
@@ -253,7 +144,7 @@ export default function DepthHero() {
           <span><Monitor size={19} aria-hidden="true"/>02 · HERRAMIENTAS</span>
           <h2>Herramientas digitales e IA</h2>
           <p>Recursos y actividades para tu práctica docente.</p>
-          <a className="hero-course-link" href="/cursos/herramientas-digitales/" onClick={event => chooseCourse(event, 1)}>
+          <a className="hero-course-link" href="/cursos/herramientas-digitales/">
             Ver cursos digitales<ArrowRight size={18} aria-hidden="true"/>
           </a>
         </article>

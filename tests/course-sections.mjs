@@ -31,6 +31,8 @@ function compile(relative, mode = 'worker') {
   if (mode === 'pages') source = pathsPlugin.transform(source, filename) ?? source;
   assert.equal(typeof source, 'string');
   let code = ts.transpileModule(source, { compilerOptions }).outputText;
+  // Node renders the real JSX; stylesheet side effects belong to the browser.
+  code = code.replace(/^\s*import\s+["'][^"']+\.css["'];?\s*$/gm, '');
   code = code.replace(/(\bfrom\s*["'])([^"']+)(["'])/g, (all, before, specifier, after) => {
     if (!specifier.startsWith('.') && !specifier.startsWith('@/')) return all;
     const candidate = specifier.startsWith('@/') ? path.join(root, specifier.slice(2)) : path.resolve(path.dirname(filename), specifier);
@@ -91,9 +93,12 @@ function verifyCatalog(html, section, prefix = '') {
   const offerings = section ? coursesForSection(section) : courseOfferings;
   assert.equal(actualCards.length, section ? 2 : 4, 'A category shows two cards; the full catalog retains all four.');
   assert.deepEqual(actualCards.map(card => cardSlug(card, prefix)).sort(), offerings.map(course => course.slug).sort());
-  const displayedCounts = html.replace(/<!--[\s\S]*?-->/g, '').match(/(\d+) propuestas? · (\d+) cursos? disponibles?/);
-  assert.ok(displayedCounts, 'The catalog must report offering and availability counts.');
-  assert.deepEqual(displayedCounts.slice(1).map(Number), [offerings.length, offerings.filter(course => course.available).length], 'The visible availability count must match the selected category.');
+  const plainHtml = html.replace(/<!--[\s\S]*?-->/g, '');
+  const countList = plainHtml.match(/<dl\b[^>]*class="course-section-counts"[^>]*>[\s\S]*?<\/dl>/)?.[0];
+  const displayedCounts = section
+    ? [...(countList ?? '').matchAll(/<dd>(\d+)<\/dd>/g)].map(match => Number(match[1]))
+    : plainHtml.match(/(\d+) propuestas? · (\d+) cursos? disponibles?/)?.slice(1).map(Number);
+  assert.deepEqual(displayedCounts, [offerings.length, offerings.filter(course => course.available).length], 'Rendered counts must distinguish proposals from available courses, including zero availability.');
   const navigation = html.match(/<nav\b[^>]*class="catalog-sections"[^>]*>[\s\S]*?<\/nav>/)?.[0];
   assert.ok(navigation, 'Category choices must be present in rendered HTML without JavaScript.');
   const links = [...navigation.matchAll(/<a\b[^>]*>/g)].map(match => attrs(match[0]));
@@ -109,6 +114,8 @@ function verifyCatalog(html, section, prefix = '') {
   assert.ok(image, 'The category retains its explanatory photograph.');
   const photo = attrs(image.match(/<img\b[^>]*>/)[0]);
   assert.ok(photo.src.startsWith(`${prefix}/assets/learning/`) && photo.alt.length > 0);
+  const expectedPhoto = section ? `${prefix}${section.image.src.replace(/^\/Sala-de-maestros(?=\/)/, '')}` : `${prefix}/assets/learning/estudio-personal.webp`;
+  assert.equal(photo.src, expectedPhoto, 'Filtering a catalog must keep its own contextual photograph.');
   if (section?.slug === digitalSection.slug) {
     assert.equal(actualCards.filter(card => card.includes('PRÓXIMAMENTE')).length, 2, 'Both digital offerings must disclose that they are upcoming.');
     assert.ok(!/href="[^"]*leccion-gratuita/.test(html), 'Upcoming offerings cannot expose a free-lesson entry.');

@@ -3,6 +3,7 @@ import "./globals.css";
 import "./identity.css";
 import "./courses.css";
 import "./depth-hero.css";
+import "./course-transitions.css";
 import "./course-hub.css";
 import "./community.css";
 import "./word-reveal.css";

@@ -4,6 +4,7 @@ import '../app/globals.css';
 import '../app/identity.css';
 import '../app/courses.css';
 import '../app/depth-hero.css';
+import '../app/course-transitions.css';
 import '../app/course-hub.css';
 import '../app/community.css';
 import '../app/word-reveal.css';

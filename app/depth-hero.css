@@ -263,28 +263,6 @@
 .hero-feature-cards article:last-child .hero-course-link:focus-visible {
   outline-color:var(--on-brand);
 }
-.hero-route-transition {
-  position:fixed;
-  inset:0;
-  z-index:80;
-  isolation:isolate;
-  overflow:hidden;
-  pointer-events:auto;
-}
-.hero-route-veil {
-  position:absolute;
-  inset:0;
-  background:var(--canvas);
-  opacity:0;
-}
-.hero-route-portrait {
-  position:absolute;
-  display:block;
-  max-width:none;
-  object-fit:contain;
-  transform-origin:0 0;
-  will-change:transform;
-}
 @media(max-width:767px) {
   .hero-topbar {
     padding:0 20px;
