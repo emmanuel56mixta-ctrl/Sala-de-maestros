@@ -22,6 +22,7 @@ El servidor local muestra su dirección al iniciar. Un clon limpio utiliza autom
 ```sh
 pnpm exec tsc --noEmit
 node tests/learning.mjs
+node tests/orientation.mjs
 pnpm build
 pnpm start
 ```
@@ -51,6 +52,10 @@ pnpm publish:pages
 ```
 
 Este comando compila y copia la publicación estática a la raíz del repositorio. Hay que confirmar esos archivos junto con los cambios de fuente para actualizar Pages. `pnpm build:pages` permite compilar sin copiar la publicación. La compilación reutiliza los componentes del sitio y regenera únicamente los datos públicos de la lección gratuita.
+
+Después de compilar Pages, `node tests/orientation.mjs --pages-build` comprueba las recomendaciones, los enlaces con prefijo, el HTML prerenderizado y que los cursos próximos sigan sin actividades habilitadas.
+
+La página del curso disponible ofrece una orientación opcional de dos preguntas (propósito y tiempo), con acceso directo a la lección. La lección gratuita tiene tres etapas: **Comprende → Aplica → Revisa**. Los enlaces `?paso=comprende` y `?paso=aplica` permiten empezar en la lectura o el caso. Las respuestas se conservan al cambiar de etapa durante esa visita; no se escriben en el avance de la cuenta.
 
 El asesor completo conserva su servidor **Cloudflare Workers**, la autenticación y la base de datos **D1** en el alojamiento actual. El enlace “Entrar a mi curso” dirige allí. GitHub Pages no ejecuta el servidor ni guarda el avance; no se incluyen sesiones ni datos de docentes en los archivos estáticos.
 

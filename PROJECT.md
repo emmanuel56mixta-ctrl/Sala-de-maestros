@@ -1,5 +1,14 @@
 # Sala de Maestros · NEMC
 
+## Orientación y lección guiada (12 de noviembre de 2026)
+
+- Se adapta la entrada progresiva observada en Headway al aprendizaje docente: dos preguntas opcionales sobre propósito y tiempo, una recomendación con acciones concretas y acceso directo para quien no necesita orientación. La portada, el catálogo y las páginas individuales conservan sus funciones.
+- `app/course-start.tsx` y `lib/course-orientation.ts` solo se muestran en el curso disponible. La propuesta breve pide menos acciones que la completa; los tiempos son orientativos. No se recaban datos de contacto ni se crean inscripciones, resultados o preferencias guardadas.
+- La lección gratuita conserva todos sus textos, fuente, ejemplo, opciones, clave y feedback en tres etapas: Comprende, Aplica y Revisa. La barra permanece visible durante la lectura. Una respuesta incorrecta lleva a revisar el criterio; una correcta muestra un cierre pedagógico y permite conocer el acceso completo. El modal conserva el precio y la indicación de que el pago no está habilitado.
+- Los parámetros públicos `paso=comprende|aplica` se leen después del montaje. Valores desconocidos conservan la etapa inicial. La selección permanece al moverse entre etapas, pero no sobrevive una recarga ni se incorpora al avance de la cuenta. No cambia la autenticación, el banco, la persistencia D1 ni el simulador.
+- Identidad adoptada: Poppins y Aileron existentes; bermellón para acciones; fondos cálidos para orientación; verde y ámbar solo para feedback de aprendizaje. Controles nativos de selección, estados deshabilitados, foco al cambiar de etapa, acceso a la fuente y adaptación móvil.
+- Validación: regresiones de aprendizaje, TypeScript, compilaciones Worker y Pages, pruebas de recomendaciones y reescritura real de enlaces. Revisión local en navegador del propósito/tiempo, entradas al caso, error → lectura → reintento, selección con flechas, acierto y modal. La revisión pública no establece un nuevo ciclo autenticado de guardado en D1.
+
 ## Contract and current scope
 
 A functional autonomous teacher-learning platform for multiple courses, with subdirección de secundaria as the currently enabled course. The current identity follows the owner’s October ASESOR PEDAGÓGICO PDF: Poppins display type, Aileron body type, vermilion and light gray. Retain the 30 original visual asset files; the current interface uses the new typographic identity. Do not label learner-facing surfaces as a demo, prototype or pilot. The owner's pilot concerns application with teachers, not the product's learner copy.
