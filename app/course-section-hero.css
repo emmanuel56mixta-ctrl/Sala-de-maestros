@@ -25,8 +25,8 @@
 }
 .course-section-portrait-image {
   display: block;
-  height: clamp(430px, 37vw, 460px);
-  width: auto;
+  width: min(100%, clamp(310px, 30vw, 390px));
+  height: auto;
   max-width: 100%;
   object-fit: contain;
   object-position: bottom;
@@ -145,7 +145,7 @@
     margin-bottom: 24px;
   }
   .course-section-portrait-image {
-    width: min(62%, 184px);
+    width: min(76%, 240px);
     max-width: none;
     height: auto;
   }
