@@ -57,6 +57,8 @@ Después de compilar Pages, `node tests/orientation.mjs --pages-build` comprueba
 
 La página del curso disponible ofrece dos preguntas opcionales (actividad y tiempo), con acceso directo a la lección. La lección gratuita tiene tres etapas: **Lectura → Pregunta → Explicación**. Los enlaces `?paso=comprende` y `?paso=aplica` permiten empezar en la lectura o la pregunta. Las respuestas se conservan al cambiar de etapa durante esa visita; no se escriben en el avance de la cuenta.
 
+La paleta compartida se define en `app/globals.css`: petróleo para acciones y selección, blanco cálido para el fondo y arena para detalles decorativos. Los textos usan tinta oscura; las respuestas correctas, los reintentos y los marcadores didácticos mantienen colores propios. `app/identity.css` conserva las tipografías Poppins y Aileron y la composición de la marca.
+
 El asesor completo conserva su servidor **Cloudflare Workers**, la autenticación y la base de datos **D1** en el alojamiento actual. El enlace “Entrar a mi curso” dirige allí. GitHub Pages no ejecuta el servidor ni guarda el avance; no se incluyen sesiones ni datos de docentes en los archivos estáticos.
 
 El hosting actual proporciona la autenticación. Para desplegar fuera de ese entorno hay que integrar autenticación confiable, configurar el binding `DB`, aplicar las migraciones de `drizzle/` y definir `COURSE_OWNER_EMAIL` como variable privada del servidor. No se deben aceptar como prueba de identidad cabeceras enviadas directamente por el cliente.

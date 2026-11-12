@@ -74,9 +74,9 @@ The owner’s video requests a simple operational start, familiar section names 
 ## October identity and landing revision
 
 - `/` is a brief explanatory landing page with a clear “Entrar al asesor” link and three preparation steps. `/asesor` holds the existing learning application. Sign-in returns to `/asesor`; the advisor has an explicit return-to-cover link.
-- The owner's reference provides Poppins (700/800/900), Aileron (400/600/700), #E1300C vermilion and #D9D9D9 gray. Small orange labels use #AD2409 for contrast. Long study text remains dark Aileron with comfortable line height.
+- The owner's reference provides Poppins (700/800/900) and Aileron (400/600/700). Its original vermilion/gray palette was superseded by the November palette revision below. Long study text remains dark Aileron with comfortable line height.
 - Full font files and license/provenance notes are in `public/fonts/`. The educator cutout is extracted from the owner's supplied PDF with its original alpha mask, stored at `public/assets/identity/docentes.png`.
-- Guided learning, course content, all answer keys, session persistence, authentication and D1 bindings are preserved. The reference identity replaces blue decoration across the learning workspace; semantic feedback colors remain distinct.
+- Guided learning, course content, all answer keys, session persistence, authentication and D1 bindings are preserved. Typography and the owner's imagery remain part of the identity; semantic feedback colors remain distinct.
 - Current validation: TypeScript and production build are required. Browser QA is unavailable in this session because the supported browser-control capability is absent; this revision is not claimed to have live responsive or authenticated browser verification.
 
 
@@ -84,7 +84,7 @@ The owner’s video requests a simple operational start, familiar section names 
 
 The platform name is **Sala de Maestros**, with the exact tagline **Un espacio propio para encontrarse, aprender y prepararse.** NEMC remains the provider. The platform supports a broader teacher-development offering, not exclusively promotion exams. Do not invent or enable courses whose materials are not implemented.
 
-The landing presents the general platform, an available-course section and the learning process. USICAMM 2026, promotion details and 18-lesson/90-question counts belong to the subdirección de secundaria course card. `/asesor` continues serving that course and preserves its identifiers and progress. The internal role/profile catalog remains specific to promotion and is not the platform-wide course catalog. New name appears in landing, advisor sidebar and browser metadata. Typography and colors from the previous reference are retained.
+The landing presents the general platform, an available-course section and the learning process. USICAMM 2026, promotion details and 18-lesson/90-question counts belong to the subdirección de secundaria course card. `/asesor` continues serving that course and preserves its identifiers and progress. The internal role/profile catalog remains specific to promotion and is not the platform-wide course catalog. New name appears in landing, advisor sidebar and browser metadata. Typography from the previous reference is retained; the current colors are documented in the November palette revision.
 
 
 ## Course catalog, exploration and price
@@ -166,3 +166,12 @@ The owner supplied a new seated man in a blue suit and woman in a white shirt, b
 ## Enrollment counter animation (12 October 2026, 12:03 local)
 
 The owner requested removal of “Y subiendo” and automatic numerical increments every five seconds. `EnrollmentCounter` starts at the owner-supplied 1,230 and increments by one every 5,000 ms while visible and the tab is active. It is visibly labeled “Cifra simulada”; these increments do not represent enrollment events and are not persisted or sent to any backend. It resets to the starting value on remount. A pause/resume button controls updates, timers clean up on unmount, screen readers are not interrupted by each tick, and reduced motion removes the digit transition. This explicitly supersedes the earlier static-counter instruction, while retaining honest attribution of the displayed figure.
+
+## November palette revision
+
+- At the owner's request, petroleum blue replaces the vermilion brand palette. `app/globals.css` is the single source of shared color tokens for both Pages and Worker; the duplicate root palettes were removed.
+- Actions and selected states use `#1D5661`, with `#153F48` for hover and dark links. The main canvas is warm white `#F7F6F1`, reading cards are white, text is `#24363A`, and secondary text is `#546569`. Sand is decorative; small text does not rely on sand contrast.
+- The palette covers the home, course catalog, course start, free lesson and advisor styles. Poppins/Aileron, portrait assets, institutional logos, content, layout and scroll choreography are preserved. The first-party favicon and public browser theme color match the new palette.
+- Correct answers remain green, retries amber and destructive errors red. Annotation categories retain their distinct colors and labels. Answer hover styling no longer replaces a selected or graded answer's border.
+- Calculated contrast: white on the primary button 8.22:1; petroleum on the warm canvas 7.59:1; secondary text on the warm canvas 5.64:1. These are specific color-pair checks, not a claim of a full accessibility audit.
+- Verification: TypeScript, learning/orientation regressions, Pages prerender checks, CSS parsing and both builds pass. Local browser review covers home, catalog, course selection and free-lesson correct/retry feedback; course and lesson remain within the 390 px mobile viewport. No new authenticated D1 round-trip was tested.
