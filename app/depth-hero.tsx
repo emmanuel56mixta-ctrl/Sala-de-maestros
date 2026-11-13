@@ -191,6 +191,7 @@ export default function DepthHero() {
       </div>
       <div ref={cards} className="hero-feature-cards">
         <article>
+          <span className="hero-frame-glow" aria-hidden="true" />
           <span><BookOpen size={19} aria-hidden="true"/>01 · PROMOCIÓN</span>
           <h2>Promoción docente</h2>
           <p>Preparación para funciones directivas en secundaria y primaria.</p>
@@ -199,6 +200,7 @@ export default function DepthHero() {
           </a>
         </article>
         <article>
+          <span className="hero-frame-glow" aria-hidden="true" />
           <span><Monitor size={19} aria-hidden="true"/>02 · HERRAMIENTAS</span>
           <h2>Herramientas digitales e IA</h2>
           <p>Recursos y actividades para tu práctica docente.</p>

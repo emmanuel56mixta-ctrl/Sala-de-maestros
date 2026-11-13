@@ -108,7 +108,7 @@
   border-radius:50%;
   z-index:-1;
   pointer-events:none;
-  transform:translateX(-50%);
+  transform:translateX(-50%) scale(var(--hero-choice-scale,1));
   background:radial-gradient(circle at 32% 26%,color-mix(in srgb,var(--brand-soft) 90%,var(--surface)) 0%,color-mix(in srgb,var(--brand) 22%,var(--canvas)) 74%,color-mix(in srgb,var(--brand) 30%,var(--canvas)) 100%);
   box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--brand) 12%,transparent);
 }
@@ -118,6 +118,13 @@
 }
 .depth-hero[data-motion=on] .hero-person::before {
   opacity:var(--choice-opacity,0);
+}
+.hero-person > picture {
+  display:block;
+  width:100%;
+  height:100%;
+  transform-origin:50% 100%;
+  transform:scale(var(--hero-choice-scale,1));
 }
 .hero-person img {
   width:100%;
@@ -138,7 +145,7 @@
   position:absolute;
   border-radius:50%;
   aspect-ratio:1;
-  z-index:2;
+  z-index:4;
   pointer-events:none;
   will-change:transform;
   box-shadow:inset -18px -22px 36px color-mix(in srgb,var(--ink) 15%,transparent),0 22px 28px color-mix(in srgb,var(--ink) 7%,transparent);
@@ -160,7 +167,7 @@
   left:8%;
   right:8%;
   bottom:104px;
-  z-index:4;
+  z-index:5;
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:24px;
@@ -172,6 +179,9 @@
   position:relative;
   isolation:isolate;
   --hero-frame-color:var(--brand);
+  --hero-frame-core:var(--brand-dark);
+  transform-origin:50% 0;
+  transform:scale(var(--hero-choice-scale,1));
   display:flex;
   flex-direction:column;
   align-items:stretch;
@@ -184,40 +194,55 @@
 }
 .hero-feature-cards article:last-child {
   --hero-frame-color:var(--sand-soft);
+  --hero-frame-core:var(--surface);
   background:var(--brand);
   border-color:var(--brand);
   color:var(--surface);
 }
-/* A short light trail follows only the border; the centre remains transparent. */
+/* The blur belongs to a wrapper, after its child's mask, so the glow can spread
+   beyond the edge. Both moving layers remain visible without hover or focus. */
+.hero-feature-cards .hero-frame-glow {
+  position:absolute;
+  display:block;
+  inset:-1px;
+  border-radius:inherit;
+  pointer-events:none;
+  filter:blur(5px);
+  opacity:.85;
+}
 @property --hero-frame-angle {
   syntax:"<angle>";
   initial-value:0deg;
   inherits:false;
 }
 @supports (mask-composite:exclude) or (-webkit-mask-composite:xor) {
-  .hero-feature-cards article::before {
+  .hero-feature-cards article::before,
+  .hero-feature-cards .hero-frame-glow::before {
     content:"";
     position:absolute;
     inset:-1px;
     border-radius:inherit;
-    padding:2px;
+    padding:3px;
     pointer-events:none;
-    background:conic-gradient(from var(--hero-frame-angle),transparent 0deg 280deg,color-mix(in srgb,var(--hero-frame-color) 28%,transparent) 302deg,var(--hero-frame-color) 327deg,transparent 350deg 360deg);
+    background:conic-gradient(from var(--hero-frame-angle),transparent 0deg 245deg,color-mix(in srgb,var(--hero-frame-color) 50%,transparent) 280deg,var(--hero-frame-color) 314deg,var(--hero-frame-core) 330deg,transparent 352deg 360deg);
     -webkit-mask:linear-gradient(var(--ink) 0 0) content-box,linear-gradient(var(--ink) 0 0);
     mask:linear-gradient(var(--ink) 0 0) content-box,linear-gradient(var(--ink) 0 0);
     -webkit-mask-composite:xor;
     mask-composite:exclude;
-    opacity:.9;
+    opacity:1;
   }
   @media (prefers-reduced-motion:no-preference) {
-    .depth-hero .hero-feature-cards article::before {
+    .depth-hero .hero-feature-cards article::before,
+    .depth-hero .hero-frame-glow::before {
       animation:hero-frame-orbit 11s linear infinite;
       animation-play-state:paused;
     }
-    .depth-hero .hero-feature-cards article:last-child::before {
+    .depth-hero .hero-feature-cards article:last-child::before,
+    .depth-hero .hero-feature-cards article:last-child .hero-frame-glow::before {
       animation-delay:-4s;
     }
-    .depth-hero[data-choice-visible=true] .hero-feature-cards article::before {
+    .depth-hero[data-choice-visible=true] .hero-feature-cards article::before,
+    .depth-hero[data-choice-visible=true] .hero-frame-glow::before {
       animation-play-state:running;
     }
   }
@@ -226,8 +251,30 @@
   to { --hero-frame-angle:360deg; }
 }
 @media (prefers-reduced-motion:reduce) {
-  .hero-feature-cards article::before {
-    display:none;
+  .hero-feature-cards article::before,
+  .hero-feature-cards .hero-frame-glow::before {
+    animation:none;
+  }
+}
+@media (prefers-reduced-motion:no-preference) {
+  .hero-person > picture,
+  .hero-person::before,
+  .hero-feature-cards article {
+    transition:transform 420ms cubic-bezier(.22,.68,.2,1);
+  }
+  .depth-stage:has(.hero-feature-cards article:first-child:focus-within) :is(.hero-person-0,.hero-feature-cards article:first-child),
+  .depth-stage:has(.hero-feature-cards article:last-child:focus-within) :is(.hero-person-1,.hero-feature-cards article:last-child) {
+    --hero-choice-scale:1.035;
+  }
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .depth-hero[data-choice-visible=true] .hero-person,
+  .depth-hero[data-choice-visible=true] .hero-person::before {
+    pointer-events:auto;
+  }
+  .depth-stage:has(.hero-person-0:hover,.hero-feature-cards article:first-child:hover) :is(.hero-person-0,.hero-feature-cards article:first-child),
+  .depth-stage:has(.hero-person-1:hover,.hero-feature-cards article:last-child:hover) :is(.hero-person-1,.hero-feature-cards article:last-child) {
+    --hero-choice-scale:1.035;
   }
 }
 .hero-feature-cards article>span {
