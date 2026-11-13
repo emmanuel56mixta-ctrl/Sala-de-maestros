@@ -236,7 +236,8 @@ Ayudar a un docente a elegir una formación, probar una lección y volver a su c
 ### Movimiento y control
 
 - Conservar el breve recorrido de 100–140 px de portada y las transiciones de retratos aprobadas; no bloquear rueda, gesto ni navegación nativa.
-- Las pestañas de Cómo vas a estudiar cambian por elección del usuario y no desplazan la página. Flechas, Home y End deben funcionar; los paneles inactivos quedan fuera del foco y de la lectura asistida.
+- Cómo vas a estudiar es una demostración breve de tres pasos: Lee, Responde y Revisa. Usa un único panel y un caso de evidencia frente a entrega, independiente de la lección gratuita. La persona elige una de dos evidencias, recibe una explicación de una frase y puede reintentar o abrir la lección. No se calcula ni guarda una puntuación. Cada estado muestra menos de 60 palabras.
+- Las pestañas cambian por elección del usuario, con flechas, Home y End. Solo existe el panel activo; al avanzar con un botón, el foco pasa al título del nuevo contenido. No hay avance automático ni desplazamiento programado de la página.
 - Los títulos de contenido se leen de inmediato. El análisis es manual: cita y explicación completas desde el inicio, Anterior, Siguiente, progreso y una sola alternativa de lectura completa. No depende de la visibilidad del caso ni de temporizadores.
 - Respetar movimiento reducido y conservar una presentación utilizable sin animación. Ningún acceso depende de un temporizador.
 
@@ -263,3 +264,5 @@ Antes de cerrar una revisión: comprobar una pantalla representativa, navegació
 ### Lección gratuita: práctica y evidencia
 
 La lección pública conserva una sola superficie de lectura, sin columna lateral de temario. Utiliza contenido público dedicado en `lib/free-lesson.ts`: objetivo acotado, ejemplo de acceso al texto, caso de gráficas y caso nuevo de entrega de una grabación. Las preguntas privadas y sus claves históricas no cambian. Los intentos se conservan solo durante la visita y el cierre nunca presenta una corrección asistida como un primer acierto. La estimación de 15–20 minutos debe contrastarse con el protocolo de `docs/free-lesson-validation.md`.
+
+- Audio de interfaz: tres clips Kenney CC0 (selección, avance y confirmación neutral), reproducidos solo tras una acción manual. Control «Sonido» visible y persistente en demostración y lección; silencio inmediato, un clip a la vez y carga diferida. No sustituye la retroalimentación escrita. Procedencia en `docs/interface-audio.md`.

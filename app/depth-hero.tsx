@@ -39,6 +39,7 @@ export default function DepthHero() {
     if (!section || !scene || !title || !choiceTitle || !grid) return;
 
     const media = window.matchMedia(STATIC_HERO_QUERY);
+    const compact = window.matchMedia('(max-width: 767px)');
     const portraits = Array.from(scene.querySelectorAll<HTMLElement>('.hero-person'));
     const spheres = Array.from(scene.querySelectorAll<HTMLElement>('.hero-sphere'));
     const courseLinks = Array.from(grid.querySelectorAll<HTMLAnchorElement>('a'));
@@ -65,6 +66,14 @@ export default function DepthHero() {
       }
 
       section.dataset.motion = 'on';
+      if (compact.matches) {
+        // Fit the opening portraits between the heading and the invitation.
+        // Their width follows the screen; their faces never depend on its height.
+        const portraitFloor = (actions?.offsetHeight ?? 160) + 32;
+        const portraitRoom = Math.max(1, scene.offsetHeight - portraitFloor - title.offsetTop - title.offsetHeight - 24);
+        section.style.setProperty('--hero-portrait-floor', `${portraitFloor}px`);
+        section.style.setProperty('--hero-portrait-room', `${portraitRoom}px`);
+      }
       // Keep keyboard-focused choices visible if the page is scrolled back up.
       const p = grid.contains(document.activeElement) ? 1 : Math.min(1, Math.max(0, -section.getBoundingClientRect().top
         / Math.max(1, section.offsetHeight - scene.offsetHeight)));
@@ -90,7 +99,7 @@ export default function DepthHero() {
       const availableHeight = Math.max(0, scene.offsetHeight - top - bottom);
       const portraitHeight = Math.max(0, Math.min(320,
         availableHeight - grid.offsetHeight + 14,
-        ...portraits.map((node, index) => Math.min(node.offsetHeight * .58,
+        ...portraits.map((node, index) => Math.min(node.offsetHeight * (compact.matches ? 1 : .58),
           (grid.children[index] as HTMLElement).offsetWidth * .78 * node.offsetHeight / node.offsetWidth))));
       const groupHeight = portraitHeight + grid.offsetHeight - 14;
       const groupTop = top + Math.max(0, (availableHeight - groupHeight) / 2);
@@ -102,7 +111,7 @@ export default function DepthHero() {
         const scale = portraitHeight / node.offsetHeight;
         const targetX = grid.offsetLeft + card.offsetLeft + card.offsetWidth / 2;
         const x = targetX - node.offsetLeft;
-        const y = cardsTop + 14 - scene.offsetHeight;
+        const y = cardsTop + 14 - (node.offsetTop + node.offsetHeight);
         node.style.setProperty('--person-x', `${x * morph}px`);
         node.style.setProperty('--person-y', `${y * morph}px`);
         node.style.setProperty('--person-scale', String(1 + (scale - 1) * morph));
@@ -171,7 +180,7 @@ export default function DepthHero() {
   }, []);
 
   return <section ref={root} className="depth-hero" aria-labelledby="landing-title">
-    <noscript><style>{`.depth-hero{height:auto!important;--bar-fill:1!important}.depth-stage{position:relative!important;height:auto!important;padding-top:80px}.depth-heading{position:relative!important;top:auto!important;transform:none!important}.hero-choice-heading{position:relative!important;top:auto!important;opacity:1!important;margin:24px 0 0!important}.hero-people{position:relative!important;inset:auto!important;display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-top:20px}.hero-person{position:relative!important;bottom:auto!important;left:auto!important;width:min(44%,300px)!important;height:auto!important;margin:0!important;transform:none!important}.hero-sphere{display:none!important}.hero-pitch{opacity:1!important}.hero-feature-cards{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;visibility:visible!important;margin-bottom:24px}.depth-actions{position:relative!important;bottom:auto!important;justify-content:flex-end!important;padding-bottom:24px}`}</style></noscript>
+    <noscript><style>{`.depth-hero{height:auto!important;--bar-fill:1!important}.depth-stage{position:relative!important;height:auto!important;padding-top:80px}.depth-heading{position:relative!important;top:auto!important;transform:none!important}.hero-choice-heading{position:relative!important;top:auto!important;opacity:1!important;margin:24px 0 0!important}.hero-people{position:relative!important;inset:auto!important;display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-top:20px}.hero-person{position:relative!important;bottom:auto!important;left:auto!important;width:min(44%,300px)!important;max-width:none!important;height:auto!important;margin:0!important;transform:none!important}.hero-sphere{display:none!important}.hero-pitch{opacity:1!important}.hero-feature-cards{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;visibility:visible!important;margin-bottom:24px}.depth-actions{position:relative!important;bottom:auto!important;justify-content:flex-end!important;padding-bottom:24px}`}</style></noscript>
     <header className="hero-topbar">
       <a className="hero-home-wordmark" href="/" aria-label="Sala de Maestros, inicio"><span>SALA DE</span> <span>MAESTROS</span></a>
       <nav className="public-account-nav" aria-label="Navegación principal">

@@ -1,0 +1,38 @@
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  gap: 7px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font: 600 .8125rem/1.4 Aileron, Arial, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 160ms, border-color 160ms;
+}
+.sound-toggle[aria-pressed="true"] {
+  border-color: var(--brand-border);
+  background: var(--brand-soft);
+  color: var(--brand-dark);
+}
+.sound-toggle:hover {
+  border-color: var(--brand-dark);
+  background: var(--brand-soft);
+  color: var(--brand-dark);
+}
+.sound-toggle svg {
+  flex: none;
+}
+.sound-toggle:focus-visible {
+  outline: 3px solid var(--brand-dark);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sound-toggle { transition: none; }
+}

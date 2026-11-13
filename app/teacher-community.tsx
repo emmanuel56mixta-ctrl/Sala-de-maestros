@@ -14,7 +14,6 @@ export default function TeacherCommunity() {
       <div className="community-preview-action">
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a className="welcome-primary" href="/cursos/subdireccion-secundaria/leccion-gratuita/?paso=aplica">Analizar una pregunta<ArrowRight size={18} aria-hidden="true" /></a>
-        <p>Ejercicio de práctica · Sin registro</p>
       </div>
     </section>
     {/* Static cards: quotes are read, not chased. No auto-scrolling band. */}

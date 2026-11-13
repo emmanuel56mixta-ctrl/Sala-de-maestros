@@ -18,11 +18,10 @@ export default function Home() {
         <section id="bienvenida" className="landing-welcome" aria-labelledby="welcome-title">
           <div className="welcome-copy">
             <p className="eyebrow">FORMACIÓN DOCENTE</p>
-            <h2 id="welcome-title" className="landing-tagline">Un espacio propio para encontrarse, aprender y prepararse.</h2>
+            <h2 id="welcome-title" className="landing-tagline">Un espacio propio para encontrarse, aprender y prepararse entre docentes.</h2>
             <p className="landing-description">Formación para tu práctica docente y tu desarrollo profesional, con lecciones, actividades y una ruta que puedes retomar a tu ritmo.</p>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a className="welcome-primary" href="/cursos/subdireccion-secundaria/leccion-gratuita/">Probar una lección gratuita<ArrowRight size={18} aria-hidden="true" /></a>
-            <p className="welcome-note">Subdirección de secundaria · Sin registro</p>
           </div>
           <LearningPhoto
             className="welcome-learning-photo"

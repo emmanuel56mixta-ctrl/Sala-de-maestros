@@ -10,6 +10,8 @@ import { analysisForAnswer, firstCase } from '@/lib/case-analysis';
 import { freeLessonContent, transferCase } from '@/lib/free-lesson';
 import { emptyAttempt, resultForAttempt, selectAnswer, submitAnswer } from '@/lib/free-lesson-progress';
 import CaseAnalysis from '@/app/case-analysis';
+import SoundToggle from '@/app/sound-toggle';
+import { playUISound } from '@/lib/interface-audio';
 import './course-explorer.css';
 
 type Props = {
@@ -63,12 +65,14 @@ export default function CourseExplorer({ course, lesson, source, hasAccess }: Pr
 
   const goToStep = (next: Step) => {
     if (next === 2 && !attempt.checked) return;
+    if (next !== step || showResult) playUISound('step');
     setShowResult(false);
     setStep(next);
     setFocusRequest(request => request + 1);
   };
   const chooseCase = (index: number) => {
     if (index > 0 && !attempts[0].attempts) return;
+    playUISound('step');
     setCaseIndex(index);
     setShowResult(false);
     setStep(1);
@@ -76,6 +80,7 @@ export default function CourseExplorer({ course, lesson, source, hasAccess }: Pr
   };
   const checkAnswer = () => {
     if (attempt.selected === null) return;
+    playUISound('confirm');
     setAttempts(previous => previous.map((value, index) => index === caseIndex ? submitAnswer(value) : value));
     setStep(2);
     setFocusRequest(request => request + 1);
@@ -86,7 +91,7 @@ export default function CourseExplorer({ course, lesson, source, hasAccess }: Pr
       <nav aria-label="Ruta de navegación"><ol className="lesson-breadcrumb">
         <li><a href="/cursos/">Cursos</a></li><li><a href={`/cursos/${course.slug}/`}>{course.title}</a></li><li aria-current="page">Lección gratuita</li>
       </ol></nav>
-      <span className="lesson-compact-meta">Sin registro</span>
+      <SoundToggle />
     </header>
     <article className="free-lesson guided-free-lesson" aria-labelledby="free-lesson-title">
       <div className="free-lesson-meta"><span>LECCIÓN GRATUITA</span><span><Clock3 size={16} aria-hidden="true" />{isPublicCase ? freeLessonContent.durationLabel : `${lesson.minutes} min estimados`}</span></div>
@@ -117,7 +122,7 @@ export default function CourseExplorer({ course, lesson, source, hasAccess }: Pr
           <fieldset className="lesson-answers">
             <legend>{exercise.prompt}</legend>
             {exercise.options.map((option, index) => <label key={option} className={attempt.selected === index ? 'selected' : ''}>
-              <input type="radio" name={`free-lesson-answer-${currentCase.id}`} value={index} checked={attempt.selected === index} onChange={() => setAttempts(previous => previous.map((value, current) => current === caseIndex ? selectAnswer(value, index, exercise.options.length) : value))} />
+              <input type="radio" name={`free-lesson-answer-${currentCase.id}`} value={index} checked={attempt.selected === index} onChange={() => { playUISound('select'); setAttempts(previous => previous.map((value, current) => current === caseIndex ? selectAnswer(value, index, exercise.options.length) : value)); }} />
               <span><b>{String.fromCharCode(65 + index)}.</b> {option}{attempt.selected === index && <small className="lesson-selected" aria-hidden="true"><Check size={14} aria-hidden="true" /> Seleccionada</small>}</span>
             </label>)}
           </fieldset>
@@ -133,7 +138,7 @@ export default function CourseExplorer({ course, lesson, source, hasAccess }: Pr
           <details className="lesson-option-review"><summary>Por qué funcionan o fallan las otras opciones</summary><ol>{exercise.options.map((option, index) => <li key={option}><strong>{String.fromCharCode(65 + index)} · {index === exercise.correct ? 'Conserva el aprendizaje' : 'No resuelve este caso'}{index === attempt.selected ? ' · Tu elección' : ''}</strong><p>{option}</p><p>{exercise.feedback[index]}</p></li>)}</ol></details>
           <div className="lesson-stage-actions">
             {caseIndex === 0 && totalCases > 1 ? <button className="primary" onClick={() => chooseCase(1)}>{attempts[1].attempts ? 'Volver al segundo caso' : 'Resolver un caso nuevo'}<ArrowRight size={18} aria-hidden="true" /></button>
-              : <button className="primary" disabled={!allChecked} onClick={() => { setShowResult(true); setFocusRequest(request => request + 1); }}>Ver mi resultado<ArrowRight size={18} aria-hidden="true" /></button>}
+              : <button className="primary" disabled={!allChecked} onClick={() => { playUISound('confirm'); setShowResult(true); setFocusRequest(request => request + 1); }}>Ver mi resultado<ArrowRight size={18} aria-hidden="true" /></button>}
             <button className="text-button" onClick={() => goToStep(1)}>{correct ? 'Volver a la pregunta' : 'Intentarlo con la explicación'}</button>
           </div>
         </>}
