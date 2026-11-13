@@ -4,11 +4,14 @@ import '../app/globals.css';
 import '../app/identity.css';
 import '../app/courses.css';
 import '../app/depth-hero.css';
+import '../app/course-transitions.css';
 import '../app/course-hub.css';
 import '../app/community.css';
 import '../app/word-reveal.css';
 import '../app/learning-steps-motion.css';
+import '../app/learning-photography.css';
 import './pages.css';
+import '../app/public-design.css';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const locationPath = window.location.pathname;

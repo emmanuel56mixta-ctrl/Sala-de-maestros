@@ -1,0 +1,74 @@
+.course-start {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 26px;
+}
+.course-start-content { padding: 28px; }
+.course-start .eyebrow { margin: 0 0 8px; }
+.course-start h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+  line-height: 1.25;
+  letter-spacing: -.025em;
+  margin: 0 0 8px;
+}
+.course-start-intro {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin: 0 0 22px;
+  max-width: 40rem;
+}
+.course-start-entries {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.course-start-entry {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 56px;
+  padding: 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color .14s, background .14s;
+}
+.course-start-entry:hover { border-color: var(--brand-dark); background: var(--brand-soft); }
+.course-start-entry:focus-visible { outline: 3px solid var(--brand-dark); outline-offset: 3px; }
+.course-start-entry.is-recommended { border: 2px solid var(--brand); padding: 17px; }
+.course-start-entry > svg { flex: none; color: var(--brand-dark); }
+.course-start-entry-copy { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.course-start-entry strong { font-size: 1rem; font-weight: 700; line-height: 1.4; }
+.course-start-entry small { font-size: .875rem; line-height: 1.55; color: var(--text-muted); }
+.course-start-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .8125rem;
+  color: var(--brand-dark);
+}
+.course-start-badge {
+  justify-self: start;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand-dark);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+@media (max-width: 767px) {
+  .course-start-content { padding: 22px 18px; }
+  .course-start-entry { padding: 16px 14px; gap: 12px; }
+  .course-start-entry.is-recommended { padding: 15px 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .course-start-entry { transition: none; }
+}

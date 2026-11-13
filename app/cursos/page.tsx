@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import CatalogShell from '../catalog-shell';
-import CourseCards from '../course-cards';
+import CatalogPage from '../catalog-page';
 export const metadata: Metadata = { title: 'Cursos · Sala de Maestros', description: 'Rutas de aprendizaje para la práctica docente, el desarrollo profesional y la preparación para promoción.' };
-export default function CoursesPage() {return <CatalogShell><section className="catalog-intro"><p className="eyebrow">APRENDE A TU RITMO</p><h1>Tu siguiente paso<br />empieza aquí.</h1><p>Formación para tu práctica docente y tus metas profesionales. Conoce el enfoque y la ruta de cada curso.</p><span>4 propuestas · 1 curso disponible</span></section><CourseCards/></CatalogShell>;}
+export default function CoursesPage() {
+  return <CatalogPage />;
+}

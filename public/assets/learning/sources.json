@@ -1,0 +1,74 @@
+[
+  {
+    "file": "aprendizaje-entre-colegas.webp",
+    "type": "AI-generated illustrative photograph",
+    "generator": "OpenAI built-in image generation",
+    "created": "2026-11-12",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 152674,
+    "usage": "Bienvenida: dos docentes estudian juntas.",
+    "reference": "User-supplied workshop photographs used as stylistic guidance only; all depicted people are fictional.",
+    "processing": "WebP encoding only; no retouching or compositing."
+  },
+  {
+    "file": "asesoria-individual.webp",
+    "type": "AI-generated illustrative photograph",
+    "generator": "OpenAI built-in image generation",
+    "created": "2026-11-12",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 183822,
+    "usage": "Página del curso: revisión individual de apuntes.",
+    "reference": "User-supplied workshop photographs used as stylistic guidance only; all depicted people are fictional.",
+    "processing": "WebP encoding only; no retouching or compositing."
+  },
+  {
+    "file": "taller-docente.webp",
+    "type": "AI-generated illustrative photograph",
+    "generator": "OpenAI built-in image generation",
+    "created": "2026-11-12",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 152332,
+    "usage": "Escena de taller disponible en la colección fotográfica.",
+    "reference": "User-supplied workshop photographs used as stylistic guidance only; all depicted people are fictional.",
+    "processing": "WebP encoding only; no retouching or compositing."
+  },
+  {
+    "file": "estudio-personal.webp",
+    "type": "AI-generated illustrative photograph",
+    "generator": "OpenAI built-in image generation",
+    "created": "2026-11-12",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 162282,
+    "usage": "Catálogo: una docente lee y toma notas.",
+    "reference": "User-supplied workshop photographs used as stylistic guidance only; all depicted people are fictional.",
+    "processing": "WebP encoding only; no retouching or compositing."
+  },
+  {
+    "file": "estudio-docente-joven.webp",
+    "type": "AI-generated illustrative photograph",
+    "generator": "OpenAI built-in image generation",
+    "created": "2026-11-12",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 147964,
+    "usage": "Sección de promoción docente: joven docente que estudia.",
+    "reference": "Original fictional young adult educators; documentary photography style consistent with the platform.",
+    "processing": "WebP encoding only; no retouching or compositing."
+  },
+  {
+    "file": "colaboracion-docentes-jovenes.webp",
+    "type": "AI-generated illustrative photograph",
+    "generator": "OpenAI built-in image generation",
+    "created": "2026-11-12",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 164532,
+    "usage": "Sección de herramientas digitales y comunidad: docentes jóvenes trabajando juntos.",
+    "reference": "Original fictional young adult educators; documentary photography style consistent with the platform.",
+    "processing": "WebP encoding only; no retouching or compositing."
+  }
+]

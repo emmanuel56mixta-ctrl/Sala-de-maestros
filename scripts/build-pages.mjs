@@ -28,7 +28,7 @@ const template = await readFile(path.join(output, 'pages-static/index.html'), 'u
 const escape = text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 for (const route of [...routes, { path: '/404', title: 'Página no encontrada · Sala de Maestros' }]) {
   const html = template
-    .replace('<title>Sala de Maestros · NEMC</title>', `<title>${escape(route.title)}</title>`)
+    .replace('<title>Sala de Maestros</title>', `<title>${escape(route.title)}</title>`)
     .replace('<!--app-html-->', render(route.path));
   const relative = route.path === '/404' ? '404.html' : path.join(route.path.slice(1), 'index.html');
   await mkdir(path.dirname(path.join(output, relative)), { recursive: true });

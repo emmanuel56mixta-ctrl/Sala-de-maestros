@@ -1,0 +1,46 @@
+/* The shared portrait moves directly between its actual positions in the two
+   documents. Native links keep navigation usable when this API is unavailable. */
+@view-transition {
+  navigation: auto;
+}
+
+.hero-person-0 img { view-transition-name: teacher-promotion; }
+.hero-person-1 img { view-transition-name: teacher-digital; }
+
+/* Only matching portraits travel. The page itself stays in place; unrelated
+   navigation must not introduce a full-screen slide or fade. */
+::view-transition-group(root) { animation-duration: 0s; }
+::view-transition-old(root) { animation: none; opacity: 0; }
+::view-transition-new(root) { animation: none; }
+
+::view-transition-group(teacher-promotion),
+::view-transition-group(teacher-digital) {
+  animation-duration: 620ms;
+  animation-timing-function: cubic-bezier(.22, .68, .2, 1);
+}
+::view-transition-old(teacher-promotion),
+::view-transition-old(teacher-digital) {
+  animation: none;
+  opacity: 0;
+}
+::view-transition-new(teacher-promotion),
+::view-transition-new(teacher-digital) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+  object-fit: contain;
+}
+
+.section-catalog-content {
+  animation: section-content-reveal 560ms 380ms both;
+}
+@keyframes section-content-reveal {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  .section-catalog-content { animation: none; }
+  ::view-transition-group(*) { animation-duration: 0s !important; }
+}
