@@ -3,11 +3,12 @@
 import { useEffect } from 'react';
 
 // These are independent public blocks. The scroll-driven hero, shared portraits,
-// category arrival, tab panels and lesson reading manage their own presentation.
+// category arrival and lesson reading manage their own presentation.
 const entranceTargets = [
   '.learning-photo-media',
   '.welcome-copy',
   '.method-heading',
+  '.method-flow',
   '.community-intro',
   '.community-preview-action',
   '.enrollment-number',

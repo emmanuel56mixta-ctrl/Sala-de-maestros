@@ -27,7 +27,7 @@
       border-color var(--motion-quick), box-shadow var(--motion-gentle);
   }
 
-  .landing :is(.catalog-cover > svg, .course-start-entry > svg:first-child, .method-panel-top > svg, .hub-module-number) {
+  .landing :is(.catalog-cover > svg, .course-start-entry > svg:first-child, .hub-module-number) {
     transition: transform var(--motion-gentle) var(--motion-ease);
     transform-origin: center;
   }
@@ -40,7 +40,7 @@
     transition: background-color 180ms, border-color 180ms;
   }
 
-  .landing :is(.method-tabs button, .lesson-stage-nav button, .case-analysis-controls button, .hub-modules summary, .institution-link-list a) {
+  .landing :is(.lesson-stage-nav button, .case-analysis-controls button, .hub-modules summary, .institution-link-list a) {
     transition: background-color var(--motion-quick), border-color var(--motion-quick), color var(--motion-quick);
   }
 
