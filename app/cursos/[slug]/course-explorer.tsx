@@ -1,5 +1,7 @@
 'use client';
 
+/* eslint-disable @next/next/no-html-link-for-pages -- Shared by Worker and static Pages. */
+
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, ExternalLink, LockKeyhole, X } from 'lucide-react';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -83,17 +85,28 @@ export default function CourseExplorer({ course, lesson, source, outline, hasAcc
     setFocusRequest(request => request + 1);
   };
 
+  // Every outcome ends with a way forward: the full syllabus first, then what the course includes.
+  const nextSteps = <section className="free-lesson-next" aria-labelledby="lesson-next-title">
+    <p className="eyebrow">{correct ? 'TERMINASTE LA LECCIÓN GRATUITA' : 'CUANDO QUIERAS SEGUIR'}</p>
+    <h4 id="lesson-next-title">Sigue con el curso completo</h4>
+    <p>{correct ? 'Practicaste cómo distinguir una barrera de acceso del aprendizaje que se evalúa.' : 'Practicaste con apoyo de la explicación. Puedes intentarlo de nuevo o conocer el resto del curso.'} El curso incluye 18 lecciones, 8 talleres para analizar preguntas y un simulador de 90 reactivos.</p>
+    <div className="free-lesson-next-actions">
+      {hasAccess ? <a href="/asesor" className="primary">Continuar en mi curso <ArrowRight size={18} /></a> : <a className="primary" href={`/cursos/${course.slug}/#hub-route-title`}>Ver el temario completo <ArrowRight size={18} /></a>}
+      {!hasAccess && <button className="secondary" onClick={showAccess}>Qué incluye y cuánto cuesta</button>}
+    </div>
+  </section>;
+
   return <>
-    <section className="course-overview lesson-course-overview">
-      <div><p className="eyebrow">{course.category} · {course.edition}</p><h1>{course.title}</h1><p>{course.description}</p>
-        <div className="course-overview-actions"><button className="primary" onClick={explore}>Ir a la lección gratuita <ArrowRight size={18} /></button>{hasAccess && <a href="/asesor" className="secondary">Abrir mi curso</a>}</div>
-      </div>
-      <div className="lesson-session-card"><BookOpen size={26} aria-hidden="true" /><span>LECCIÓN GRATUITA</span><strong>Lee, responde<br />y revisa.</strong><p>Incluye una lectura, un caso y el análisis de tu respuesta. No necesitas registrarte.</p><small><Clock3 size={15} aria-hidden="true" />{lesson.minutes} minutos estimados</small></div>
-    </section>
+    {/* Compact header: the lesson starts in the first screen instead of repeating the course page. */}
+    <header className="lesson-compact-header">
+      <nav aria-label="Ruta de navegación"><ol className="lesson-breadcrumb"><li><a href="/cursos/">Cursos</a></li><li><a href={`/cursos/${course.slug}/`}>{course.title}</a></li><li aria-current="page">Lección gratuita</li></ol></nav>
+      <p className="lesson-compact-meta">Sin registro · Tus respuestas no se guardan</p>
+      {hasAccess && <a href="/asesor" className="secondary">Abrir mi curso</a>}
+    </header>
     <div className={`course-preview-layout${step === 2 && analysis ? ' lesson-analysis-layout' : ''}`}>
       <article ref={lessonRef} tabIndex={-1} className="free-lesson guided-free-lesson" aria-labelledby="free-lesson-title">
         <div className="free-lesson-meta"><span>LECCIÓN GRATUITA</span><span><Clock3 size={15} aria-hidden="true" />{lesson.minutes} minutos estimados</span></div>
-        <h2 id="free-lesson-title">{lesson.title}</h2><p className="free-lesson-goal">{lesson.goal}</p>
+        <h1 id="free-lesson-title">{lesson.title}</h1><p className="free-lesson-goal">{lesson.goal}</p>
         <nav className="lesson-stage-nav" aria-label="Etapas de la lección">
           <ol>{steps.map((item, index) => <li key={item.name}><button type="button" aria-current={step === index ? 'step' : undefined} disabled={index === 2 && !checked} onClick={() => goToStep(index as Step)}><span aria-hidden="true">0{index + 1}</span><strong>{item.name}</strong></button></li>)}</ol>
           <p>Paso {step + 1} de 3 · {steps[step].name}</p>
@@ -126,10 +139,11 @@ export default function CourseExplorer({ course, lesson, source, outline, hasAcc
             {correct ? <>
               {!analysis && <div className="lesson-takeaway"><p className="eyebrow">EN EL EJEMPLO</p><h4>¿Cómo se resuelve?</h4><p>{lesson.example.decision}</p><small>Puedes volver a la lectura o consultar el documento citado si todavía tienes dudas.</small></div>}
               <div className="lesson-stage-actions"><button className="secondary" onClick={() => goToStep(1)}><ArrowLeft size={17} />Volver a la pregunta</button><button className="text-button" onClick={() => goToStep(0)}>Consultar la lectura <BookOpen size={17} /></button></div>
-              <div className="free-lesson-next"><div><p className="eyebrow">CURSO COMPLETO</p><h4>Conoce las demás lecciones</h4><p>El curso incluye 18 lecciones, ejercicios para resolver preguntas y un simulador de práctica.</p></div>{hasAccess ? <a href="/asesor" className="primary">Continuar en mi curso <ArrowRight size={18} /></a> : <button className="primary" onClick={showAccess}>Ver qué incluye el curso <ArrowRight size={18} /></button>}</div>
+              {nextSteps}
             </> : <>
               <div className="lesson-retry-guidance"><h4>Puedes volver a intentarlo</h4><p>{analysis ? 'Vuelve a la pregunta y contrasta cada opción con la barrera y el aprendizaje señalados. Un acierto después de esta explicación es práctica con apoyo.' : 'Relee la explicación y el ejemplo. Después vuelve a la pregunta y elige otra opción.'}</p></div>
-              <div className="lesson-stage-actions"><button className="secondary" onClick={() => goToStep(1)}><ArrowLeft size={17} />Volver a la pregunta</button><button className="primary" onClick={() => goToStep(0)}>Volver a leer <BookOpen size={17} /></button></div>
+              <div className="lesson-stage-actions"><button className="secondary" onClick={() => goToStep(1)}><ArrowLeft size={17} />Volver a la pregunta</button><button className="text-button" onClick={() => goToStep(0)}>Volver a leer <BookOpen size={17} /></button></div>
+              {nextSteps}
             </>}
           </>}
         </section>

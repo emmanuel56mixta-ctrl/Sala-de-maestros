@@ -3,7 +3,8 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- These anchors also serve the static GitHub Pages build. */
 
 import { useEffect, useRef } from 'react';
-import { ArrowRight, ArrowDown, BookOpen, Monitor } from 'lucide-react';
+import { preload } from 'react-dom';
+import { ArrowRight, BookOpen, Monitor } from 'lucide-react';
 import WordReveal from './word-reveal';
 
 const STATIC_HERO_QUERY = '(prefers-reduced-motion: reduce), (max-height: 699px)';
@@ -12,7 +13,16 @@ const smoothstep = (value: number) => {
   return t * t * (3 - 2 * t);
 };
 
+// Each path is its own string literal so the Pages build can add its base path.
+const portraitSources = [
+  ['/assets/identity/docente-hombre-v2-480.webp', '/assets/identity/docente-hombre-v2.webp', 937],
+  ['/assets/identity/docente-mujer-v2-480.webp', '/assets/identity/docente-mujer-v2.webp', 939],
+].map(([small, large, width]) => `${small} 480w, ${large} ${width}w`);
+const portraitSizes = '(max-width: 767px) 45vw, 30vw';
+
 export default function DepthHero() {
+  // The portraits are the largest first-screen element: preload the WebP candidates, not the PNG fallback.
+  portraitSources.forEach(imageSrcSet => preload(imageSrcSet.split(' ')[0], { as: 'image', type: 'image/webp', imageSrcSet, imageSizes: portraitSizes, fetchPriority: 'high' }));
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLDivElement>(null);
@@ -33,6 +43,7 @@ export default function DepthHero() {
     const courseLinks = Array.from(grid.querySelectorAll<HTMLAnchorElement>('a'));
     const topbar = section.querySelector<HTMLElement>('.hero-topbar');
     const actions = scene.querySelector<HTMLElement>('.depth-actions');
+    const pitch = scene.querySelector<HTMLElement>('.hero-pitch');
     let frame = 0;
     let disposed = false;
 
@@ -45,6 +56,7 @@ export default function DepthHero() {
         portraits.forEach(node => node.removeAttribute('style'));
         spheres.forEach(node => node.removeAttribute('style'));
         grid.inert = false;
+        if (pitch) pitch.inert = false;
         return;
       }
 
@@ -58,7 +70,10 @@ export default function DepthHero() {
       section.style.setProperty('--bar-fill', String(smoothstep(p / .4)));
       section.style.setProperty('--headline-y', `${-(title.offsetTop + title.offsetHeight + 80) * exit}px`);
       section.style.setProperty('--cards-y', `${(1 - entrance) * scene.offsetHeight * .82}px`);
-      section.style.setProperty('--scroll-cue-opacity', String(1 - smoothstep(p / .12)));
+      // The value proposition and main action stay readable until the category choice takes over.
+      const pitchOpacity = 1 - smoothstep(p / .35);
+      section.style.setProperty('--pitch-opacity', String(pitchOpacity));
+      if (pitch) pitch.inert = pitchOpacity < .5 && !pitch.contains(document.activeElement);
       section.style.setProperty('--choice-opacity', String(smoothstep((p - .45) / .4)));
 
       // Center the whole group between its heading and the footer, rather than
@@ -141,12 +156,12 @@ export default function DepthHero() {
   }, []);
 
   return <section ref={root} className="depth-hero" aria-labelledby="landing-title">
-    <noscript><style>{`.depth-hero{height:auto!important;--bar-fill:1!important}.depth-stage{position:relative!important;height:auto!important;padding-top:80px}.depth-heading{position:relative!important;top:auto!important;transform:none!important}.hero-choice-heading{position:relative!important;top:auto!important;opacity:1!important;margin:24px 0 0!important}.hero-people{position:relative!important;inset:auto!important;display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-top:20px}.hero-person{position:relative!important;bottom:auto!important;left:auto!important;width:min(44%,300px)!important;height:auto!important;margin:0!important;transform:none!important}.hero-sphere,.hero-scroll-cue{display:none!important}.hero-feature-cards{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;visibility:visible!important;margin-bottom:24px}.depth-actions{position:relative!important;bottom:auto!important;justify-content:flex-end!important;padding-bottom:24px}`}</style></noscript>
+    <noscript><style>{`.depth-hero{height:auto!important;--bar-fill:1!important}.depth-stage{position:relative!important;height:auto!important;padding-top:80px}.depth-heading{position:relative!important;top:auto!important;transform:none!important}.hero-choice-heading{position:relative!important;top:auto!important;opacity:1!important;margin:24px 0 0!important}.hero-people{position:relative!important;inset:auto!important;display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-top:20px}.hero-person{position:relative!important;bottom:auto!important;left:auto!important;width:min(44%,300px)!important;height:auto!important;margin:0!important;transform:none!important}.hero-sphere{display:none!important}.hero-pitch{opacity:1!important}.hero-feature-cards{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;visibility:visible!important;margin-bottom:24px}.depth-actions{position:relative!important;bottom:auto!important;justify-content:flex-end!important;padding-bottom:24px}`}</style></noscript>
     <header className="hero-topbar">
       <a className="hero-home-wordmark" href="/" aria-label="Sala de Maestros, inicio"><span>SALA DE</span> <span>MAESTROS</span></a>
       <nav className="public-account-nav" aria-label="Navegación principal">
         <a href="/cursos/">Cursos</a>
-        <a className="public-account-link" href="/signin-with-chatgpt?return_to=%2Fasesor">Entrar a mi curso<ArrowRight size={15} aria-hidden="true" /></a>
+        <a className="public-account-link" href="/signin-with-chatgpt?return_to=%2Fasesor" title="Abre el inicio de sesión del asesor con tu cuenta de ChatGPT">Ya tengo cuenta</a>
       </nav>
     </header>
     <div ref={stage} className="depth-stage">
@@ -156,10 +171,8 @@ export default function DepthHero() {
       <div className="hero-sphere hero-sphere-two" aria-hidden="true"/>
       <div className="hero-people" aria-hidden="true">
         {/* These transparent portraits are shared unchanged with the static Pages build. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <div className="hero-person hero-person-0"><img src="/assets/identity/docente-hombre-v2.png" width={937} height={1678} alt="" fetchPriority="high"/></div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <div className="hero-person hero-person-1"><img src="/assets/identity/docente-mujer-v2.png" width={939} height={1674} alt="" fetchPriority="high"/></div>
+        <div className="hero-person hero-person-0"><picture><source type="image/webp" srcSet={portraitSources[0]} sizes={portraitSizes}/><img src="/assets/identity/docente-hombre-v2.png" width={937} height={1678} alt="" fetchPriority="high"/></picture></div>
+        <div className="hero-person hero-person-1"><picture><source type="image/webp" srcSet={portraitSources[1]} sizes={portraitSizes}/><img src="/assets/identity/docente-mujer-v2.png" width={939} height={1674} alt="" fetchPriority="high"/></picture></div>
       </div>
       <div ref={cards} className="hero-feature-cards">
         <article>
@@ -180,7 +193,13 @@ export default function DepthHero() {
         </article>
       </div>
       <div className="depth-actions">
-        <span className="hero-scroll-cue"><ArrowDown size={17} aria-hidden="true"/>Desplázate</span>
+        <div className="hero-pitch">
+          <p className="hero-pitch-text">Cursos en línea para docentes. Prepárate para la promoción con casos reales y la explicación de cada respuesta.</p>
+          <div className="hero-pitch-actions">
+            <a className="hero-pitch-cta" href="/cursos/subdireccion-secundaria/leccion-gratuita/">Probar una lección gratuita<ArrowRight size={18} aria-hidden="true"/></a>
+            <span>15 min · sin registro</span>
+          </div>
+        </div>
         <a className="hero-all-courses" href="/cursos/">Ver todos los cursos<ArrowRight size={18} aria-hidden="true"/></a>
       </div>
     </div>

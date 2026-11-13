@@ -14,7 +14,9 @@ export default function CourseSectionHero({ section, availableCount }: CourseSec
   return <section className="course-section-hero" data-portrait-side={portrait.side} aria-labelledby={headingId}>
     <div className="course-section-portrait" aria-hidden="true">
       {/* A native image shares the same transparent asset and transition name in both hosts. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <picture>
+      {/* WebP keeps the same transparent portrait at a fraction of the PNG weight; the PNG remains the fallback. */}
+      <source type="image/webp" srcSet={`${portrait.src.replace(/\.png$/, '-480.webp')} 480w, ${portrait.src.replace(/\.png$/, '.webp')} ${portrait.width}w`} sizes="(max-width: 767px) 240px, 390px"/>
       <img
         className="course-section-portrait-image"
         data-course-portrait={portrait.transitionName}
@@ -27,6 +29,7 @@ export default function CourseSectionHero({ section, availableCount }: CourseSec
         fetchPriority="high"
         decoding="async"
       />
+      </picture>
     </div>
     <div className="course-section-context">
       <p className="course-section-kicker">CURSOS</p>

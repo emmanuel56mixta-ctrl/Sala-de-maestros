@@ -104,7 +104,7 @@ function verifyCatalog(html, section, prefix = '') {
   }
   for (const card of actualCards) {
     const offering = offerings.find(course => course.slug === cardSlug(card, prefix));
-    const status = card.match(/<p\b[^>]*class="eyebrow"[^>]*>([^<]*)<\/p>/)?.[1];
+    const status = card.match(/<p\b[^>]*class="eyebrow\b[^"]*"[^>]*>([^<]*)<\/p>/)?.[1];
     assert.ok(status, `The ${offering.slug} card must disclose its own availability.`);
     assert.equal(/^DISPONIBLE\b/.test(status), offering.available, `Available status must remain accurate for ${offering.slug}.`);
     assert.equal(status === 'PRÓXIMAMENTE', !offering.available, `Upcoming status must remain accurate for ${offering.slug}.`);

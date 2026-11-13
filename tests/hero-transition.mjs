@@ -68,7 +68,8 @@ function verifyHome(html, prefix) {
   const links = tags(html, 'a').filter(a => hasClass(a, 'hero-course-link'));
   assert.deepEqual(links.map(link => link.href), expected.map(item => `${prefix}/cursos/${item.slug}/`), 'Both choices must be ordinary, deployment-correct directory links in SSR.');
   for (const link of links) assert.ok(!link.role && !link.target && !link.download, 'Category choices retain default same-window anchor semantics.');
-  const containers = [...html.matchAll(/<div\b[^>]*class="[^"]*\bhero-person-\d+\b[^"]*"[^>]*>\s*(<img\b[^>]*>)/g)];
+  // A <picture> may offer lighter WebP sources; the <img> fallback keeps the original PNG contract.
+  const containers = [...html.matchAll(/<div\b[^>]*class="[^"]*\bhero-person-\d+\b[^"]*"[^>]*>\s*(?:<picture>\s*(?:<source\b[^>]*>\s*)*)?(<img\b[^>]*>)/g)];
   assert.equal(containers.length, 2);
   for (const [index, container] of containers.entries()) {
     assert.ok(hasClass(attrs(container[0].slice(0, container[0].indexOf('>') + 1)), `hero-person-${index}`));

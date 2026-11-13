@@ -1,5 +1,20 @@
 # Sala de Maestros
 
+## Mejoras de la segunda auditoría UX/UI (12 de noviembre de 2026)
+
+- Rama `ux/mejoras-auditoria`, a partir de `codex/recorrido-docente-guiado`. Aplica la ola 1 de la auditoría publicada (diagnóstico de recorrido, consistencia, accesibilidad y rendimiento) y convierte `DESIGN.md` al formato de tokens de getdesign.md / Google.
+- Portada: el primer cuadro muestra la propuesta de valor y «Probar una lección gratuita · 15 min · sin registro» sobre una tarjeta propia. Se retira «Desplázate». La tarjeta se desvanece y queda `inert` cuando aparecen las categorías; en pantallas bajas y con movimiento reducido sigue al título en el flujo normal. «Ver todos los cursos» tiene fondo propio para no perderse sobre la fotografía.
+- Retratos: WebP de 480 px y tamaño completo con `<picture>` y precarga de esos candidatos (unos 82–234 KB frente a 3,2 MB de PNG). El PNG se conserva como alternativa, con los mismos nombres de View Transitions.
+- Cuenta: «Entrar a mi curso» pasa a «Ya tengo cuenta», con `title` y una nota en el pie que explica que abre el inicio de sesión del asesor. El destino no cambia.
+- Ficha: el asistente de dos preguntas se sustituye por tres accesos directos (pregunta 5 min recomendada, lectura 15 min, temario). `lib/course-orientation.ts` sigue generando los destinos.
+- Catálogo: estado como chip, curso disponible destacado; los próximos muestran «Precio previsto» en texto secundario y un botón secundario. El panel de precio de un curso próximo dice «Próximamente».
+- Lección: cabecera compacta con ruta de navegación y el título de la lección como H1; la lección empieza en el primer cuadro. Tras la explicación, acierte o no, aparece «Sigue con el curso completo» con el temario y el detalle de acceso. Pendiente: lista de espera con correo, que requiere un servicio para guardarlo.
+- Voces en tres tarjetas estáticas; portales oficiales como enlaces de texto, sin logotipos ni movimiento continuo.
+- Ningún texto público por debajo de 12 px (39 declaraciones corregidas). Tokens `--success`/`--warning` en `globals.css`. Se corrige `.text-button:hover`, que volvía blanco el texto sobre fondo claro.
+- `scripts/check-design.mjs` comprueba el mínimo de 12 px y reporta la deuda de colores y radios (`--strict` para hacerla obligatoria).
+- Validación: TypeScript, las cinco pruebas y sus variantes `--pages-build`, compilación de Pages y revisión en navegador a 1280×800 y 375×812 (portada, catálogo, ficha, lección completa con respuesta incorrecta y cierre). No se publicó la compilación en la raíz (`pnpm publish:pages`) ni se probó el Worker con inicio de sesión real.
+- La entrada «Orientación y lección guiada» y el contrato inicial mencionan bermellón; esa paleta quedó sustituida por la petróleo descrita en `DESIGN.md`.
+
 ## Auditoría UX/UI y navegación pública (12 de noviembre de 2026)
 
 - `docs/ux-ui-audit.md` recoge el diagnóstico, prioridades, fuentes de getdesign.md/W3C y límites; `DESIGN.md` fija reglas adoptadas para lectura, espacio, estados y movimiento conservando la identidad.
