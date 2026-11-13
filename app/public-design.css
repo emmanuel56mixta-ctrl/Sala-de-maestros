@@ -86,13 +86,6 @@
 }
 .welcome-primary svg { flex: none; }
 .welcome-primary:hover { background: var(--brand-dark); }
-.welcome-note,
-.community-preview-action p {
-  margin: 12px 0 0;
-  color: var(--text-muted);
-  font-size: .8125rem;
-  line-height: 1.6;
-}
 .welcome-learning-photo {
   grid-column: auto;
   margin: 0;
@@ -128,8 +121,7 @@
 .landing :is(.course-price-panel, .course-outline, .free-lesson) { border-radius: 12px; }
 .catalog-course small,
 .catalog-price span,
-.course-outline li small,
-.learning-photo figcaption { font-size: .8125rem; }
+.course-outline li small { font-size: .8125rem; }
 .free-lesson h2,
 .course-outline h2 { letter-spacing: -.025em; }
 .free-lesson-reading p,
@@ -214,7 +206,6 @@
 .lesson-breadcrumb li + li::before { content: "/"; margin-right: 8px; color: var(--line-strong); }
 .lesson-breadcrumb a { color: var(--brand-dark); text-decoration: underline; text-underline-offset: 3px; display: inline-flex; min-height: 44px; align-items: center; }
 .lesson-breadcrumb [aria-current] { color: var(--text-muted); display: inline-flex; min-height: 44px; align-items: center; }
-.lesson-compact-meta { display: flex; align-items: center; gap: 8px; margin: 0; font-size: .875rem; color: var(--text-muted); }
 .free-lesson h1 {
   font: 700 clamp(1.6rem, 3vw, 2.25rem)/1.2 Poppins, Arial, sans-serif;
   letter-spacing: -.025em;

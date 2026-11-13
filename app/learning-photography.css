@@ -20,13 +20,6 @@
   background: var(--surface-alt);
 }
 
-.learning-photo figcaption {
-  padding-top: 9px;
-  color: var(--text-muted);
-  font-size: .75rem;
-  line-height: 1.5;
-}
-
 .welcome-learning-photo {
   grid-column: 1 / -1;
   margin-top: -18px;

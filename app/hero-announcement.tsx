@@ -70,7 +70,7 @@ export default function HeroAnnouncement() {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
         if (openAnnouncement()) event.preventDefault();
       }}>Probar una lección gratuita<ArrowRight size={18} aria-hidden="true" /></a>
-      <span className="hero-invitation-note">15–20 min · Sin registro</span>
+      <span className="hero-invitation-note">15–20 min</span>
     </div>
     <dialog ref={dialog} className="hero-announcement" aria-labelledby="hero-announcement-title" aria-describedby="hero-announcement-description" onClick={event => {
       if (event.target !== event.currentTarget) return;
@@ -87,9 +87,7 @@ export default function HeroAnnouncement() {
         <h2 id="hero-announcement-title" ref={title} tabIndex={-1}>Prepárate con<br />casos reales.</h2>
         <p id="hero-announcement-description">Resuelve una situación escolar y descubre qué hace sólida una respuesta.</p>
         <a className="primary hero-announcement-cta" href="/cursos/subdireccion-secundaria/leccion-gratuita/">Probar una lección gratuita<ArrowRight size={18} aria-hidden="true" /></a>
-        <p className="hero-announcement-meta"><Clock3 size={15} aria-hidden="true" />15–20 min estimados · Sin registro</p>
-        <span className="hero-announcement-course">Subdirección de secundaria</span>
-        <small className="hero-announcement-credit">Imagen ilustrativa generada con IA.</small>
+        <p className="hero-announcement-meta"><Clock3 size={15} aria-hidden="true" />15–20 min estimados</p>
       </div>
     </dialog>
   </>;

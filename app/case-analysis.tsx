@@ -4,6 +4,7 @@ import { useId, useState } from 'react';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import type { AnalysisStep, CaseAnalysisPlan } from '@/lib/case-analysis';
 import './case-analysis.css';
+import { playUISound } from '@/lib/interface-audio';
 
 export default function CaseAnalysis({ plan }: { plan: CaseAnalysisPlan }) {
   return <CaseAnalysisSession key={plan.id} plan={plan} />;
@@ -37,6 +38,7 @@ function CaseAnalysisSession({ plan }: { plan: CaseAnalysisPlan }) {
   if (!activeStep) return null;
 
   const visitStep = (next: number) => {
+    playUISound('step');
     setIndex(Math.max(0, Math.min(lastIndex, next)));
     setHasNavigated(true);
   };

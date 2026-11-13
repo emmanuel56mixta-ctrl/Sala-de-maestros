@@ -15,7 +15,7 @@ import "./interaction-motion.css";
 
 export const metadata: Metadata = {
   title: "Sala de Maestros",
-  description: "Un espacio propio para encontrarse, aprender y prepararse. Cursos en línea para la práctica docente y el desarrollo profesional, a tu ritmo.",
+  description: "Un espacio propio para encontrarse, aprender y prepararse entre docentes. Cursos en línea para la práctica docente y el desarrollo profesional, a tu ritmo.",
   icons: {
     icon: "/assets/identity/favicon.svg",
     shortcut: "/assets/identity/favicon.svg",

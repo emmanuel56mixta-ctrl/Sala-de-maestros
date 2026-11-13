@@ -449,17 +449,20 @@
     font-size:.75rem;
   }
   .depth-heading {
-    top:23%;
+    top:clamp(96px,15svh,144px);
   }
   .hero-choice-heading {
     top:78px;
   }
   .landing .depth-heading h1 {
-    font-size:16.5vw;
+    font-size:clamp(3.3rem,16.5vw,4.75rem);
     line-height:.98;
   }
   .hero-person {
-    height:78%;
+    width:46%;
+    max-width:calc(var(--hero-portrait-room,calc(55svh - 160px)) * .558);
+    height:auto;
+    bottom:var(--hero-portrait-floor,210px);
   }
   .hero-person-0 {
     left:27%;
@@ -504,12 +507,14 @@
     max-width:none;
   }
   .hero-sphere-one {
-    left:1%;
-    top:51%;
+    left:2%;
+    top:auto;
+    bottom:calc(var(--hero-portrait-floor,210px) + 24px);
   }
   .hero-sphere-two {
-    right:0;
-    top:30%;
+    right:2%;
+    top:auto;
+    bottom:calc(var(--hero-portrait-floor,210px) + 52px);
   }
   .depth-actions {
     bottom:16px;
@@ -597,6 +602,7 @@
     left:auto;
     height:auto;
     width:min(44%,300px);
+    max-width:none;
     margin:0;
     transform:none;
     flex-shrink:0;
