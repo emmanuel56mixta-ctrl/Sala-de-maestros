@@ -192,6 +192,12 @@ Tres radios y nada más: `sm` 6 px (controles), `md` 12 px (contenedores), `full
 - **Retroalimentación**: callout con la palabra de estado en negrita, seguida de la razón en una frase. Nunca solo color.
 - **Cierre de lección**: primero se presenta el resultado de cada caso, distinguiendo primer intento y respuesta tras la explicación. Después del criterio transferible aparece una sola acción para conocer el curso completo.
 
+## Anuncio de portada
+
+La invitación a la lección gratuita aparece en un diálogo frontal con fotografía, título y CTA, conservando Poppins, Aileron y los colores de marca. Se muestra automáticamente una vez por pestaña; la invitación de portada permite volver a abrirlo. La X, Escape y el fondo permiten cerrarlo. El diálogo nativo conserva acceso por teclado, limita su altura a la pantalla y devuelve el foco al cerrar. Sin JavaScript, la invitación enlaza directamente con la lección.
+
+Los dos docentes llevan círculos amplios detrás de su retrato. Estos círculos comparten su movimiento y no cambian la geometría de las imágenes usadas en la transición entre páginas.
+
 ## States
 
 - **Cargando**: se conserva la estructura y el nombre de la acción ("Comprobando…").
@@ -203,7 +209,7 @@ Tres radios y nada más: `sm` 6 px (controles), `md` 12 px (contenedores), `full
 
 Las respuestas a pulsaciones duran 180–320 ms; las entradas de bloques y el zoom de fotografías, 620–900 ms. Las tarjetas se elevan ligeramente y sus iconos crecen al pasar el cursor; las fotos mantienen el zoom dentro de su marco. Los grupos de tarjetas se escalonan 70–140 ms. La transición de retratos de 620 ms se mantiene.
 
-Las entradas ocurren una sola vez, sin ocultar contenido antes de que cargue JavaScript ni sumar transformaciones a la escena de portada. La lectura y las opciones permanecen estables; al cambiar de etapa o de paso del análisis, el contenido completo entra en 220–280 ms. No hay bucles ni carruseles automáticos. Con `prefers-reduced-motion: reduce`, todo aparece en su sitio sin animar, incluso si la preferencia cambia durante la visita.
+Las entradas ocurren una sola vez, sin ocultar contenido antes de que cargue JavaScript ni sumar transformaciones a la escena de portada. La lectura y las opciones permanecen estables; al cambiar de etapa o de paso del análisis, el contenido completo entra en 220–280 ms. El único bucle decorativo es una línea de 2 px que recorre en 11 segundos el borde de las dos tarjetas de portada; se pausa fuera de la escena o al ocultar la pestaña. No hay carruseles automáticos. Con `prefers-reduced-motion: reduce`, todo aparece en su sitio sin animar, incluso si la preferencia cambia durante la visita.
 
 ## Do's and Don'ts
 

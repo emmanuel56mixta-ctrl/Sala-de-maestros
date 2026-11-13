@@ -1,0 +1,161 @@
+.hero-pitch.hero-pitch-invitation {
+  gap: 10px;
+  padding: 16px 18px;
+  width: max-content;
+  max-width: 100%;
+}
+.hero-invitation-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--brand-dark);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+.hero-invitation-note {
+  font-size: .8125rem;
+  color: var(--text-muted);
+}
+.hero-announcement:not([open]) { display: none; }
+.hero-announcement {
+  position: fixed;
+  inset: 0;
+  width: min(430px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100svh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--canvas);
+  color: var(--ink);
+  box-shadow: 0 28px 90px color-mix(in srgb, var(--brand-dark) 32%, transparent);
+  text-align: center;
+  pointer-events: auto;
+}
+.hero-announcement::backdrop {
+  background: color-mix(in srgb, var(--brand-dark) 44%, transparent);
+  backdrop-filter: blur(2px);
+}
+.hero-announcement-close {
+  position: sticky;
+  z-index: 2;
+  top: 10px;
+  margin: 10px 10px -54px auto;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--canvas);
+  color: var(--brand-dark);
+  cursor: pointer;
+}
+.hero-announcement-close:hover { background: var(--brand-soft); }
+.hero-announcement-photo {
+  height: clamp(160px, 27svh, 220px);
+  overflow: hidden;
+  position: relative;
+  background: var(--sand-soft);
+}
+.hero-announcement-photo::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 50px;
+  background: linear-gradient(transparent, var(--canvas));
+  pointer-events: none;
+}
+.hero-announcement-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+.hero-announcement-copy { padding: 0 30px 24px; }
+.hero-announcement-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: -6px auto 14px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--brand-dark);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+.landing .hero-announcement h2 {
+  margin: 0 0 14px;
+  font: 700 clamp(1.75rem, 4vw, 2.1rem)/1.12 Poppins, Arial, sans-serif;
+  letter-spacing: -.035em;
+  color: var(--brand-dark);
+}
+.hero-announcement h2:focus { outline: none; }
+.hero-announcement-copy > p:not([class]) {
+  margin: 0 0 22px;
+  font: 400 1rem/1.55 Aileron, Arial, sans-serif;
+  color: var(--text-muted);
+}
+.hero-announcement-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 12px;
+  font-size: .9375rem;
+  text-decoration: none;
+}
+.hero-announcement-cta svg { flex: none; }
+.hero-announcement-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 14px 0 4px;
+  color: var(--text-muted);
+  font-size: .8125rem;
+  line-height: 1.5;
+}
+.hero-announcement-course {
+  display: block;
+  color: var(--brand-dark);
+  font-size: .8125rem;
+}
+.hero-announcement-credit {
+  display: block;
+  margin-top: 16px;
+  color: var(--text-muted);
+  font-size: .75rem;
+}
+.hero-announcement :is(a, button):focus-visible {
+  outline: 3px solid var(--brand-dark);
+  outline-offset: 3px;
+}
+@media (max-width: 480px) {
+  .hero-announcement-copy { padding: 0 22px 20px; }
+  .hero-announcement-meta { font-size: .75rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-announcement[open] { animation: announcement-arrive 420ms cubic-bezier(.22, .68, .2, 1); }
+  .hero-announcement[open]::backdrop { animation: announcement-backdrop 280ms ease-out; }
+}
+@keyframes announcement-arrive {
+  from { opacity: .7; transform: translateY(12px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes announcement-backdrop {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

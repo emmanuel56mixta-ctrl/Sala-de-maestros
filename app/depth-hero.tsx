@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 import { preload } from 'react-dom';
 import { ArrowRight, BookOpen, Monitor } from 'lucide-react';
 import WordReveal from './word-reveal';
+import HeroAnnouncement from './hero-announcement';
 
 const STATIC_HERO_QUERY = '(prefers-reduced-motion: reduce), (max-height: 699px)';
 const smoothstep = (value: number) => {
@@ -43,6 +44,7 @@ export default function DepthHero() {
     const courseLinks = Array.from(grid.querySelectorAll<HTMLAnchorElement>('a'));
     const topbar = section.querySelector<HTMLElement>('.hero-topbar');
     const actions = scene.querySelector<HTMLElement>('.depth-actions');
+    const allCourses = scene.querySelector<HTMLElement>('.hero-all-courses');
     const pitch = scene.querySelector<HTMLElement>('.hero-pitch');
     let frame = 0;
     let disposed = false;
@@ -57,6 +59,8 @@ export default function DepthHero() {
         spheres.forEach(node => node.removeAttribute('style'));
         grid.inert = false;
         if (pitch) pitch.inert = false;
+        const rect = grid.getBoundingClientRect();
+        section.dataset.choiceVisible = String(rect.bottom > 0 && rect.top < window.innerHeight && document.visibilityState === 'visible');
         return;
       }
 
@@ -79,7 +83,10 @@ export default function DepthHero() {
       // Center the whole group between its heading and the footer, rather than
       // anchoring the cards to the bottom and leaving tall screens empty above.
       const top = choiceTitle.offsetTop + choiceTitle.offsetHeight + 20;
-      const bottom = (actions?.offsetHeight ?? 44) + 46;
+      // Once the invitation fades, only the catalogue link needs footer space.
+      // Interpolate this allowance so the teachers grow into the released room.
+      const footerHeight = allCourses?.offsetHeight ?? 44;
+      const bottom = footerHeight + Math.max(0, (actions?.offsetHeight ?? footerHeight) - footerHeight) * pitchOpacity + 46;
       const availableHeight = Math.max(0, scene.offsetHeight - top - bottom);
       const portraitHeight = Math.max(0, Math.min(320,
         availableHeight - grid.offsetHeight + 14,
@@ -109,6 +116,7 @@ export default function DepthHero() {
 
       // Transformed cards must not receive focus while clipped outside the scene.
       const sceneRect = scene.getBoundingClientRect();
+      section.dataset.choiceVisible = String(p > .8 && sceneRect.bottom > 80 && sceneRect.top < window.innerHeight && document.visibilityState === 'visible');
       const visibleTop = Math.max(sceneRect.top, 0) + (topbar?.offsetHeight ?? 64);
       const visibleBottom = Math.min(sceneRect.bottom, window.innerHeight);
       grid.inert = !grid.contains(document.activeElement) && !courseLinks.every(link => {
@@ -122,6 +130,7 @@ export default function DepthHero() {
     };
 
     const onPageHide = () => {
+      section.dataset.choiceVisible = 'false';
       cancelAnimationFrame(frame);
       frame = 0;
     };
@@ -129,12 +138,17 @@ export default function DepthHero() {
       update();
       schedule();
     };
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') section.dataset.choiceVisible = 'false';
+      else schedule();
+    };
     const resize = new ResizeObserver(schedule);
-    [section, scene, grid, choiceTitle].forEach(node => resize.observe(node));
+    [section, scene, grid, choiceTitle, ...(actions ? [actions] : [])].forEach(node => resize.observe(node));
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     window.addEventListener('pagehide', onPageHide);
     window.addEventListener('pageshow', onPageShow);
+    document.addEventListener('visibilitychange', onVisibilityChange);
     grid.addEventListener('focusin', schedule);
     grid.addEventListener('focusout', schedule);
     media.addEventListener('change', schedule);
@@ -149,6 +163,7 @@ export default function DepthHero() {
       window.removeEventListener('resize', schedule);
       window.removeEventListener('pagehide', onPageHide);
       window.removeEventListener('pageshow', onPageShow);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       grid.removeEventListener('focusin', schedule);
       grid.removeEventListener('focusout', schedule);
       media.removeEventListener('change', schedule);
@@ -193,13 +208,7 @@ export default function DepthHero() {
         </article>
       </div>
       <div className="depth-actions">
-        <div className="hero-pitch">
-          <p className="hero-pitch-text">Cursos en línea para docentes. Prepárate para la promoción con casos reales y la explicación de cada respuesta.</p>
-          <div className="hero-pitch-actions">
-            <a className="hero-pitch-cta" href="/cursos/subdireccion-secundaria/leccion-gratuita/">Probar una lección gratuita<ArrowRight size={18} aria-hidden="true"/></a>
-            <span>15–20 min estimados · sin registro</span>
-          </div>
-        </div>
+        <HeroAnnouncement />
         <a className="hero-all-courses" href="/cursos/">Ver todos los cursos<ArrowRight size={18} aria-hidden="true"/></a>
       </div>
     </div>

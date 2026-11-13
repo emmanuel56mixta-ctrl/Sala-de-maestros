@@ -97,6 +97,28 @@
   transform-origin:50% 100%;
   will-change:transform;
 }
+/* Each disc shares the portrait's existing journey and stays behind its image. */
+.hero-person::before {
+  content:"";
+  position:absolute;
+  top:8%;
+  left:50%;
+  width:158%;
+  aspect-ratio:1;
+  border-radius:50%;
+  z-index:-1;
+  pointer-events:none;
+  transform:translateX(-50%);
+  background:radial-gradient(circle at 32% 26%,color-mix(in srgb,var(--brand-soft) 90%,var(--surface)) 0%,color-mix(in srgb,var(--brand) 22%,var(--canvas)) 74%,color-mix(in srgb,var(--brand) 30%,var(--canvas)) 100%);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--brand) 12%,transparent);
+}
+.hero-person-1::before {
+  background:radial-gradient(circle at 32% 26%,var(--sand-soft) 0%,color-mix(in srgb,var(--sand) 54%,var(--canvas)) 74%,color-mix(in srgb,var(--sand) 68%,var(--canvas)) 100%);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sand) 38%,transparent);
+}
+.depth-hero[data-motion=on] .hero-person::before {
+  opacity:var(--choice-opacity,0);
+}
 .hero-person img {
   width:100%;
   height:100%;
@@ -147,6 +169,9 @@
   visibility:hidden;
 }
 .hero-feature-cards article {
+  position:relative;
+  isolation:isolate;
+  --hero-frame-color:var(--brand);
   display:flex;
   flex-direction:column;
   align-items:stretch;
@@ -158,9 +183,52 @@
   min-width:0;
 }
 .hero-feature-cards article:last-child {
+  --hero-frame-color:var(--sand-soft);
   background:var(--brand);
   border-color:var(--brand);
   color:var(--surface);
+}
+/* A short light trail follows only the border; the centre remains transparent. */
+@property --hero-frame-angle {
+  syntax:"<angle>";
+  initial-value:0deg;
+  inherits:false;
+}
+@supports (mask-composite:exclude) or (-webkit-mask-composite:xor) {
+  .hero-feature-cards article::before {
+    content:"";
+    position:absolute;
+    inset:-1px;
+    border-radius:inherit;
+    padding:2px;
+    pointer-events:none;
+    background:conic-gradient(from var(--hero-frame-angle),transparent 0deg 280deg,color-mix(in srgb,var(--hero-frame-color) 28%,transparent) 302deg,var(--hero-frame-color) 327deg,transparent 350deg 360deg);
+    -webkit-mask:linear-gradient(var(--ink) 0 0) content-box,linear-gradient(var(--ink) 0 0);
+    mask:linear-gradient(var(--ink) 0 0) content-box,linear-gradient(var(--ink) 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    opacity:.9;
+  }
+  @media (prefers-reduced-motion:no-preference) {
+    .depth-hero .hero-feature-cards article::before {
+      animation:hero-frame-orbit 11s linear infinite;
+      animation-play-state:paused;
+    }
+    .depth-hero .hero-feature-cards article:last-child::before {
+      animation-delay:-4s;
+    }
+    .depth-hero[data-choice-visible=true] .hero-feature-cards article::before {
+      animation-play-state:running;
+    }
+  }
+}
+@keyframes hero-frame-orbit {
+  to { --hero-frame-angle:360deg; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .hero-feature-cards article::before {
+    display:none;
+  }
 }
 .hero-feature-cards article>span {
   display:flex;
@@ -485,6 +553,9 @@
     margin:0;
     transform:none;
     flex-shrink:0;
+  }
+  .hero-person::before {
+    width:min(158%,320px);
   }
   .hero-sphere {
     display:none;
