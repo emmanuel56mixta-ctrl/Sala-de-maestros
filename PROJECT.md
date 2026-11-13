@@ -1,5 +1,12 @@
 # Sala de Maestros
 
+## Portada con desplazamiento breve (12 de noviembre de 2026)
+
+- El tramo sticky de la portada pasa de tres alturas de pantalla a una altura más 100–140 px. Los retratos terminan de colocarse al 85 % de ese recorrido, aproximadamente 85–119 px, conservando el scroll natural, reversible y sin interceptar rueda o gestos.
+- El conjunto de retratos y tarjetas se centra entre «Elige qué quieres estudiar» y el acceso al catálogo completo. La altura final de las personas se calcula a partir del espacio disponible y del ancho real de las tarjetas; los títulos de las tarjetas usan peso 700 y una separación más legible.
+- Hasta 699 px de alto y con movimiento reducido se usa contenido en flujo normal. La variante sin JavaScript también muestra el encabezado y los enlaces. Un acceso que tiene foco conserva la composición visible al regresar arriba; focusin/focusout recalculan el estado, con limpieza al desmontar.
+- Verificación: gesto de 101 px en escritorio y 118 px en móvil de 390×844, acceso a ambos enlaces, reversión al inicio y foco visible al volver a scroll 0. TypeScript, ESLint específico, pruebas SSR de transiciones y compilaciones Worker/Pages. Movimiento reducido se revisa en código; no se cambia la preferencia del sistema.
+
 ## Retratos permanentes en las categorías (12 de noviembre de 2026)
 
 - Sustituye la ampliación centrada de 740 ms descrita en el registro anterior. El mismo PNG de la portada permanece en el destino, con sus proporciones originales: hombre a la izquierda en Promoción docente y mujer a la derecha en Herramientas digitales e IA. El recuadro de título, descripción y acceso al catálogo aparece al lado opuesto; después se presentan las categorías, las tarjetas con su disponibilidad y la fotografía contextual de docentes jóvenes.

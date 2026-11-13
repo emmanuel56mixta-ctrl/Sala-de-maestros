@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 import { ArrowRight, ArrowDown, BookOpen, Monitor } from 'lucide-react';
 import WordReveal from './word-reveal';
 
-const STATIC_HERO_QUERY = '(prefers-reduced-motion: reduce), (max-height: 599px)';
+const STATIC_HERO_QUERY = '(prefers-reduced-motion: reduce), (max-height: 699px)';
 const smoothstep = (value: number) => {
   const t = Math.min(1, Math.max(0, value));
   return t * t * (3 - 2 * t);
@@ -16,19 +16,23 @@ export default function DepthHero() {
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLDivElement>(null);
+  const choiceHeading = useRef<HTMLParagraphElement>(null);
   const cards = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = root.current;
     const scene = stage.current;
     const title = heading.current;
+    const choiceTitle = choiceHeading.current;
     const grid = cards.current;
-    if (!section || !scene || !title || !grid) return;
+    if (!section || !scene || !title || !choiceTitle || !grid) return;
 
     const media = window.matchMedia(STATIC_HERO_QUERY);
     const portraits = Array.from(scene.querySelectorAll<HTMLElement>('.hero-person'));
     const spheres = Array.from(scene.querySelectorAll<HTMLElement>('.hero-sphere'));
     const courseLinks = Array.from(grid.querySelectorAll<HTMLAnchorElement>('a'));
+    const topbar = section.querySelector<HTMLElement>('.hero-topbar');
+    const actions = scene.querySelector<HTMLElement>('.depth-actions');
     let frame = 0;
     let disposed = false;
 
@@ -45,23 +49,38 @@ export default function DepthHero() {
       }
 
       section.dataset.motion = 'on';
-      const p = Math.min(1, Math.max(0, -section.getBoundingClientRect().top
+      // Keep keyboard-focused choices visible if the page is scrolled back up.
+      const p = grid.contains(document.activeElement) ? 1 : Math.min(1, Math.max(0, -section.getBoundingClientRect().top
         / Math.max(1, section.offsetHeight - scene.offsetHeight)));
-      const morph = smoothstep((p - .12) / .68);
-      const entrance = smoothstep((p - .28) / .42);
-      const exit = smoothstep((p - .025) / .42);
+      const morph = smoothstep(p / .85);
+      const entrance = smoothstep((p - .05) / .75);
+      const exit = smoothstep(p / .45);
       section.style.setProperty('--bar-fill', String(smoothstep(p / .4)));
       section.style.setProperty('--headline-y', `${-(title.offsetTop + title.offsetHeight + 80) * exit}px`);
       section.style.setProperty('--cards-y', `${(1 - entrance) * scene.offsetHeight * .82}px`);
       section.style.setProperty('--scroll-cue-opacity', String(1 - smoothstep(p / .12)));
+      section.style.setProperty('--choice-opacity', String(smoothstep((p - .45) / .4)));
+
+      // Center the whole group between its heading and the footer, rather than
+      // anchoring the cards to the bottom and leaving tall screens empty above.
+      const top = choiceTitle.offsetTop + choiceTitle.offsetHeight + 20;
+      const bottom = (actions?.offsetHeight ?? 44) + 46;
+      const availableHeight = Math.max(0, scene.offsetHeight - top - bottom);
+      const portraitHeight = Math.max(0, Math.min(320,
+        availableHeight - grid.offsetHeight + 14,
+        ...portraits.map((node, index) => Math.min(node.offsetHeight * .58,
+          (grid.children[index] as HTMLElement).offsetWidth * .78 * node.offsetHeight / node.offsetWidth))));
+      const groupHeight = portraitHeight + grid.offsetHeight - 14;
+      const groupTop = top + Math.max(0, (availableHeight - groupHeight) / 2);
+      const cardsTop = groupTop + portraitHeight - 14;
+      section.style.setProperty('--cards-top', `${cardsTop}px`);
 
       portraits.forEach((node, index) => {
         const card = grid.children[index] as HTMLElement;
-        const scale = Math.min(.44, card.offsetWidth * .78 / node.offsetWidth,
-          scene.offsetHeight * .30 / node.offsetHeight);
+        const scale = portraitHeight / node.offsetHeight;
         const targetX = grid.offsetLeft + card.offsetLeft + card.offsetWidth / 2;
         const x = targetX - node.offsetLeft;
-        const y = grid.offsetTop + 14 - scene.offsetHeight;
+        const y = cardsTop + 14 - scene.offsetHeight;
         node.style.setProperty('--person-x', `${x * morph}px`);
         node.style.setProperty('--person-y', `${y * morph}px`);
         node.style.setProperty('--person-scale', String(1 + (scale - 1) * morph));
@@ -75,9 +94,9 @@ export default function DepthHero() {
 
       // Transformed cards must not receive focus while clipped outside the scene.
       const sceneRect = scene.getBoundingClientRect();
-      const visibleTop = Math.max(sceneRect.top, 0) + 64;
+      const visibleTop = Math.max(sceneRect.top, 0) + (topbar?.offsetHeight ?? 64);
       const visibleBottom = Math.min(sceneRect.bottom, window.innerHeight);
-      grid.inert = !courseLinks.every(link => {
+      grid.inert = !grid.contains(document.activeElement) && !courseLinks.every(link => {
         const rect = link.getBoundingClientRect();
         return rect.top >= visibleTop && rect.bottom <= visibleBottom - 8;
       });
@@ -96,11 +115,13 @@ export default function DepthHero() {
       schedule();
     };
     const resize = new ResizeObserver(schedule);
-    [section, scene, grid].forEach(node => resize.observe(node));
+    [section, scene, grid, choiceTitle].forEach(node => resize.observe(node));
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     window.addEventListener('pagehide', onPageHide);
     window.addEventListener('pageshow', onPageShow);
+    grid.addEventListener('focusin', schedule);
+    grid.addEventListener('focusout', schedule);
     media.addEventListener('change', schedule);
     void document.fonts.ready.then(schedule);
     update();
@@ -113,15 +134,18 @@ export default function DepthHero() {
       window.removeEventListener('resize', schedule);
       window.removeEventListener('pagehide', onPageHide);
       window.removeEventListener('pageshow', onPageShow);
+      grid.removeEventListener('focusin', schedule);
+      grid.removeEventListener('focusout', schedule);
       media.removeEventListener('change', schedule);
     };
   }, []);
 
   return <section ref={root} className="depth-hero" aria-labelledby="landing-title">
-    <noscript><style>{`.depth-hero{height:auto!important;--bar-fill:1!important}.depth-stage{position:relative!important;height:auto!important;padding-top:80px}.depth-heading{position:relative!important;top:auto!important;transform:none!important}.hero-people{position:relative!important;inset:auto!important;display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-top:20px}.hero-person{position:relative!important;bottom:auto!important;left:auto!important;width:min(44%,300px)!important;height:auto!important;margin:0!important;transform:none!important}.hero-sphere,.hero-scroll-cue{display:none!important}.hero-feature-cards{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;visibility:visible!important;margin-bottom:24px}.depth-actions{position:relative!important;bottom:auto!important;justify-content:flex-end!important;padding-bottom:24px}`}</style></noscript>
+    <noscript><style>{`.depth-hero{height:auto!important;--bar-fill:1!important}.depth-stage{position:relative!important;height:auto!important;padding-top:80px}.depth-heading{position:relative!important;top:auto!important;transform:none!important}.hero-choice-heading{position:relative!important;top:auto!important;opacity:1!important;margin:24px 0 0!important}.hero-people{position:relative!important;inset:auto!important;display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-top:20px}.hero-person{position:relative!important;bottom:auto!important;left:auto!important;width:min(44%,300px)!important;height:auto!important;margin:0!important;transform:none!important}.hero-sphere,.hero-scroll-cue{display:none!important}.hero-feature-cards{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;visibility:visible!important;margin-bottom:24px}.depth-actions{position:relative!important;bottom:auto!important;justify-content:flex-end!important;padding-bottom:24px}`}</style></noscript>
     <header className="hero-topbar"><a href="/" aria-label="Sala de Maestros, inicio">SALA DE MAESTROS</a><span>UN ESPACIO PROPIO</span></header>
     <div ref={stage} className="depth-stage">
       <div ref={heading} className="depth-heading"><h1 id="landing-title"><WordReveal text="SALA DE"/><br/><WordReveal text="MAESTROS" start={2}/></h1></div>
+      <p ref={choiceHeading} className="hero-choice-heading">Elige qué quieres estudiar</p>
       <div className="hero-sphere hero-sphere-one" aria-hidden="true"/>
       <div className="hero-sphere hero-sphere-two" aria-hidden="true"/>
       <div className="hero-people" aria-hidden="true">
