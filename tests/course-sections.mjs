@@ -99,14 +99,14 @@ function verifyCatalog(html, section, prefix = '') {
     assert.ok(hero, 'Category context must remain present without aggregate counters.');
     assert.doesNotMatch(hero, /<dl\b/, 'The category hero must omit the proposals/availability counter list.');
   } else {
-    const displayedCounts = plainHtml.match(/(\d+) propuestas? · (\d+) cursos? disponibles?/)?.slice(1).map(Number);
-    assert.deepEqual(displayedCounts, [offerings.length, offerings.filter(course => course.available).length], 'The full catalog must retain its proposal and availability counts.');
+    const displayedCounts = plainHtml.match(/(\d+) propuestas? · (\d+) (?:lección gratuita disponible|lecciones gratuitas disponibles)/)?.slice(1).map(Number);
+    assert.deepEqual(displayedCounts, [offerings.length, offerings.filter(course => course.available).length], 'The full catalog must count open free lessons without implying that paid enrollment is available.');
   }
   for (const card of actualCards) {
     const offering = offerings.find(course => course.slug === cardSlug(card, prefix));
     const status = card.match(/<p\b[^>]*class="eyebrow\b[^"]*"[^>]*>([^<]*)<\/p>/)?.[1];
     assert.ok(status, `The ${offering.slug} card must disclose its own availability.`);
-    assert.equal(/^DISPONIBLE\b/.test(status), offering.available, `Available status must remain accurate for ${offering.slug}.`);
+    assert.equal(/^LECCIÓN GRATUITA DISPONIBLE\b/.test(status), offering.available, `Free-lesson availability must remain accurate for ${offering.slug}.`);
     assert.equal(status === 'PRÓXIMAMENTE', !offering.available, `Upcoming status must remain accurate for ${offering.slug}.`);
   }
   const navigation = html.match(/<nav\b[^>]*class="catalog-sections"[^>]*>[\s\S]*?<\/nav>/)?.[0];

@@ -197,7 +197,7 @@ export default function DepthHero() {
           <p className="hero-pitch-text">Cursos en línea para docentes. Prepárate para la promoción con casos reales y la explicación de cada respuesta.</p>
           <div className="hero-pitch-actions">
             <a className="hero-pitch-cta" href="/cursos/subdireccion-secundaria/leccion-gratuita/">Probar una lección gratuita<ArrowRight size={18} aria-hidden="true"/></a>
-            <span>15 min · sin registro</span>
+            <span>15–20 min estimados · sin registro</span>
           </div>
         </div>
         <a className="hero-all-courses" href="/cursos/">Ver todos los cursos<ArrowRight size={18} aria-hidden="true"/></a>

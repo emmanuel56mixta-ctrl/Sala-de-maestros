@@ -20,7 +20,7 @@ export default function CatalogPage({ section }: { section?: CourseSection }) {
         <p className="eyebrow">APRENDE A TU RITMO</p>
         <h1>Tu siguiente paso<br />empieza aquí.</h1>
         <p>Formación para tu práctica docente y tus metas profesionales. Conoce el enfoque y la ruta de cada curso.</p>
-        <span>{courses.length} {courses.length === 1 ? 'propuesta' : 'propuestas'} · {availableCount} {availableCount === 1 ? 'curso disponible' : 'cursos disponibles'}</span>
+        <span>{courses.length} {courses.length === 1 ? 'propuesta' : 'propuestas'} · {availableCount} {availableCount === 1 ? 'lección gratuita disponible' : 'lecciones gratuitas disponibles'}</span>
       </div>
       <LearningPhoto className="catalog-learning-photo" src={image.src} alt={image.alt} />
     </section>}
@@ -34,7 +34,7 @@ export default function CatalogPage({ section }: { section?: CourseSection }) {
     <CourseCards courses={courses} />
     {section && <section className="section-learning-context" aria-labelledby="section-learning-title">
       <LearningPhoto className="catalog-learning-photo" src={image.src} alt={image.alt} />
-      <div><p className="eyebrow">SALA DE MAESTROS</p><h2 id="section-learning-title">Conoce el contenido antes de elegir.</h2><p>{section.slug === 'promocion-docente' ? 'Revisa los temas de cada curso. En subdirección de secundaria puedes empezar con una lección gratuita y analizar una primera pregunta.' : 'Consulta los temas de las propuestas de herramientas digitales e inteligencia artificial. Estos cursos están identificados como próximos.'}</p></div>
+      <div><p className="eyebrow">SALA DE MAESTROS</p><h2 id="section-learning-title">Conoce el contenido antes de elegir.</h2><p>{section.slug === 'promocion-docente' ? 'Revisa los temas de cada curso. En subdirección de secundaria puedes empezar con una lección gratuita: analiza un caso guiado y aplica el criterio en una situación nueva.' : 'Consulta los temas de las propuestas de herramientas digitales e inteligencia artificial. Estos cursos están identificados como próximos.'}</p></div>
     </section>}
     </div>
     </div>

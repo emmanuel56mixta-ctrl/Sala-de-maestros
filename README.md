@@ -26,6 +26,7 @@ node tests/orientation.mjs
 node tests/course-sections.mjs
 node tests/hero-transition.mjs
 node tests/case-analysis.mjs
+node tests/free-lesson.mjs
 node scripts/check-design.mjs
 pnpm build
 pnpm start
@@ -67,9 +68,11 @@ Después de compilar Pages, `node tests/orientation.mjs --pages-build` comprueba
 
 Los accesos son enlaces nativos sin espera ni capa superpuesta. Los navegadores compatibles animan el mismo retrato entre documentos mediante View Transitions; los demás abren directamente la categoría. La preferencia de movimiento reducido desactiva las transiciones y entradas animadas. `node tests/hero-transition.mjs --pages-build` verifica la continuidad de imágenes y nombres, el HTML de destino y las rutas de Worker y Pages. La posición y la animación se revisan en navegador.
 
-La página del curso disponible ofrece dos preguntas opcionales (actividad y tiempo), con acceso directo a la lección. La lección gratuita tiene tres etapas: **Lectura → Pregunta → Explicación**. Los enlaces `?paso=comprende` y `?paso=aplica` permiten empezar en la lectura o la pregunta. Las respuestas se conservan al cambiar de etapa durante esa visita; no se escriben en el avance de la cuenta.
+La página del curso ofrece entradas directas a lectura, práctica y temario. La lección gratuita tiene tres etapas compactas: **Lectura → Práctica → Explicación**. Los enlaces `?paso=comprende` y `?paso=aplica` conservan su función. La lectura enseña un criterio con un ejemplo distinto de los dos casos: interpretación de gráficas y entrega de una grabación oral.
 
-La primera pregunta pública incluye un caso completo y cinco pasos de análisis adaptados a la opción elegida. Un cursor ilustrativo selecciona frases del caso mientras aparece su explicación; permite pausar, avanzar, repetir o leer todo de inmediato. Con movimiento reducido se muestra el contenido completo sin animación. El texto y las fuentes están en `lib/case-analysis.ts`; la investigación y los límites del ejemplo se documentan en `docs/case-analysis-research.md`. No cambia las preguntas privadas ni las claves históricas.
+El análisis del primer caso avanza manualmente y muestra cada cita junto a su explicación completa. Solo ofrece Anterior, Siguiente, progreso y una alternativa para leer todo. El segundo caso se presenta tras responder el primero y no muestra su explicación antes de responder. El cierre distingue resultados del primer intento y correcciones con ayuda; después invita al curso con una sola acción. Las respuestas viven únicamente en memoria durante esa visita y se borran al recargar o salir.
+
+El contenido público nuevo está en `lib/free-lesson.ts`; `lib/free-lesson-progress.ts` conserva el historial de intentos durante la visita. No se cambian las preguntas privadas ni sus claves. La duración de 15–20 minutos es orientativa; el protocolo pendiente con docentes está en `docs/free-lesson-validation.md`.
 
 La navegación pública comparte el acceso «Entrar a mi curso», que inicia sesión y conserva `/asesor` como destino. La portada ofrece una lección gratuita sin registro. El método se explica en pestañas manuales **Lee → Responde → Revisa → Repasa**, con teclado y sin scroll forzado. La ficha distingue contenido incluido y actividades públicas; la inscripción pendiente se anuncia antes del botón. `DESIGN.md` documenta las reglas de lectura, espaciado, controles y estados.
 

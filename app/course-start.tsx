@@ -12,16 +12,16 @@ export default function CourseStart({ slug, hasAccess }: { slug: string; hasAcce
     {
       icon: Lightbulb,
       title: hasAccess ? 'Practicar con una pregunta' : 'Responder una pregunta',
-      text: 'Elige una respuesta y revisa por qué es correcta o incorrecta.',
-      time: 'Unos 5 minutos',
+      text: hasAccess ? 'Elige una respuesta y revisa por qué es correcta o incorrecta.' : 'Empieza por el caso guiado y su explicación. Después podrás resolver un caso nuevo.',
+      time: hasAccess ? 'Unos 5 minutos' : '5–8 min estimados · primer caso',
       href: practice.href,
       recommended: true,
     },
     {
       icon: BookOpen,
       title: hasAccess ? 'Leer la primera lección' : 'Leer la lección gratuita',
-      text: 'Equidad, inclusión y no discriminación en una decisión escolar.',
-      time: 'Unos 15 minutos',
+      text: hasAccess ? 'Equidad, inclusión y no discriminación en una decisión escolar.' : 'Identifica una barrera y elige un ajuste que conserve el aprendizaje y la evidencia para evaluarlo.',
+      time: hasAccess ? 'Unos 15 minutos' : '15–20 min estimados',
       // Reading is the lesson's default stage, so the plain lesson URL is enough.
       href: hasAccess ? read.href : preview,
       recommended: false,

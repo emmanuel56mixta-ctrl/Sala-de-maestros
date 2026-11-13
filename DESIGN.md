@@ -185,10 +185,10 @@ Tres radios y nada más: `sm` 6 px (controles), `md` 12 px (contenedores), `full
 - **Navegación**: marca a la izquierda; "Cursos" y "Ya tengo cuenta" (botón secundario con borde) a la derecha. El acceso abre el inicio de sesión del asesor en otro dominio: el enlace lo indica en su `title` y el pie lo explica.
 - **Botones**: principal sólido, secundario con borde y de texto. Altura mínima de 48 px (44 px los de texto). El texto dice qué pasa: "Responder la pregunta", no "Continuar".
 - **Chips de estado**: Disponible, Próximamente y Lección gratuita. Un curso "Próximamente" no muestra el precio como dato principal ni usa un botón principal.
-- **Stepper de lección**: Lectura → Pregunta → Explicación, fijo arriba y con estado textual ("Paso 2 de 3 · Pregunta"). Al cambiar de paso, el foco y el scroll van al título del paso.
+- **Etapas de la lección**: Lectura → Práctica → Explicación, en una navegación compacta sin cajas ni barra fija. El contexto indica el caso actual. Al cambiar de etapa o caso, el foco y el scroll van al título.
 - **Opción de respuesta**: toda la tarjeta es el área de clic, el radio es nativo y la letra (A, B, C) está siempre visible.
 - **Retroalimentación**: callout con la palabra de estado en negrita, seguida de la razón en una frase. Nunca solo color.
-- **Cierre de lección**: tras la explicación, acierte o no, aparece "Sigue con el curso completo" con el temario como acción principal y "Qué incluye y cuánto cuesta" como secundaria. Nunca un callejón sin salida.
+- **Cierre de lección**: primero se presenta el resultado de cada caso, distinguiendo primer intento y respuesta tras la explicación. Después del criterio transferible aparece una sola acción para conocer el curso completo.
 
 ## States
 
@@ -227,7 +227,7 @@ Ayudar a un docente a elegir una formación, probar una lección y volver a su c
 
 - Conservar el breve recorrido de 100–140 px de portada y las transiciones de retratos aprobadas; no bloquear rueda, gesto ni navegación nativa.
 - Las pestañas de Cómo vas a estudiar cambian por elección del usuario y no desplazan la página. Flechas, Home y End deben funcionar; los paneles inactivos quedan fuera del foco y de la lectura asistida.
-- Los títulos de contenido se leen de inmediato. El cursor explicativo del caso conserva pausa, pasos y lectura completa.
+- Los títulos de contenido se leen de inmediato. El análisis es manual: cita y explicación completas desde el inicio, Anterior, Siguiente, progreso y una sola alternativa de lectura completa. No depende de la visibilidad del caso ni de temporizadores.
 - Respetar movimiento reducido y conservar una presentación utilizable sin animación. Ningún acceso depende de un temporizador.
 
 ### Confianza y estados
@@ -249,3 +249,7 @@ Antes de cerrar una revisión: comprobar una pantalla representativa, navegació
 ### Comprobación automática
 
 `node scripts/check-design.mjs` revisa el CSS público: texto de menos de 12 px, radios fuera de la escala y colores hex fuera de `app/globals.css`. Los dos últimos se informan como deuda existente; con `--strict` cualquier hallazgo hace fallar el comando.
+
+### Lección gratuita: práctica y evidencia
+
+La lección pública conserva una sola superficie de lectura, sin columna lateral de temario. Utiliza contenido público dedicado en `lib/free-lesson.ts`: objetivo acotado, ejemplo de acceso al texto, caso de gráficas y caso nuevo de entrega de una grabación. Las preguntas privadas y sus claves históricas no cambian. Los intentos se conservan solo durante la visita y el cierre nunca presenta una corrección asistida como un primer acierto. La estimación de 15–20 minutos debe contrastarse con el protocolo de `docs/free-lesson-validation.md`.

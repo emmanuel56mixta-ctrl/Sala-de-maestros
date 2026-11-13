@@ -3,11 +3,12 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- Shared by Worker and static Pages. */
 
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, ExternalLink, LockKeyhole, X } from 'lucide-react';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { coursePrice, type CourseOffering } from '@/lib/course-offerings';
+import { ArrowRight, Check, Clock3, ExternalLink } from 'lucide-react';
+import type { CourseOffering } from '@/lib/course-offerings';
 import type { Lesson } from '@/lib/course';
 import { analysisForAnswer, firstCase } from '@/lib/case-analysis';
+import { freeLessonContent, transferCase } from '@/lib/free-lesson';
+import { emptyAttempt, resultForAttempt, selectAnswer, submitAnswer } from '@/lib/free-lesson-progress';
 import CaseAnalysis from '@/app/case-analysis';
 import './course-explorer.css';
 
@@ -24,140 +25,126 @@ function browserEntryStep(): Step | null {
   const requested = new URLSearchParams(window.location.search).get('paso');
   return requested === 'aplica' ? 1 : requested === 'comprende' ? 0 : null;
 }
-const steps = [
-  { name: 'Lectura', title: 'Lee la explicación', description: 'Incluye un ejemplo de una situación escolar.' },
-  { name: 'Pregunta', title: 'Responde la pregunta', description: 'Elige la opción que consideres correcta. Después podrás leer la explicación.' },
-  { name: 'Explicación', title: 'Revisa tu respuesta', description: 'Aquí puedes ver por qué la opción que elegiste es correcta o incorrecta.' },
-] as const;
+const steps = ['Lectura', 'Práctica', 'Explicación'] as const;
 
-export default function CourseExplorer({ course, lesson, source, outline, hasAccess }: Props) {
-  // The server and hydration snapshot start with the reading. React then reads
-  // the browser URL; manual navigation takes precedence for the rest of the visit.
+export default function CourseExplorer({ course, lesson, source, hasAccess }: Props) {
   const entryStep = useSyncExternalStore(subscribeToEntry, browserEntryStep, serverEntryStep);
   const [selectedStep, setStep] = useState<Step | null>(null);
   const step = selectedStep ?? entryStep ?? 0;
   const [focusRequest, setFocusRequest] = useState(0);
-  const [accessOpen, setAccessOpen] = useState(false);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [checked, setChecked] = useState(false);
-  const lessonRef = useRef<HTMLElement>(null);
+  const [caseIndex, setCaseIndex] = useState(0);
+  const [attempts, setAttempts] = useState([emptyAttempt(), emptyAttempt()]);
+  const [showResult, setShowResult] = useState(false);
   const stepHeading = useRef<HTMLHeadingElement>(null);
-  const opener = useRef<HTMLElement | null>(null);
-  const returnToLesson = useRef(false);
-  const isCaseExample = lesson.id === 'd1';
-  const exercise = isCaseExample ? firstCase.check : lesson.check;
-  const correct = checked && selected === exercise.correct;
-  const analysis = useMemo(() => isCaseExample && checked ? analysisForAnswer(selected) : null, [isCaseExample, checked, selected]);
+  const isPublicCase = lesson.id === 'd1';
+  const cases = isPublicCase ? [firstCase, transferCase] : [{ id: lesson.id, title: lesson.title, paragraphs: [], check: lesson.check }];
+  const currentCase = cases[caseIndex];
+  const exercise = currentCase.check;
+  const attempt = attempts[caseIndex];
+  const correct = attempt.checked && attempt.selected === exercise.correct;
+  const analysis = useMemo(() => isPublicCase && caseIndex === 0 && attempt.checked
+    ? analysisForAnswer(attempt.selected) : null, [isPublicCase, caseIndex, attempt.checked, attempt.selected]);
+  const title = isPublicCase ? freeLessonContent.title : lesson.title;
+  const goal = isPublicCase ? freeLessonContent.objective : lesson.goal;
+  const reading = isPublicCase ? freeLessonContent.readingBlocks : lesson.paragraphs.map((text, index) => ({ title: `Criterio ${index + 1}`, text }));
+  const example = isPublicCase ? freeLessonContent.example : { title: 'Una decisión escolar', situation: lesson.example.case, observation: lesson.example.analysis, action: lesson.example.decision };
+  const totalCases = cases.length;
+  const allChecked = cases.every((_, index) => attempts[index].checked);
+  const heading = showResult ? 'Lo que te llevas de esta práctica' : step === 0 ? 'Antes de elegir un apoyo' : step === 1 ? currentCase.title : 'Revisa tu decisión';
 
   useEffect(() => {
     if (!focusRequest && entryStep === null) return;
     const frame = window.requestAnimationFrame(() => {
-      const heading = stepHeading.current;
-      if (!heading) return;
-      heading.focus({ preventScroll: true });
-      heading.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      stepHeading.current?.focus({ preventScroll: true });
+      stepHeading.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [step, focusRequest, entryStep]);
+  }, [step, caseIndex, showResult, focusRequest, entryStep]);
 
   const goToStep = (next: Step) => {
-    if (next === 2 && !checked) return;
+    if (next === 2 && !attempt.checked) return;
+    setShowResult(false);
     setStep(next);
     setFocusRequest(request => request + 1);
   };
-  const focusLesson = () => {
-    lessonRef.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-    lessonRef.current?.focus({ preventScroll: true });
-  };
-  const showAccess = () => {
-    opener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    returnToLesson.current = false;
-    setAccessOpen(true);
-  };
-  const explore = () => {
-    if (accessOpen) { returnToLesson.current = true; setAccessOpen(false); }
-    else focusLesson();
+  const chooseCase = (index: number) => {
+    if (index > 0 && !attempts[0].attempts) return;
+    setCaseIndex(index);
+    setShowResult(false);
+    setStep(1);
+    setFocusRequest(request => request + 1);
   };
   const checkAnswer = () => {
-    if (selected === null) return;
-    setChecked(true);
+    if (attempt.selected === null) return;
+    setAttempts(previous => previous.map((value, index) => index === caseIndex ? submitAnswer(value) : value));
     setStep(2);
     setFocusRequest(request => request + 1);
   };
 
-  // Every outcome ends with a way forward: the full syllabus first, then what the course includes.
-  const nextSteps = <section className="free-lesson-next" aria-labelledby="lesson-next-title">
-    <p className="eyebrow">{correct ? 'TERMINASTE LA LECCIÓN GRATUITA' : 'CUANDO QUIERAS SEGUIR'}</p>
-    <h4 id="lesson-next-title">Sigue con el curso completo</h4>
-    <p>{correct ? 'Practicaste cómo distinguir una barrera de acceso del aprendizaje que se evalúa.' : 'Practicaste con apoyo de la explicación. Puedes intentarlo de nuevo o conocer el resto del curso.'} El curso incluye 18 lecciones, 8 talleres para analizar preguntas y un simulador de 90 reactivos.</p>
-    <div className="free-lesson-next-actions">
-      {hasAccess ? <a href="/asesor" className="primary">Continuar en mi curso <ArrowRight size={18} /></a> : <a className="primary" href={`/cursos/${course.slug}/#hub-route-title`}>Ver el temario completo <ArrowRight size={18} /></a>}
-      {!hasAccess && <button className="secondary" onClick={showAccess}>Qué incluye y cuánto cuesta</button>}
-    </div>
-  </section>;
-
-  return <>
-    {/* Compact header: the lesson starts in the first screen instead of repeating the course page. */}
+  return <div className="lesson-page">
     <header className="lesson-compact-header">
-      <nav aria-label="Ruta de navegación"><ol className="lesson-breadcrumb"><li><a href="/cursos/">Cursos</a></li><li><a href={`/cursos/${course.slug}/`}>{course.title}</a></li><li aria-current="page">Lección gratuita</li></ol></nav>
-      <p className="lesson-compact-meta">Sin registro · Tus respuestas no se guardan</p>
-      {hasAccess && <a href="/asesor" className="secondary">Abrir mi curso</a>}
+      <nav aria-label="Ruta de navegación"><ol className="lesson-breadcrumb">
+        <li><a href="/cursos/">Cursos</a></li><li><a href={`/cursos/${course.slug}/`}>{course.title}</a></li><li aria-current="page">Lección gratuita</li>
+      </ol></nav>
+      <span className="lesson-compact-meta">Sin registro</span>
     </header>
-    <div className={`course-preview-layout${step === 2 && analysis ? ' lesson-analysis-layout' : ''}`}>
-      <article ref={lessonRef} tabIndex={-1} className="free-lesson guided-free-lesson" aria-labelledby="free-lesson-title">
-        <div className="free-lesson-meta"><span>LECCIÓN GRATUITA</span><span><Clock3 size={15} aria-hidden="true" />{lesson.minutes} minutos estimados</span></div>
-        <h1 id="free-lesson-title">{lesson.title}</h1><p className="free-lesson-goal">{lesson.goal}</p>
-        <nav className="lesson-stage-nav" aria-label="Etapas de la lección">
-          <ol>{steps.map((item, index) => <li key={item.name}><button type="button" aria-current={step === index ? 'step' : undefined} disabled={index === 2 && !checked} onClick={() => goToStep(index as Step)}><span aria-hidden="true">0{index + 1}</span><strong>{item.name}</strong></button></li>)}</ol>
-          <p>Paso {step + 1} de 3 · {steps[step].name}</p>
-        </nav>
-        <div className="lesson-source-access"><BookOpen size={18} aria-hidden="true" /><div><span>FUENTE DE CONSULTA</span><a href={source.url} target="_blank" rel="noreferrer">{source.title}<ExternalLink size={14} aria-hidden="true" /><span className="sr-only"> (abre en otra pestaña)</span></a><small>{lesson.reference}</small></div></div>
-        <section className="lesson-stage" aria-labelledby="lesson-stage-title">
-          <p className="eyebrow">{steps[step].name.toUpperCase()}</p><h3 id="lesson-stage-title" ref={stepHeading} tabIndex={-1}>{steps[step].title}</h3><p className="lesson-stage-description">{steps[step].description}</p>
-          {step === 0 && <>
-            <div className="free-lesson-reading"><strong>Antes de empezar</strong><p>{lesson.read}</p></div>
-            {lesson.paragraphs.map((paragraph, index) => <p className="free-lesson-paragraph" key={index}>{paragraph}</p>)}
-            <div className="free-lesson-contrast">{lesson.compare.map(([title, text]) => <div key={title}><h4>{title}</h4><p>{text}</p></div>)}</div>
-            <section className="free-worked-case"><p className="eyebrow">EJEMPLO</p><h4>{lesson.example.case}</h4><p><strong>Qué observar.</strong> {lesson.example.analysis}</p><p><strong>Qué se puede hacer.</strong> {lesson.example.decision}</p></section>
-            <div className="lesson-stage-actions lesson-stage-actions-forward"><button className="primary" onClick={() => goToStep(1)}>Contestar la pregunta <ArrowRight size={18} /></button></div>
-          </>}
-          {step === 1 && <>
-            <section className="free-lesson-check" aria-labelledby="check-title"><h4 id="check-title">{isCaseExample ? firstCase.title : exercise.prompt}</h4>
-              {isCaseExample && <div className="lesson-case-stem"><p className="eyebrow">CASO 01 · INCLUSIÓN</p>{firstCase.paragraphs.map(paragraph => <p key={paragraph.id}>{paragraph.text}</p>)}<small>Ejercicio de práctica creado para esta lección.</small></div>}
-              <fieldset><legend className="sr-only">Selecciona una respuesta</legend>{exercise.options.map((option, index) => <label key={option} className={selected === index ? 'selected' : ''}><input type="radio" name={`free-lesson-answer-${lesson.id}`} value={index} checked={selected === index} onChange={() => { setSelected(index); setChecked(false); }} /><span><b>{String.fromCharCode(65 + index)}.</b> {option}</span></label>)}</fieldset>
-              {selected === null && <p className="lesson-answer-note">Selecciona una opción y pulsa Comprobar respuesta.</p>}
-            </section>
-            <div className="lesson-stage-actions"><button className="secondary" onClick={() => goToStep(0)}><ArrowLeft size={17} />Volver a la lectura</button><button className="primary" disabled={selected === null} onClick={checkAnswer}>{checked ? 'Ver la explicación' : 'Comprobar respuesta'}<ArrowRight size={18} /></button></div>
-          </>}
-          {step === 2 && checked && selected !== null && <>
-            <div className="lesson-answer-summary"><span>TU RESPUESTA</span><p><b>{String.fromCharCode(65 + selected)}.</b> {exercise.options[selected]}</p></div>
-            <div role="status" className={`lesson-review-feedback ${correct ? 'feedback-good' : 'feedback-retry'}`}><strong>{correct ? 'Respuesta correcta' : 'Respuesta incorrecta'}</strong><p>{exercise.feedback[selected]}</p></div>
-            {analysis && <>
-              <CaseAnalysis key={analysis.id} plan={analysis} />
-              <details className="lesson-option-review"><summary>Comparar las tres opciones</summary><ol>{exercise.options.map((option, index) => <li key={option}><strong>{String.fromCharCode(65 + index)} · {index === exercise.correct ? 'Correcta' : 'No responde a este caso'}{index === selected ? ' · Tu elección' : ''}</strong><p>{option}</p><p>{exercise.feedback[index]}</p></li>)}</ol></details>
-            </>}
-            {correct ? <>
-              {!analysis && <div className="lesson-takeaway"><p className="eyebrow">EN EL EJEMPLO</p><h4>¿Cómo se resuelve?</h4><p>{lesson.example.decision}</p><small>Puedes volver a la lectura o consultar el documento citado si todavía tienes dudas.</small></div>}
-              <div className="lesson-stage-actions"><button className="secondary" onClick={() => goToStep(1)}><ArrowLeft size={17} />Volver a la pregunta</button><button className="text-button" onClick={() => goToStep(0)}>Consultar la lectura <BookOpen size={17} /></button></div>
-              {nextSteps}
-            </> : <>
-              <div className="lesson-retry-guidance"><h4>Puedes volver a intentarlo</h4><p>{analysis ? 'Vuelve a la pregunta y contrasta cada opción con la barrera y el aprendizaje señalados. Un acierto después de esta explicación es práctica con apoyo.' : 'Relee la explicación y el ejemplo. Después vuelve a la pregunta y elige otra opción.'}</p></div>
-              <div className="lesson-stage-actions"><button className="secondary" onClick={() => goToStep(1)}><ArrowLeft size={17} />Volver a la pregunta</button><button className="text-button" onClick={() => goToStep(0)}>Volver a leer <BookOpen size={17} /></button></div>
-              {nextSteps}
-            </>}
-          </>}
-        </section>
-        <p className="lesson-local-note">Tu respuesta se conserva mientras sigas en esta página. No se guarda en tu cuenta.</p>
-      </article>
-      <aside className="course-outline lesson-outline"><p className="eyebrow">TEMARIO</p><h2>Contenido del curso</h2><p>La primera lección es gratuita. Las demás están incluidas en el curso completo.</p>
-        <details><summary>Ver las lecciones</summary><ol>{outline.map((item, index) => <li key={item.id}>{item.id === lesson.id ? <button onClick={explore} className="open-lesson"><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{item.title}</strong><small>Lección gratuita · {item.minutes} min</small></div><ArrowRight size={16} aria-hidden="true" /></button> : <div className="lesson-outline-locked"><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{item.title}</strong><small>Acceso completo · {item.minutes} min</small></div><LockKeyhole size={14} aria-hidden="true" /></div>}</li>)}</ol></details>
-      </aside>
-    </div>
-    <Dialog open={accessOpen} onOpenChange={setAccessOpen}><DialogContent className="course-access-dialog" showCloseButton={false} onCloseAutoFocus={event => { event.preventDefault(); if (returnToLesson.current) { returnToLesson.current = false; focusLesson(); } else opener.current?.focus(); }}>
-      <DialogClose className="access-close" aria-label="Cerrar ventana"><X size={20} /></DialogClose><DialogHeader><p className="eyebrow">CURSO COMPLETO</p><DialogTitle>Qué incluye el curso</DialogTitle><DialogDescription>Consulta el contenido y el precio del curso de {course.title.toLowerCase()}.</DialogDescription></DialogHeader>
-      <div className="access-price"><strong>{coursePrice(course)}</strong><span>Precio por curso</span></div><ul>{course.features.map(feature => <li key={feature}><Check size={17} aria-hidden="true" />{feature}</li>)}</ul>
-      {hasAccess ? <><p className="access-message">Ya tienes acceso a este curso.</p><a href="/asesor" className="primary">Entrar al curso completo <ArrowRight size={18} /></a></> : <p className="access-message">El pago en línea aún no está habilitado. Puedes seguir explorando la lección gratuita.</p>}
-      <button className="secondary" onClick={explore}>Seguir con la lección gratuita</button><small>Material de preparación independiente de SEP y USICAMM.</small>
-    </DialogContent></Dialog>
-  </>;
+    <article className="free-lesson guided-free-lesson" aria-labelledby="free-lesson-title">
+      <div className="free-lesson-meta"><span>LECCIÓN GRATUITA</span><span><Clock3 size={16} aria-hidden="true" />{isPublicCase ? freeLessonContent.durationLabel : `${lesson.minutes} min estimados`}</span></div>
+      <h1 id="free-lesson-title">{title}</h1>
+      <p className="free-lesson-goal">{goal}</p>
+      <nav className="lesson-stage-nav" aria-label="Etapas de la lección">
+        <ol>{steps.map((name, index) => <li key={name}><button type="button" aria-current={step === index ? 'step' : undefined} disabled={index === 2 && !attempt.checked} onClick={() => goToStep(index as Step)}>{name}</button></li>)}</ol>
+      </nav>
+      <section className="lesson-stage" aria-labelledby="lesson-stage-title">
+        {step !== 0 && <p className="lesson-context">{showResult ? 'Resultado de esta visita' : `Caso ${caseIndex + 1} de ${totalCases} · ${caseIndex === 0 ? 'Práctica acompañada' : 'Aplicación a otra situación'}`}</p>}
+        <h2 id="lesson-stage-title" ref={stepHeading} tabIndex={-1}>{heading}</h2>
+        {step === 0 && <div className="lesson-reading">
+          {reading.map(block => <section className="lesson-reading-block" key={block.title}><h3>{block.title}</h3><p>{block.text}</p></section>)}
+          <section className="lesson-worked-example" aria-labelledby="worked-example-title">
+            <p className="eyebrow">EJEMPLO RESUELTO</p><h3 id="worked-example-title">{example.title}</h3>
+            <p>{example.situation}</p><p><strong>La barrera.</strong> {example.observation}</p><p><strong>El ajuste.</strong> {example.action}</p>
+          </section>
+          <p className="lesson-source-inline">Para profundizar: <a href={source.url} target="_blank" rel="noreferrer">{source.title}<ExternalLink size={14} aria-hidden="true" /><span className="sr-only"> (abre en otra pestaña)</span></a>. {isPublicCase ? 'Arts. 61 y 62: barreras para la participación y el aprendizaje.' : lesson.reference}</p>
+          {isPublicCase && <p className="lesson-duration-note">{freeLessonContent.durationNote}</p>}
+          <div className="lesson-stage-actions"><button className="primary" onClick={() => goToStep(1)}>Ir a la práctica <ArrowRight size={18} aria-hidden="true" /></button></div>
+        </div>}
+        {step === 1 && <div className="lesson-practice">
+          <p className="lesson-stage-description">{caseIndex === 0 ? 'Elige una respuesta. Después revisaremos las pistas que ayudan a decidir.' : attempt.attempts ? 'Ya consultaste la explicación. Si cambias tu respuesta, el siguiente intento será práctica con apoyo.' : 'Aplica el criterio a un caso nuevo. La explicación aparecerá después de responder.'}</p>
+          <div className="lesson-case-stem">{currentCase.paragraphs.filter(paragraph => paragraph.id !== 'encargo').map(paragraph => <p key={paragraph.id}>{paragraph.text}</p>)}</div>
+          <fieldset className="lesson-answers">
+            <legend>{exercise.prompt}</legend>
+            {exercise.options.map((option, index) => <label key={option} className={attempt.selected === index ? 'selected' : ''}>
+              <input type="radio" name={`free-lesson-answer-${currentCase.id}`} value={index} checked={attempt.selected === index} onChange={() => setAttempts(previous => previous.map((value, current) => current === caseIndex ? selectAnswer(value, index, exercise.options.length) : value))} />
+              <span><b>{String.fromCharCode(65 + index)}.</b> {option}{attempt.selected === index && <small className="lesson-selected" aria-hidden="true"><Check size={14} aria-hidden="true" /> Seleccionada</small>}</span>
+            </label>)}
+          </fieldset>
+          <div className="lesson-stage-actions"><button className="primary" disabled={attempt.selected === null} onClick={checkAnswer}>{attempt.checked ? 'Ver la explicación' : 'Comprobar respuesta'}<ArrowRight size={18} aria-hidden="true" /></button><button className="text-button" onClick={() => goToStep(0)}>Volver a la lectura</button></div>
+          <p className="lesson-editorial-note">Caso de práctica creado para esta lección.</p>
+        </div>}
+        {step === 2 && attempt.checked && attempt.selected !== null && !showResult && <>
+          <div className={`lesson-review-feedback ${correct ? 'feedback-good' : 'feedback-retry'}`} role="status"><strong>{correct ? 'Respuesta correcta' : 'Revisa este punto'}</strong><p>{exercise.feedback[attempt.selected]}</p></div>
+          <p className="lesson-answer-summary"><strong>Tu elección: {String.fromCharCode(65 + attempt.selected)}.</strong> {exercise.options[attempt.selected]}</p>
+          {attempt.attempts > 1 && <p className="lesson-support-note">{resultForAttempt(attempt, exercise.correct)}. Tu primer intento fue {String.fromCharCode(65 + (attempt.firstAnswer ?? 0))}.</p>}
+          {analysis && <CaseAnalysis key={analysis.id} plan={analysis} />}
+          {caseIndex === 1 && <div className="lesson-transfer-explanation"><h3>El propósito decide qué puede cambiar</h3><p>{transferCase.takeaway}</p><p className="lesson-source-inline">Criterio general: <a href={transferCase.source.url} target="_blank" rel="noreferrer">{transferCase.source.title}<span className="sr-only"> (abre en otra pestaña)</span></a>, arts. 61 y 62. Este caso es una aplicación didáctica.</p></div>}
+          <details className="lesson-option-review"><summary>Por qué funcionan o fallan las otras opciones</summary><ol>{exercise.options.map((option, index) => <li key={option}><strong>{String.fromCharCode(65 + index)} · {index === exercise.correct ? 'Conserva el aprendizaje' : 'No resuelve este caso'}{index === attempt.selected ? ' · Tu elección' : ''}</strong><p>{option}</p><p>{exercise.feedback[index]}</p></li>)}</ol></details>
+          <div className="lesson-stage-actions">
+            {caseIndex === 0 && totalCases > 1 ? <button className="primary" onClick={() => chooseCase(1)}>{attempts[1].attempts ? 'Volver al segundo caso' : 'Resolver un caso nuevo'}<ArrowRight size={18} aria-hidden="true" /></button>
+              : <button className="primary" disabled={!allChecked} onClick={() => { setShowResult(true); setFocusRequest(request => request + 1); }}>Ver mi resultado<ArrowRight size={18} aria-hidden="true" /></button>}
+            <button className="text-button" onClick={() => goToStep(1)}>{correct ? 'Volver a la pregunta' : 'Intentarlo con la explicación'}</button>
+          </div>
+        </>}
+        {step === 2 && showResult && allChecked && <>
+          <dl className="lesson-results">{cases.map((item, index) => <div key={item.id}>
+            <dt>Caso {index + 1} · {index === 0 ? 'Práctica acompañada' : 'Aplicación a otra situación'}</dt>
+            <dd><strong>{resultForAttempt(attempts[index], item.check.correct)}</strong><p>{index === 0 ? 'Este caso forma parte del recorrido guiado.' : attempts[index].attempts === 1 && attempts[index].selected === item.check.correct ? 'Resolviste esta situación antes de consultar su explicación.' : 'Ya conoces la explicación. Un nuevo intento será práctica con apoyo.'}</p></dd>
+          </div>)}</dl>
+          <div className="lesson-takeaway"><h3>Un criterio para tu siguiente decisión</h3><p>{isPublicCase ? freeLessonContent.takeaway : lesson.example.decision}</p><small>Este recorrido es una práctica breve, no una acreditación de dominio.</small></div>
+          <div className="lesson-result-retries">{cases.map((item, index) => <button key={item.id} className="text-button" onClick={() => chooseCase(index)}>Revisar caso {index + 1}</button>)}</div>
+          <section className="free-lesson-next" aria-labelledby="lesson-next-title"><h3 id="lesson-next-title">Continúa tu preparación</h3><p>Conoce la ruta de estudio, los talleres y la práctica del curso de {course.title.toLowerCase()}.</p><a className="primary" href={hasAccess ? '/asesor' : `/cursos/${course.slug}/`}>{hasAccess ? 'Continuar en mi curso' : 'Conocer el curso completo'}<ArrowRight size={18} aria-hidden="true" /></a></section>
+        </>}
+      </section>
+      <p className="lesson-local-note">Tus respuestas se conservan mientras permanezcas en esta página. Se borran al recargar o salir y no se guardan en tu cuenta.</p>
+    </article>
+  </div>;
 }
