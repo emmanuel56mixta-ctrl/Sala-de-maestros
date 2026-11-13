@@ -36,22 +36,22 @@ for (const invalid of [null, undefined, NaN, Infinity, -Infinity, -1, 3, 100, 0.
 }
 
 const plans = [0, 1, 2].map(analysisForAnswer);
-assert.equal(new Set(plans.map(plan => plan.id)).size, 3, 'A new choice needs a distinct plan identity so the player can reset.');
+assert.equal(new Set(plans.map(plan => plan.id)).size, 3, 'A new choice needs a distinct plan identity so the analysis can reset.');
 for (const [choice, plan] of plans.entries()) {
   assert.ok(plan);
   assert.deepEqual(plan.paragraphs, firstCase.paragraphs, 'Review must use the exact case that was answered.');
   assert.deepEqual(plan.source, firstCase.source, 'All routes through the analysis retain the original source.');
   assert.equal(plan.steps.length, 5, 'Every answer gets the complete five-part analysis.');
   assert.equal(new Set(plan.steps.map(step => step.id)).size, plan.steps.length, 'Steps that quote the same paragraph still need separate identities.');
-  assert.ok(new Set(plan.steps.map(step => step.paragraphId)).size < plan.steps.length, 'The player must support revisiting the same paragraph.');
+  assert.ok(new Set(plan.steps.map(step => step.paragraphId)).size < plan.steps.length, 'Different reasoning steps may use evidence from the same paragraph.');
   assert.ok(plan.title.trim() && plan.takeaway.trim());
   for (const step of plan.steps) {
     assert.ok(step.id && step.title.trim() && step.explanation.trim());
     const paragraph = plan.paragraphs.find(item => item.id === step.paragraphId);
     assert.ok(paragraph, 'Each signal must identify an existing paragraph: ' + step.paragraphId);
-    assert.ok(step.quote.trim(), 'An empty quote cannot locate an evidence range.');
+    assert.ok(step.quote.trim(), 'Every explanation needs a concrete evidence quote.');
     const first = paragraph.text.indexOf(step.quote);
-    assert.ok(first >= 0, 'A highlighted quote must match the original text exactly: ' + step.quote);
+    assert.ok(first >= 0, 'An evidence quote must match the original text exactly: ' + step.quote);
     assert.equal(paragraph.text.indexOf(step.quote, first + 1), -1, 'A quote must identify an unambiguous range within its paragraph.');
     assert.equal(paragraph.text.slice(first, first + step.quote.length), step.quote);
   }
@@ -133,15 +133,34 @@ const escapeHtml = text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;')
 for (const plan of plans) {
   const html = renderToStaticMarkup(createElement(CaseAnalysis, { plan }));
   const withoutTags = html.replace(/<[^>]+>/g, '');
-  for (const paragraph of plan.paragraphs) {
-    assert.ok(withoutTags.includes(escapeHtml(paragraph.text)), 'Server output must retain the complete case text independently of animation.');
-  }
+  assert.ok(!plan.paragraphs.every(paragraph => withoutTags.includes(escapeHtml(paragraph.text))),
+    'The analysis should use relevant evidence rather than repeat the whole case.');
   assert.ok(html.includes(escapeHtml(plan.source.url)), 'The source stays available in server-rendered output.');
+  assert.ok(withoutTags.includes(escapeHtml(plan.source.reference)), 'Readers need the specific source reference, not only a document title.');
+  assert.ok(withoutTags.includes(escapeHtml(plan.takeaway)), 'The transferable criterion must remain available at the end of the analysis.');
   for (const step of plan.steps) {
-    assert.ok(withoutTags.includes(escapeHtml(step.explanation)), 'Every explanation must be available without waiting for animated playback.');
+    assert.ok(withoutTags.includes(escapeHtml(step.quote)), 'The complete-reading alternative must preserve each evidence quote.');
+    assert.ok(withoutTags.includes(escapeHtml(step.explanation)), 'Every explanation must be available without waiting for playback.');
   }
+  const disclosures = [...html.matchAll(/<details\b[^>]*>[\s\S]*?<\/details>/g)];
+  assert.equal(disclosures.length, 1, 'There must be one alternative for reading the complete analysis.');
+  assert.match(disclosures[0][0], /<summary[^>]*>Leer el análisis completo<\/summary>/);
+  assert.doesNotMatch(disclosures[0][0].match(/^<details[^>]*>/)[0], /\bopen(?:=|\s|>)/, 'The complete analysis is optional, not expanded by default.');
+  const visibleAtStart = html.replace(/<details\b[^>]*>[\s\S]*?<\/details>/g, '').replace(/<[^>]+>/g, '');
+  assert.ok(visibleAtStart.includes(escapeHtml(plan.steps[0].quote)));
+  assert.ok(visibleAtStart.includes(escapeHtml(plan.steps[0].explanation)), 'The first explanation must be complete before any interaction or animation.');
+  assert.match(visibleAtStart, /Paso 1 de 5/);
+  assert.doesNotMatch(visibleAtStart, /En pausa|Pausar|Repetir|Ver todo/);
+  const buttons = [...html.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)];
+  assert.deepEqual(buttons.map(match => match[2].replace(/<svg\b[\s\S]*?<\/svg>/g, '').replace(/<[^>]+>/g, '')), ['Anterior', 'Siguiente'], 'Only manual previous/next controls should compete with the reading.');
+  assert.match(buttons[0][1], /\bdisabled=/, 'The first step has no previous step.');
+  assert.doesNotMatch(buttons[1][1], /\bdisabled=/, 'Readers can advance without waiting.');
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
   assert.equal(new Set(ids).size, ids.length, 'Shared paragraph references must not produce duplicate DOM IDs.');
+  for (const button of buttons) {
+    const target = button[1].match(/aria-controls="([^"]+)"/)?.[1];
+    assert.ok(target && ids.includes(target), 'Manual controls must identify the analysis they change.');
+  }
 }
 
 const configPath = path.join(root, 'vite.pages.config.ts');
@@ -154,4 +173,4 @@ const publicAnalysis = await loadCode(publicSource, 'case-data-pages');
 for (const selected of [0, 1, 2]) assert.deepEqual(publicAnalysis.analysisForAnswer(selected), analysisForAnswer(selected),
   'Pages URL rewriting must preserve every source quote, answer key and explanation.');
 
-console.log('PASS: B answer key, malformed-answer gating, exact and unique evidence ranges, five distinct steps, meaningful A/B/C adaptation, public import boundary, complete SSR content and unchanged Pages data.');
+console.log('PASS: B answer key, malformed-answer gating, exact evidence quotes, meaningful A/B/C feedback, manual controls, complete initial explanation, one full-reading disclosure, source/takeaway, public import boundary and unchanged Pages data.');
