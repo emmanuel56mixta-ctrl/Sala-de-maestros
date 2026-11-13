@@ -8,8 +8,7 @@ import { courseSections } from '../lib/course-sections';
 import type { Lesson } from '../lib/course';
 import publicData from './public-data.json';
 
-const advisorUrl = 'https://ascenso-docente-laboratorio.mandrakker.chatgpt.site/signin-with-chatgpt?return_to=%2Fasesor';
-const publicPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+const publicPath = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`.replace(/\/*$/, '/');
 
 export const routes = [
   { path: '/', title: 'Sala de Maestros' },
@@ -19,19 +18,12 @@ export const routes = [
   ...courseOfferings.filter(course => course.available).map(course => ({ path: `/cursos/${course.slug}/leccion-gratuita`, title: `Lección gratuita · ${course.title} · Sala de Maestros` })),
 ];
 
-function AccountAccess() {
-  return <nav className="pages-account-bar" aria-label="Acceso a mi espacio de estudio">
-    <span>¿Ya tienes acceso?</span>
-    <a href={advisorUrl}>Entrar a mi curso <span aria-hidden="true">↗</span></a>
-  </nav>;
-}
-
 export function App({ pathname }: { pathname: string }) {
   const path = pathname.replace(/\/index\.html$/, '/').replace(/\/+$/, '') || '/';
   if (path === '/') return <Home />;
-  if (path === '/cursos') return <><AccountAccess /><CatalogPage /></>;
+  if (path === '/cursos') return <CatalogPage />;
   const section = courseSections.find(item => path === `/cursos/${item.slug}`);
-  if (section) return <><AccountAccess /><CatalogPage section={section} /></>;
+  if (section) return <CatalogPage section={section} />;
 
   const match = path.match(/^\/cursos\/([^/]+)(\/leccion-gratuita)?$/);
   const course = match ? offeringBySlug(match[1]) : undefined;
@@ -39,7 +31,6 @@ export function App({ pathname }: { pathname: string }) {
     const preview = Boolean(match?.[2]);
     const modules = course.available ? publicData.modules : (course.modules || []).map((title, index) => ({ id: String(index), title, lessons: [] }));
     return <>
-      <AccountAccess />
       <CatalogShell backTo={publicPath(preview ? `/cursos/${course.slug}` : '/cursos')} backLabel={preview ? 'Volver al curso' : 'Todos los cursos'}>
         {preview ? <CourseExplorer course={course} lesson={publicData.freeLesson as Lesson} source={publicData.source} outline={publicData.outline} hasAccess={false} /> : <CourseHub course={course} modules={modules} hasAccess={false} />}
       </CatalogShell>

@@ -11,6 +11,7 @@ import '../app/word-reveal.css';
 import '../app/learning-steps-motion.css';
 import '../app/learning-photography.css';
 import './pages.css';
+import '../app/public-design.css';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const locationPath = window.location.pathname;

@@ -23,7 +23,7 @@ export default function CourseStart({ slug, hasAccess }: { slug: string; hasAcce
   const result = goal && time ? recommendStart(goal, time, slug, hasAccess) : null;
   const selectedGoal = studyGoals.find(item => item.value === goal);
   const selectedTime = studyTimes.find(item => item.value === time);
-  const preview = `/cursos/${slug}/leccion-gratuita`;
+  const preview = `/cursos/${slug}/leccion-gratuita/`;
   const icons = [BookOpen, Lightbulb, Compass];
 
   return <section ref={section} className="course-start" aria-labelledby="course-start-title">

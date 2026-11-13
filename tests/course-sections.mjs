@@ -134,6 +134,70 @@ function verifyCatalog(html, section, prefix = '') {
 for (const section of [undefined, promotionSection, digitalSection]) verifyCatalog(renderToStaticMarkup(createElement(CatalogPage, { section })), section);
 for (const section of [undefined, publicSections.promotionSection, publicSections.digitalSection]) verifyCatalog(renderToStaticMarkup(createElement(PublicCatalog, { section })), section, '/Sala-de-maestros');
 
+const anchorAttributes = html => [...html.matchAll(/<a\b[^>]*>/g)].map(match => attrs(match[0]));
+const advisorHref = prefix => prefix ? 'https://ascenso-docente-laboratorio.mandrakker.chatgpt.site/asesor' : '/asesor';
+const signInHref = prefix => `${prefix ? 'https://ascenso-docente-laboratorio.mandrakker.chatgpt.site' : ''}/signin-with-chatgpt?return_to=%2Fasesor`;
+const availableCourse = courseOfferings.find(course => course.available);
+assert.ok(availableCourse?.previewLessonId, 'The public lesson must belong to an enabled course.');
+function verifyHome(html, prefix = '') {
+  const links = anchorAttributes(html);
+  const account = links.find(link => link.class?.split(/\s+/).includes('public-account-link'));
+  assert.equal(account?.href, signInHref(prefix), 'Returning learners need an explicit sign-in entry that returns to the advisor in both deployments.');
+  const footer = html.match(/<footer\b[^>]*>[\s\S]*?<\/footer>/)?.[0];
+  assert.ok(footer && anchorAttributes(footer).some(link => link.href === signInHref(prefix)), 'The public footer must retain the same sign-in destination and return path.');
+  const previews = links.filter(link => link.href?.includes('/leccion-gratuita'));
+  assert.ok(previews.length > 0, 'The homepage must offer a real free lesson before hydration.');
+  for (const preview of previews) {
+    const url = new URL(preview.href, 'https://worker.example');
+    assert.equal(url.origin, 'https://worker.example');
+    assert.equal(url.pathname, `${prefix}/cursos/${availableCourse.slug}/leccion-gratuita/`, 'Free entry links must retain the real enabled lesson, deployment prefix and directory slash.');
+    assert.ok([...url.searchParams.keys()].every(key => key === 'paso'));
+    assert.ok(!url.searchParams.has('paso') || ['comprende', 'aplica'].includes(url.searchParams.get('paso')));
+  }
+  assert.doesNotMatch(html, /Docentes inscritos|Cifra simulada/, 'Public trust must not depend on a simulated enrollment counter.');
+}
+function verifyHub(html, course, hasAccess, prefix = '') {
+  const sequence = html.match(/<ol\b[^>]*class="hub-sequence"[^>]*>[\s\S]*?<\/ol>/)?.[0];
+  const previewPath = `${prefix}/cursos/${course.slug}/leccion-gratuita/`;
+  if (!course.available) {
+    assert.equal(sequence, undefined, 'Upcoming courses cannot expose the active learning sequence.');
+    assert.ok(anchorAttributes(html).every(link => !link.href?.includes('/leccion-gratuita')), 'An upcoming course cannot offer a free-lesson CTA, even when hasAccess is supplied.');
+    return;
+  }
+  assert.ok(sequence, 'The enabled course must describe its four learning activities.');
+  assert.equal([...sequence.matchAll(/<li\b/g)].length, 4);
+  const sequenceLinks = anchorAttributes(sequence);
+  if (hasAccess) {
+    assert.deepEqual(sequenceLinks.map(link => link.href), ['inicio', 'ruta', 'practica', 'simulacion'].map(view => `${advisorHref(prefix)}?seccion=${view}`), 'Each unlocked activity must lead to its own advisor destination.');
+  } else {
+    assert.equal(sequenceLinks.length, 0, 'Visitor course contents must not disguise four identical free-lesson links as separate actions.');
+  }
+  const pricePanel = html.match(/<section\b[^>]*class="course-price-panel"[^>]*>[\s\S]*?<\/section>/)?.[0];
+  assert.ok(pricePanel);
+  const action = anchorAttributes(pricePanel).find(link => link.class?.split(/\s+/).includes('primary'));
+  assert.equal(action?.href, hasAccess ? advisorHref(prefix) : previewPath);
+  const notice = pricePanel.match(/<p\b[^>]*class="hub-enrollment-note"[^>]*>[\s\S]*?<\/p>/)?.[0];
+  if (hasAccess) assert.equal(notice, undefined, 'Existing learners must retain direct access without a visitor enrollment notice.');
+  else {
+    assert.ok(notice && /pago[\s\S]*no est[áa]n habilitados/i.test(notice), 'Visitors must learn that online enrollment/payment is unavailable before the free CTA.');
+    assert.ok(pricePanel.indexOf(notice) < pricePanel.indexOf('<a'), 'The access limitation must precede the free-lesson action in reading order.');
+  }
+}
+
+// Exercise public components only; no protected lesson/question modules are
+// needed to validate navigation and access semantics.
+for (const mode of ['worker', 'pages']) {
+  const prefix = mode === 'pages' ? '/Sala-de-maestros' : '';
+  const { default: Home } = await load('app/page.tsx', mode);
+  const { default: CourseHub } = await load('app/course-hub.tsx', mode);
+  verifyHome(renderToStaticMarkup(createElement(Home)), prefix);
+  for (const course of courseOfferings) {
+    for (const hasAccess of [false, true]) {
+      verifyHub(renderToStaticMarkup(createElement(CourseHub, { course, modules: [], hasAccess })), course, hasAccess, prefix);
+    }
+  }
+}
+
 // Rendering each digital course alone catches index-based icon selection after
 // filtering, even when the full-catalog order still happens to look correct.
 for (const [id, icon] of [['habilidades-digitales', 'monitor'], ['ia-docente', 'sparkles']]) {
@@ -145,6 +209,10 @@ for (const [id, icon] of [['habilidades-digitales', 'monitor'], ['ia-docente', '
 
 if (process.argv.includes('--pages-build')) {
   const build = path.join(root, '.pages-build');
+  verifyHome(fs.readFileSync(path.join(build, 'index.html'), 'utf8'), '/Sala-de-maestros');
+  for (const course of courseOfferings) {
+    verifyHub(fs.readFileSync(path.join(build, 'cursos', course.slug, 'index.html'), 'utf8'), course, false, '/Sala-de-maestros');
+  }
   for (const section of [undefined, promotionSection, digitalSection]) {
     const filename = path.join(build, 'cursos', ...(section ? [section.slug] : []), 'index.html');
     assert.ok(fs.statSync(filename).isFile(), `Direct navigation and reload require a real HTML file: ${filename}`);
@@ -157,6 +225,6 @@ if (process.argv.includes('--pages-build')) {
     }
   }
   for (const course of coursesForSection(digitalSection)) assert.ok(!fs.existsSync(path.join(build, 'cursos', course.slug, 'leccion-gratuita', 'index.html')), 'An upcoming digital course must not generate a lesson route.');
-  console.log('PASS: published category HTML, 2/2/4 cards, current navigation, directory links, prefixed photographs and upcoming-course boundaries.');
+  console.log('PASS: published home/hub navigation and access notices, category HTML, 2/2/4 cards, directory links, prefixed photographs and upcoming-course boundaries.');
 }
-console.log('PASS: complete/disjoint category membership, unchanged course data, category heroes without counters, full-catalog counts, per-card availability, real Worker/Pages renders and stable digital icons.');
+console.log('PASS: category membership, counts/availability, real Worker/Pages home and hub navigation, access notices, no simulated enrollment and stable digital icons.');

@@ -1,0 +1,168 @@
+/* Public interface rules adopted in DESIGN.md. The study workspace retains its
+   own reading and assessment styles. */
+.landing {
+  --public-section-space: clamp(48px, 6vw, 72px);
+  --public-control-radius: 6px;
+}
+.landing :is(h2, h3) {
+  font-weight: 700;
+  letter-spacing: -.025em;
+}
+.landing.catalog-shell h1 {
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.12;
+}
+.landing .eyebrow {
+  font-size: .75rem;
+  line-height: 1.5;
+  letter-spacing: .08em;
+}
+.public-account-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  margin-left: auto;
+}
+.hero-topbar .public-account-nav a,
+.catalog-header .public-account-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  font: 600 .875rem/1.4 Aileron, Arial, sans-serif;
+  letter-spacing: 0;
+  color: var(--brand-dark);
+  text-decoration: none;
+}
+.public-account-nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.hero-topbar .public-account-link,
+.catalog-header .public-account-link {
+  padding: 9px 14px;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--public-control-radius);
+  background: var(--canvas);
+}
+.hero-home-wordmark { gap: .25em; }
+.catalog-header { min-height: 88px; }
+.landing-welcome {
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+  padding: var(--public-section-space) 0;
+}
+.welcome-copy { min-width: 0; }
+.welcome-copy .landing-tagline {
+  font: 700 clamp(1.75rem, 2.8vw, 2.6rem)/1.25 Poppins, Arial, sans-serif;
+  letter-spacing: -.025em;
+  max-width: 20ch;
+  margin: 16px 0 20px;
+}
+.landing-welcome .landing-description {
+  font-size: 1rem;
+  line-height: 1.75;
+  max-width: 52ch;
+}
+.welcome-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 48px;
+  margin-top: 24px;
+  padding: 13px 18px;
+  border: 1px solid var(--brand);
+  border-radius: var(--public-control-radius);
+  background: var(--brand);
+  color: var(--on-brand);
+  font-size: .9375rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.welcome-primary svg { flex: none; }
+.welcome-primary:hover { background: var(--brand-dark); }
+.welcome-note,
+.community-preview-action p {
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  font-size: .8125rem;
+  line-height: 1.6;
+}
+.welcome-learning-photo {
+  grid-column: auto;
+  margin: 0;
+}
+.welcome-learning-photo img { aspect-ratio: 4 / 3; }
+.community-preview-action {
+  grid-area: counter;
+  border-top: 1px solid var(--line);
+  padding-top: 4px;
+}
+.enrollment-section,
+.teacher-voices { padding-block: var(--public-section-space); }
+.enrollment-section h2,
+.teacher-voices h2 { line-height: 1.25; letter-spacing: -.025em; }
+.voices-heading > div > p:last-child { font-size: 1rem; }
+.voice-card { border-radius: 12px; }
+.voices-credit,
+.institution-heading p,
+.institution-logos span { font-size: .8125rem; line-height: 1.65; }
+.platform-catalog { align-items: stretch; }
+.landing .catalog-course {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+}
+.catalog-course-content { display: flex; flex-direction: column; flex: 1; }
+.catalog-course-content > p:not(.eyebrow) { flex: 1; }
+.landing .catalog-course h2 { font-size: 1.375rem; line-height: 1.3; }
+.landing .catalog-course-content > p:not(.eyebrow) { font-size: 1rem; }
+.catalog-cover > strong { font-weight: 700; letter-spacing: -.02em; }
+.catalog-course .landing-enter,
+.landing :is(.primary, .hero-course-link, .course-section-enter) { min-height: 48px; border-radius: var(--public-control-radius); }
+.landing :is(.course-price-panel, .course-outline, .free-lesson) { border-radius: 12px; }
+.catalog-course small,
+.catalog-price span,
+.course-outline li small,
+.learning-photo figcaption { font-size: .8125rem; }
+.free-lesson h2,
+.course-outline h2 { letter-spacing: -.025em; }
+.free-lesson-reading p,
+.free-lesson-contrast p { font-size: 1rem; }
+.course-outline li strong { font-size: .875rem; }
+.access-close { width: 44px; height: 44px; }
+.public-footer {
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px 48px;
+  padding-block: 32px;
+}
+.public-footer strong { color: var(--brand-dark); font: 700 1rem/1.4 Poppins, Arial, sans-serif; }
+.public-footer p { max-width: 42ch; font-size: .875rem; margin-top: 8px; }
+.public-footer nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.public-footer a { margin: 0; }
+@media (max-width: 767px) {
+  .public-account-nav { gap: 10px; }
+  .hero-topbar .public-account-nav a,
+  .catalog-header .public-account-nav a { font-size: .8125rem; }
+  .hero-topbar .public-account-link,
+  .catalog-header .public-account-link { padding-inline: 10px; }
+  .hero-topbar .hero-home-wordmark { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; line-height: 1.1; }
+  .hero-topbar .public-account-link svg { display: none; }
+  .catalog-header { flex-wrap: wrap; gap: 8px 20px; padding-block: 16px; }
+  .catalog-header .public-account-nav { flex-wrap: wrap; gap: 8px 16px; }
+  .landing-welcome { grid-template-columns: 1fr; gap: 28px; }
+  .welcome-copy .landing-tagline { max-width: 24ch; }
+  .welcome-primary { width: 100%; font-size: .875rem; }
+  .platform-catalog .catalog-course h2 { font-size: 1.375rem; line-height: 1.3; }
+  .platform-catalog .catalog-course-content > p:not(.eyebrow) { font-size: 1rem; }
+  .free-lesson-reading,
+  .free-worked-case { padding: 16px; }
+  .public-footer { flex-direction: column; }
+  .public-footer p { order: initial; width: auto; }
+}

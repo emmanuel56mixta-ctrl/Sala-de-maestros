@@ -1,5 +1,14 @@
 # Sala de Maestros
 
+## Auditoría UX/UI y navegación pública (12 de noviembre de 2026)
+
+- `docs/ux-ui-audit.md` recoge el diagnóstico, prioridades, fuentes de getdesign.md/W3C y límites; `DESIGN.md` fija reglas adoptadas para lectura, espacio, estados y movimiento conservando la identidad.
+- Portada, catálogo y ficha comparten navegación y pie con inicio de sesión explícito y retorno a `/asesor`. Pages transforma la ruta al alojamiento existente; no cambia autenticación ni permisos.
+- Bienvenida en dos columnas, prueba gratuita visible, títulos de contenido sin revelado y método manual Lee/Responde/Revisa/Repasa con teclado. Se conserva el scroll breve y los retratos de la portada.
+- Se retira el contador simulado de la portada y se ofrece un caso de práctica real. Para visitantes, la secuencia del curso describe contenido incluido sin enlaces engañosos; los usuarios con acceso conservan sus cuatro destinos. Aviso de inscripción/pago pendientes antes del CTA, acciones Ver curso/Ver temario previsto y lección gratuita identificada.
+- Verificación: TypeScript, ESLint específico, SSR y HTML publicado de categorías/orientación/retratos, compilaciones Worker/Pages. Navegador: bienvenida de escritorio, teclado en pestañas sin scroll forzado, enlaces de lectura/pregunta, portada y método a 320 px y ficha a 390 px sin desbordamiento. Contraste de tokens documentado. No constituye prueba con docentes, auditoría WCAG completa ni nuevo ciclo de autenticación/D1.
+- Este registro sustituye las descripciones históricas del contador y del método ligado al scroll. Los cambios permanecen en la rama de revisión hasta su integración/publicación.
+
 ## Portada con desplazamiento breve (12 de noviembre de 2026)
 
 - El tramo sticky de la portada pasa de tres alturas de pantalla a una altura más 100–140 px. Los retratos terminan de colocarse al 85 % de ese recorrido, aproximadamente 85–119 px, conservando el scroll natural, reversible y sin interceptar rueda o gestos.

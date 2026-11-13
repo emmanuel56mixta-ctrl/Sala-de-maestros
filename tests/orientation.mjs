@@ -50,7 +50,7 @@ for (const { value: goal } of orientation.studyGoals) {
         assert.ok(hub.includes('id="hub-route-title"'), 'The recommendation anchor must exist in the course hub.');
       } else if (!hasAccess) {
         const url = new URL(worker.href, 'https://worker.example');
-        assert.equal(url.pathname, `/cursos/${slug}/leccion-gratuita`, 'Visitors must remain within the real free lesson.');
+        assert.equal(url.pathname, `/cursos/${slug}/leccion-gratuita/`, 'Visitors must remain within the real free lesson directory.');
         assert.equal(url.searchParams.get('paso'), goal === 'aplicar' ? 'aplica' : 'comprende');
         assert.deepEqual([...url.searchParams.keys()], ['paso']);
         assert.equal(pages.href, `/Sala-de-maestros${worker.href}`, 'Static links need the repository prefix and must preserve the stage query.');
@@ -107,7 +107,7 @@ if (process.argv.includes('--pages-build')) {
   const build = path.join(root, '.pages-build');
   const available = fs.readFileSync(path.join(build, 'cursos', slug, 'index.html'), 'utf8');
   assert.ok(available.includes('id="course-start-title"'), 'The available course must render the orientation before JavaScript.');
-  assert.ok(available.includes(`href="/Sala-de-maestros/cursos/${slug}/leccion-gratuita"`), 'The direct exploration shortcut must work in prerendered HTML.');
+  assert.ok(available.includes(`href="/Sala-de-maestros/cursos/${slug}/leccion-gratuita/"`), 'The direct exploration shortcut must work in prerendered HTML.');
   for (const upcoming of ['promocion-vertical-primaria', 'habilidades-digitales', 'inteligencia-artificial-docencia']) {
     const html = fs.readFileSync(path.join(build, 'cursos', upcoming, 'index.html'), 'utf8');
     assert.ok(!html.includes('id="course-start-title"'), `An upcoming course must not offer an active learning orientation: ${upcoming}`);

@@ -142,7 +142,13 @@ export default function DepthHero() {
 
   return <section ref={root} className="depth-hero" aria-labelledby="landing-title">
     <noscript><style>{`.depth-hero{height:auto!important;--bar-fill:1!important}.depth-stage{position:relative!important;height:auto!important;padding-top:80px}.depth-heading{position:relative!important;top:auto!important;transform:none!important}.hero-choice-heading{position:relative!important;top:auto!important;opacity:1!important;margin:24px 0 0!important}.hero-people{position:relative!important;inset:auto!important;display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-top:20px}.hero-person{position:relative!important;bottom:auto!important;left:auto!important;width:min(44%,300px)!important;height:auto!important;margin:0!important;transform:none!important}.hero-sphere,.hero-scroll-cue{display:none!important}.hero-feature-cards{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;visibility:visible!important;margin-bottom:24px}.depth-actions{position:relative!important;bottom:auto!important;justify-content:flex-end!important;padding-bottom:24px}`}</style></noscript>
-    <header className="hero-topbar"><a href="/" aria-label="Sala de Maestros, inicio">SALA DE MAESTROS</a><span>UN ESPACIO PROPIO</span></header>
+    <header className="hero-topbar">
+      <a className="hero-home-wordmark" href="/" aria-label="Sala de Maestros, inicio"><span>SALA DE</span> <span>MAESTROS</span></a>
+      <nav className="public-account-nav" aria-label="Navegación principal">
+        <a href="/cursos/">Cursos</a>
+        <a className="public-account-link" href="/signin-with-chatgpt?return_to=%2Fasesor">Entrar a mi curso<ArrowRight size={15} aria-hidden="true" /></a>
+      </nav>
+    </header>
     <div ref={stage} className="depth-stage">
       <div ref={heading} className="depth-heading"><h1 id="landing-title"><WordReveal text="SALA DE"/><br/><WordReveal text="MAESTROS" start={2}/></h1></div>
       <p ref={choiceHeading} className="hero-choice-heading">Elige qué quieres estudiar</p>

@@ -47,6 +47,8 @@ pnpm start
 | `drizzle/` | Migraciones de Cloudflare D1 |
 | `public/` | Imágenes, tipografías y documentos públicos |
 | `PROJECT.md` | Decisiones y registro técnico del proyecto |
+| `DESIGN.md` | Reglas visuales y de interacción de la web pública |
+| `docs/ux-ui-audit.md` | Auditoría de UX/UI, cambios y límites de verificación |
 
 ## Hosting y servicios
 
@@ -68,6 +70,8 @@ La página del curso disponible ofrece dos preguntas opcionales (actividad y tie
 
 La primera pregunta pública incluye un caso completo y cinco pasos de análisis adaptados a la opción elegida. Un cursor ilustrativo selecciona frases del caso mientras aparece su explicación; permite pausar, avanzar, repetir o leer todo de inmediato. Con movimiento reducido se muestra el contenido completo sin animación. El texto y las fuentes están en `lib/case-analysis.ts`; la investigación y los límites del ejemplo se documentan en `docs/case-analysis-research.md`. No cambia las preguntas privadas ni las claves históricas.
 
+La navegación pública comparte el acceso «Entrar a mi curso», que inicia sesión y conserva `/asesor` como destino. La portada ofrece una lección gratuita sin registro. El método se explica en pestañas manuales **Lee → Responde → Revisa → Repasa**, con teclado y sin scroll forzado. La ficha distingue contenido incluido y actividades públicas; la inscripción pendiente se anuncia antes del botón. `DESIGN.md` documenta las reglas de lectura, espaciado, controles y estados.
+
 La paleta compartida se define en `app/globals.css`: petróleo para acciones y selección, blanco cálido para el fondo y arena para detalles decorativos. Los textos usan tinta oscura; las respuestas correctas, los reintentos y los marcadores didácticos mantienen colores propios. `app/identity.css` conserva las tipografías Poppins y Aileron y la composición de la marca.
 
 El asesor completo conserva su servidor **Cloudflare Workers**, la autenticación y la base de datos **D1** en el alojamiento actual. El enlace “Entrar a mi curso” dirige allí. GitHub Pages no ejecuta el servidor ni guarda el avance; no se incluyen sesiones ni datos de docentes en los archivos estáticos.
@@ -80,7 +84,7 @@ La configuración `.openai/hosting.json` es necesaria para la compilación actua
 
 - El curso de subdirección de secundaria está implementado; las demás ofertas del catálogo están identificadas como próximas.
 - La integración de pagos está pendiente; los controles actuales no simulan cobros ni compras exitosas.
-- El contador animado de la portada está identificado como cifra simulada y no equivale a inscripciones verificadas.
+- La portada muestra una lección y un caso reales; el contador simulado de inscritos fue retirado.
 - Las voces docentes conservan sus fuentes y contexto; no son testimonios de clientes de la plataforma.
 
 Las licencias y procedencia de tipografías y recursos se conservan junto a sus archivos.

@@ -15,7 +15,7 @@ export const studyTimes: { value: StudyTime; title: string; description: string 
 
 export function recommendStart(goal: StudyGoal, time: StudyTime, slug: string, hasAccess: boolean) {
   const brief = time === 'breve';
-  const preview = `/cursos/${slug}/leccion-gratuita`;
+  const preview = `/cursos/${slug}/leccion-gratuita/`;
   if (goal === 'organizar') return {
     title: 'Estos son los temas del curso',
     reason: 'El temario reúne 18 lecciones en seis bloques. Cada lección indica de qué trata y su tiempo estimado.',
