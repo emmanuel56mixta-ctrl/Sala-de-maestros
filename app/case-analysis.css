@@ -26,7 +26,7 @@
 .case-analysis-kicker {
   margin: 0;
   color: var(--brand-dark);
-  font-size: .65rem;
+  font-size: .75rem;
   font-weight: 700;
   letter-spacing: .09em;
 }
@@ -226,7 +226,7 @@
 }
 .case-analysis-step-number {
   color: var(--brand-dark);
-  font-size: .7rem;
+  font-size: .75rem;
   font-weight: 700;
   letter-spacing: .08em;
 }
@@ -288,7 +288,7 @@
 }
 .case-analysis-source > span {
   color: var(--text-muted);
-  font-size: .6rem;
+  font-size: .75rem;
   font-weight: 700;
   letter-spacing: .08em;
 }
@@ -394,7 +394,7 @@
   }
   .case-analysis-controls button {
     padding: 10px;
-    font-size: .72rem;
+    font-size: .75rem;
   }
   .case-analysis-grid {
     grid-template-columns: 1fr;

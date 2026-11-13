@@ -26,6 +26,7 @@ node tests/orientation.mjs
 node tests/course-sections.mjs
 node tests/hero-transition.mjs
 node tests/case-analysis.mjs
+node scripts/check-design.mjs
 pnpm build
 pnpm start
 ```

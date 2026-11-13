@@ -3,7 +3,7 @@
   --bar-fill:0;
   --headline-y:0px;
   --cards-y:85svh;
-  --scroll-cue-opacity:1;
+  --pitch-opacity:1;
   --hero-scroll-range:clamp(100px,15svh,140px);
   height:calc(100svh + var(--hero-scroll-range));
 }
@@ -41,7 +41,7 @@
   align-items:center;
 }
 .hero-topbar>span {
-  font-size:.6rem;
+  font-size:.75rem;
   letter-spacing:.13em;
   font-weight:700;
   color:var(--text-muted);
@@ -166,7 +166,7 @@
   display:flex;
   align-items:center;
   gap:9px;
-  font-size:.64rem;
+  font-size:.75rem;
   font-weight:700;
   letter-spacing:.1em;
 }
@@ -195,15 +195,63 @@
   right:0;
   display:flex;
   justify-content:space-between;
-  align-items:center;
+  align-items:flex-end;
   gap:16px;
+  pointer-events:none;
+}
+.depth-actions > * {
+  pointer-events:auto;
+}
+/* Value proposition and main action, visible in the first frame. */
+.hero-pitch {
+  display:grid;
+  gap:14px;
+  max-width:520px;
+  padding:18px 20px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:color-mix(in srgb,var(--canvas) 94%,transparent);
+  box-shadow:0 14px 30px color-mix(in srgb,var(--ink) 8%,transparent);
+  opacity:var(--pitch-opacity);
+}
+.hero-pitch-text {
+  margin:0;
+  color:var(--ink);
+  font:600 1rem/1.55 Aileron,Arial,sans-serif;
+}
+.hero-pitch-actions {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px 16px;
+}
+.hero-pitch-actions > span {
+  font-size:.875rem;
+  color:var(--text-muted);
+}
+.hero-pitch-cta {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  min-height:48px;
+  padding:12px 18px;
+  border-radius:6px;
+  background:var(--brand);
+  color:var(--on-brand);
+  font:700 .9375rem/1.2 Aileron,Arial,sans-serif;
+  text-decoration:none;
+}
+.hero-pitch-cta:hover {
+  background:var(--brand-dark);
 }
 .hero-all-courses {
   display:inline-flex;
   align-items:center;
   gap:10px;
   min-height:44px;
-  padding:10px 0;
+  padding:10px 14px;
+  border-radius:6px;
+  background:color-mix(in srgb,var(--canvas) 94%,transparent);
   color:var(--brand-dark);
   font-size:.8125rem;
   font-weight:700;
@@ -211,15 +259,6 @@
 .hero-all-courses:hover {
   text-decoration:underline;
   text-underline-offset:4px;
-}
-.hero-scroll-cue {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:.75rem;
-  opacity:var(--scroll-cue-opacity);
-  padding:10px;
-  background:color-mix(in srgb,var(--canvas) 88%,transparent);
 }
 .landing-welcome {
   display:grid;
@@ -289,10 +328,10 @@
     height:56px;
   }
   .hero-topbar a {
-    font-size:.69rem;
+    font-size:.75rem;
   }
   .hero-topbar>span {
-    font-size:.5rem;
+    font-size:.75rem;
   }
   .depth-heading {
     top:23%;
@@ -327,7 +366,7 @@
     border-radius:8px;
   }
   .hero-feature-cards article>span {
-    font-size:.5rem;
+    font-size:.75rem;
     letter-spacing:.02em;
     gap:5px;
   }
@@ -358,16 +397,36 @@
     top:30%;
   }
   .depth-actions {
-    bottom:20px;
+    bottom:16px;
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+  }
+  .hero-pitch {
+    max-width:none;
+    padding:14px 16px;
+    gap:12px;
+  }
+  .hero-pitch-text {
+    font-size:.9375rem;
+  }
+  .hero-pitch-actions {
+    flex-direction:column;
+    align-items:stretch;
+    gap:6px;
+  }
+  .hero-pitch-actions > span {
+    font-size:.8125rem;
+  }
+  .hero-pitch-cta {
+    justify-content:space-between;
+  }
+  .hero-all-courses {
+    align-self:flex-end;
   }
   .hero-all-courses {
     font-size:.75rem;
     gap:8px;
-  }
-  .hero-scroll-cue {
-    font-size:.65rem;
-    gap:5px;
-    padding:5px;
   }
   .landing-welcome {
     grid-template-columns:1fr;
@@ -427,8 +486,11 @@
     transform:none;
     flex-shrink:0;
   }
-  .hero-sphere,.hero-scroll-cue {
+  .hero-sphere {
     display:none;
+  }
+  .hero-pitch {
+    opacity:1;
   }
   .hero-feature-cards {
     position:relative;
@@ -439,13 +501,23 @@
     visibility:visible;
     margin:0 0 24px;
   }
+  /* Short screens and reduced motion: the value proposition follows the title. */
+  .depth-stage {
+    display:flex;
+    flex-direction:column;
+  }
+  .hero-choice-heading,.hero-people,.hero-feature-cards {
+    order:2;
+  }
   .depth-actions {
+    order:1;
     position:relative;
     left:auto;
     right:auto;
     bottom:auto;
-    padding-bottom:24px;
-    justify-content:flex-end;
+    margin-top:20px;
+    justify-content:space-between;
+    align-items:flex-end;
   }
   .hero-feature-cards,.hero-person,.depth-heading {
     will-change:auto;

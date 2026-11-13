@@ -1,63 +1,60 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, BookOpen, Check, Clock3, Compass, Lightbulb } from 'lucide-react';
-import { recommendStart, studyGoals, studyTimes, type StudyGoal, type StudyTime } from '@/lib/course-orientation';
+import { ArrowRight, BookOpen, Clock3, Compass, Lightbulb } from 'lucide-react';
+import { recommendStart } from '@/lib/course-orientation';
 import './course-start.css';
 
+/* Three direct entries replace the former two-question wizard: the answers to
+   "activity" and "time" led to the same destinations, so the choice is now one click. */
 export default function CourseStart({ slug, hasAccess }: { slug: string; hasAccess: boolean }) {
-  const [step, setStep] = useState(0);
-  const [goal, setGoal] = useState<StudyGoal | null>(null);
-  const [time, setTime] = useState<StudyTime | null>(null);
-  const heading = useRef<HTMLHeadingElement>(null);
-  const section = useRef<HTMLElement>(null);
-  const moveFocus = useRef(false);
-  const go = (next: number) => { moveFocus.current = true; setStep(next); };
-  useEffect(() => {
-    if (moveFocus.current) {
-      heading.current?.focus({ preventScroll: true });
-      section.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
-      moveFocus.current = false;
-    }
-  }, [step]);
-  const result = goal && time ? recommendStart(goal, time, slug, hasAccess) : null;
-  const selectedGoal = studyGoals.find(item => item.value === goal);
-  const selectedTime = studyTimes.find(item => item.value === time);
   const preview = `/cursos/${slug}/leccion-gratuita/`;
-  const icons = [BookOpen, Lightbulb, Compass];
+  const practice = recommendStart('aplicar', 'breve', slug, hasAccess);
+  const read = recommendStart('comprender', 'completa', slug, hasAccess);
+  const entries = [
+    {
+      icon: Lightbulb,
+      title: hasAccess ? 'Practicar con una pregunta' : 'Responder una pregunta',
+      text: 'Elige una respuesta y revisa por qué es correcta o incorrecta.',
+      time: 'Unos 5 minutos',
+      href: practice.href,
+      recommended: true,
+    },
+    {
+      icon: BookOpen,
+      title: hasAccess ? 'Leer la primera lección' : 'Leer la lección gratuita',
+      text: 'Equidad, inclusión y no discriminación en una decisión escolar.',
+      time: 'Unos 15 minutos',
+      // Reading is the lesson's default stage, so the plain lesson URL is enough.
+      href: hasAccess ? read.href : preview,
+      recommended: false,
+    },
+    {
+      icon: Compass,
+      title: 'Ver el temario',
+      text: 'Seis bloques y 18 lecciones, con su tiempo estimado.',
+      time: 'Consulta rápida',
+      href: '#hub-route-title',
+      recommended: false,
+    },
+  ];
 
-  return <section ref={section} className="course-start" aria-labelledby="course-start-title">
-    <div className="course-start-top"><span className="eyebrow">PARA EMPEZAR</span><span><Clock3 size={14} aria-hidden="true" />2 preguntas · opcional</span></div>
-    <ol className="course-start-progress" aria-label="Pasos para elegir por dónde empezar">
-      {['Actividad', 'Tiempo', 'Empezar'].map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined} data-complete={step > index}><span aria-hidden="true">{step > index ? <Check size={13} /> : index + 1}</span>{label}</li>)}
-    </ol>
+  return <section className="course-start" aria-labelledby="course-start-title">
     <div className="course-start-content">
-      <h2 id="course-start-title" ref={heading} tabIndex={-1}>{step === 0 ? '¿Por dónde quieres empezar?' : step === 1 ? '¿Cuánto tiempo tienes hoy?' : result?.title}</h2>
-      {step !== 1 && <p className="course-start-intro">{step === 0 ? 'Puedes leer, practicar o conocer los temas del curso.' : result?.reason}</p>}
-      {step === 0 && <>
-        <fieldset className="course-start-options"><legend className="sr-only">Elige una actividad</legend>{studyGoals.map((item, index) => { const Icon = icons[index]; return <label className="course-start-option" key={item.value}>
-          <input type="radio" name="study-goal" value={item.value} checked={goal === item.value} onChange={() => setGoal(item.value)} />
-          <Icon size={21} aria-hidden="true" /><span><strong>{item.title}</strong><small>{item.description}</small></span><span className="course-start-radio" aria-hidden="true" />
-        </label>; })}</fieldset>
-      </>}
-      {step === 1 && <>
-        <p className="course-start-context"><Check size={15} aria-hidden="true" />{selectedGoal?.title}</p>
-        <fieldset className="course-start-options"><legend className="sr-only">Tiempo disponible para estudiar</legend>{studyTimes.map(item => <label className="course-start-option" key={item.value}>
-          <input type="radio" name="study-time" value={item.value} checked={time === item.value} onChange={() => setTime(item.value)} />
-          <Clock3 size={21} aria-hidden="true" /><span><strong>{item.title}</strong><small>{item.description}</small></span><span className="course-start-radio" aria-hidden="true" />
-        </label>)}</fieldset>
-        <p className="course-start-feedback">Puedes dedicarle más o menos tiempo; es solo una referencia.</p>
-      </>}
-      {step === 2 && result && <>
-        <div className="course-start-summary"><span>{selectedGoal?.title}</span><span>{selectedTime?.title}</span></div>
-        <ol className="course-start-plan">{result.steps.map((text, index) => <li key={text}><span aria-hidden="true">{index + 1}</span>{text}</li>)}</ol>
-        <p className="course-start-note">{result.note}</p>
-      </>}
-      <div className="course-start-actions">
-        {step > 0 && <button className="text-button" onClick={() => go(step - 1)}><ArrowLeft size={16} aria-hidden="true" />Atrás</button>}
-        {step < 2 ? <button className="primary" disabled={step === 0 ? !goal : !time} onClick={() => go(step + 1)}>Continuar<ArrowRight size={18} aria-hidden="true" /></button> : result && <a className="primary" href={result.href}>{result.label}<ArrowRight size={18} aria-hidden="true" /></a>}
-      </div>
+      <p className="eyebrow">PARA EMPEZAR</p>
+      <h2 id="course-start-title">¿Por dónde quieres empezar?</h2>
+      <p className="course-start-intro">{hasAccess ? 'Elige una actividad de tu curso.' : 'La lección gratuita no requiere registro. Tus respuestas no se guardan.'}</p>
+      <ul className="course-start-entries">
+        {entries.map(entry => <li key={entry.title}>
+          <a className={`course-start-entry${entry.recommended ? ' is-recommended' : ''}`} href={entry.href}>
+            <entry.icon size={22} aria-hidden="true" />
+            <span className="course-start-entry-copy">
+              {entry.recommended && <span className="course-start-badge">Recomendado</span>}
+              <strong>{entry.title}</strong>
+              <small>{entry.text}</small>
+              <span className="course-start-time"><Clock3 size={14} aria-hidden="true" />{entry.time}</span>
+            </span>
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+        </li>)}
+      </ul>
     </div>
-    <div className="course-start-shortcut"><a href={hasAccess ? '/asesor' : preview}>{hasAccess ? 'Ir a mi curso' : 'Ir directo a la lección gratuita'}<ArrowRight size={15} aria-hidden="true" /></a>{step === 2 && <button onClick={() => go(0)}>Cambiar mis respuestas</button>}</div>
   </section>;
 }

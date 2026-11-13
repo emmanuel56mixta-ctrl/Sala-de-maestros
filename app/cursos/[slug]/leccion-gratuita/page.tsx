@@ -12,5 +12,5 @@ export default async function PreviewPage({params}:{params:Promise<{slug:string}
  const course=offeringBySlug((await params).slug);if(!course?.available)notFound();
  const lesson=lessonById(course.previewLessonId);if(!lesson)notFound();
  const user=await getChatGPTUser();
- return <CatalogShell backTo={`/cursos/${course.slug}`} backLabel="Volver a mi curso"><CourseExplorer course={course} lesson={lesson} source={sources[lesson.source]} outline={lessons.map(item=>({id:item.id,title:item.title,minutes:item.minutes}))} hasAccess={hasCourseAccess(user?.email,course.id)}/></CatalogShell>;
+ return <CatalogShell backTo={`/cursos/${course.slug}`} backLabel="Volver al curso"><CourseExplorer course={course} lesson={lesson} source={sources[lesson.source]} outline={lessons.map(item=>({id:item.id,title:item.title,minutes:item.minutes}))} hasAccess={hasCourseAccess(user?.email,course.id)}/></CatalogShell>;
 }

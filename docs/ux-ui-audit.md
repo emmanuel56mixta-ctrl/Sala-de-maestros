@@ -55,3 +55,7 @@ Estos valores no auditan todos los estados ni los textos sobre imágenes. Movimi
 Hacer sesiones breves con docentes de distintas edades y familiaridad digital: encontrar un curso, identificar si está disponible, abrir la muestra, explicar una respuesta y localizar el acceso de cuenta. Observar errores y dudas antes de añadir más secciones. Cuando se defina la inscripción comercial, diseñar su recorrido completo con precio, condiciones, confirmación y recuperación de errores; el diseño actual no habilita cobros.
 
 El registro técnico de cambios está en `PROJECT.md` y las reglas que deben conservar futuras revisiones están en `DESIGN.md`.
+
+## Segunda revisión (12 de noviembre de 2026)
+
+Una segunda auditoría detectó problemas que esta revisión no cubría: la portada no mostraba la propuesta de valor ni la acción principal en el primer cuadro, la lección gratuita terminaba sin siguiente paso tras una respuesta incorrecta, los retratos del hero pesaban 3,2 MB y el CSS no cumplía las reglas de `DESIGN.md` (texto de 8 a 11 px, decenas de colores y radios fuera de escala). Los cambios aplicados y su verificación están en `PROJECT.md`; `DESIGN.md` pasa al formato de tokens de getdesign.md.
