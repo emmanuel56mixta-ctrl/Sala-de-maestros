@@ -9,8 +9,8 @@ export default function CaseAnalysis({ plan }: { plan: CaseAnalysisPlan }) {
   return <CaseAnalysisSession key={plan.id} plan={plan} />;
 }
 
-function EvidenceAndExplanation({ step, number }: { step: AnalysisStep; number: number }) {
-  return <div className="case-analysis-step">
+function EvidenceAndExplanation({ step, number, animate = false }: { step: AnalysisStep; number: number; animate?: boolean }) {
+  return <div className={`case-analysis-step${animate ? ' lesson-motion-analysis-step' : ''}`}>
     <h4><span className="case-analysis-step-number">{String(number).padStart(2, '0')}</span>{step.title}</h4>
     <div className="case-analysis-grid">
       <blockquote className="case-analysis-quote">
@@ -29,11 +29,17 @@ function CaseAnalysisSession({ plan }: { plan: CaseAnalysisPlan }) {
   const headingId = useId();
   const contentId = useId();
   const [index, setIndex] = useState(0);
+  const [hasNavigated, setHasNavigated] = useState(false);
   const [completeOpen, setCompleteOpen] = useState(false);
   const activeStep = plan.steps[index];
   const lastIndex = plan.steps.length - 1;
 
   if (!activeStep) return null;
+
+  const visitStep = (next: number) => {
+    setIndex(Math.max(0, Math.min(lastIndex, next)));
+    setHasNavigated(true);
+  };
 
   return <section className="case-analysis" aria-labelledby={headingId}>
     <header className="case-analysis-heading">
@@ -45,10 +51,10 @@ function CaseAnalysisSession({ plan }: { plan: CaseAnalysisPlan }) {
         {completeOpen ? 'Análisis completo' : <>Paso {index + 1} de {plan.steps.length}<span className="case-analysis-sr-only">. {activeStep.title}</span></>}
       </p>
       {!completeOpen && <div className="case-analysis-controls" role="group" aria-label="Pasos del análisis">
-        <button type="button" aria-controls={contentId} onClick={() => setIndex(current => Math.max(0, current - 1))} disabled={index === 0}>
+        <button type="button" aria-controls={contentId} onClick={() => visitStep(index - 1)} disabled={index === 0}>
           <ArrowLeft size={18} aria-hidden="true" />Anterior
         </button>
-        <button type="button" aria-controls={contentId} onClick={() => setIndex(current => Math.min(lastIndex, current + 1))} disabled={index === lastIndex}>
+        <button type="button" aria-controls={contentId} onClick={() => visitStep(index + 1)} disabled={index === lastIndex}>
           Siguiente<ArrowRight size={18} aria-hidden="true" />
         </button>
       </div>}
@@ -58,7 +64,7 @@ function CaseAnalysisSession({ plan }: { plan: CaseAnalysisPlan }) {
         <summary>{completeOpen ? 'Volver al análisis por pasos' : 'Leer el análisis completo'}</summary>
         <ol>{plan.steps.map((step, stepIndex) => <li key={step.id}><EvidenceAndExplanation step={step} number={stepIndex + 1} /></li>)}</ol>
       </details>
-      {!completeOpen && <EvidenceAndExplanation step={activeStep} number={index + 1} />}
+      {!completeOpen && <EvidenceAndExplanation key={activeStep.id} step={activeStep} number={index + 1} animate={hasNavigated} />}
     </div>
     <footer className="case-analysis-source">
       <span>Fuente de este análisis</span>

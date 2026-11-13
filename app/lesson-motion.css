@@ -1,0 +1,18 @@
+/* Content is complete and readable throughout each user-triggered transition.
+   Only the changing content moves; headings, focus and navigation stay stable. */
+.lesson-motion-content,
+.lesson-motion-analysis-step {
+  animation: lesson-content-enter 260ms cubic-bezier(.22, .68, .2, 1);
+}
+
+@keyframes lesson-content-enter {
+  from { opacity: .85; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lesson-motion-content,
+  .lesson-motion-analysis-step {
+    animation: none;
+  }
+}

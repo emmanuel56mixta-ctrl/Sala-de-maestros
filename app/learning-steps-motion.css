@@ -86,7 +86,7 @@
   display: none;
 }
 .method-tabpanel:not([hidden]) {
-  animation: method-panel-appear .18s ease-out;
+  animation: method-panel-appear 260ms cubic-bezier(.22, .68, .2, 1);
 }
 .method-copy {
   min-width: 0;
@@ -213,7 +213,7 @@
   text-underline-offset: 3px;
 }
 @keyframes method-panel-appear {
-  from { opacity: .75; transform: translateY(4px); }
+  from { opacity: .85; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 @media (max-width: 767px) {

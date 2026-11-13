@@ -1,0 +1,37 @@
+/* Added only after intersection. Nothing is hidden while waiting for JavaScript
+   or scrolling, and individual properties leave interaction transforms intact. */
+.landing .public-motion-enter {
+  animation: public-block-arrive 620ms cubic-bezier(.22, .68, .2, 1);
+}
+/* A short stagger groups neighbouring cards without delaying access to them. */
+.landing :is(.platform-catalog, .voices-grid) > .public-motion-enter:nth-child(2) {
+  animation-delay: 70ms;
+  animation-fill-mode: backwards;
+}
+.landing :is(.platform-catalog, .voices-grid) > .public-motion-enter:nth-child(n+3) {
+  animation-delay: 140ms;
+  animation-fill-mode: backwards;
+}
+.landing .public-motion-enter:focus-within {
+  animation: none;
+}
+.landing .public-motion-photo > img {
+  animation: public-photo-settle 900ms cubic-bezier(.22, .68, .2, 1);
+  transform-origin: center;
+}
+@keyframes public-block-arrive {
+  from { translate: 0 16px; scale: .985; }
+  to { translate: 0 0; scale: 1; }
+}
+@keyframes public-photo-settle {
+  from { scale: 1.06; }
+  to { scale: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing .public-motion-enter,
+  .landing .public-motion-photo > img {
+    animation: none;
+    translate: none;
+    scale: none;
+  }
+}
