@@ -3,13 +3,20 @@
   margin: 0;
 }
 
+.learning-photo-media {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--surface-alt);
+}
+
 .learning-photo img {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 2;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 0;
   background: var(--surface-alt);
 }
 

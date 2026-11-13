@@ -1,0 +1,102 @@
+@import './lesson-motion.css';
+
+/* Motion follows the gesture; reading returns to rest after every transition. */
+.landing {
+  --motion-ease: cubic-bezier(.22, .68, .2, 1);
+  --motion-quick: 220ms;
+  --motion-gentle: 420ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing :is(.welcome-primary, .hero-pitch-cta, .landing-enter, .course-section-enter, .primary, .secondary, .course-start-entry, .catalog-sections a) {
+    transition: transform var(--motion-quick) var(--motion-ease),
+      background-color var(--motion-quick), border-color var(--motion-quick),
+      box-shadow var(--motion-quick);
+  }
+
+  .landing :is(.welcome-primary, .hero-pitch-cta, .landing-enter, .course-section-enter, .primary, .secondary, .course-start-entry, .catalog-sections a):not(:disabled):active {
+    transform: scale(.985);
+  }
+
+  .landing :is(.welcome-primary, .hero-pitch-cta, .landing-enter, .course-section-enter, .course-start-entry, .hero-course-link, .hero-all-courses, .primary, .secondary) > svg:last-child {
+    transition: transform 320ms var(--motion-ease);
+  }
+
+  .landing :is(.catalog-course, .voice-card) {
+    transition: transform var(--motion-gentle) var(--motion-ease),
+      border-color var(--motion-quick), box-shadow var(--motion-gentle);
+  }
+
+  .landing :is(.catalog-cover > svg, .course-start-entry > svg:first-child, .method-panel-top > svg, .hub-module-number) {
+    transition: transform var(--motion-gentle) var(--motion-ease);
+    transform-origin: center;
+  }
+
+  .landing .learning-photo img {
+    transition: transform 850ms var(--motion-ease);
+  }
+
+  .landing .lesson-answers label {
+    transition: background-color 180ms, border-color 180ms;
+  }
+
+  .landing :is(.method-tabs button, .lesson-stage-nav button, .case-analysis-controls button, .hub-modules summary, .institution-link-list a) {
+    transition: background-color var(--motion-quick), border-color var(--motion-quick), color var(--motion-quick);
+  }
+
+  /* Expand disclosure content without animating its height or moving its trigger. */
+  .landing .hub-modules details[open] > :not(summary) {
+    animation: disclosure-arrive 260ms var(--motion-ease);
+  }
+
+  .landing :is(.welcome-primary, .hero-pitch-cta, .landing-enter, .course-start-entry, .hero-course-link, .hero-all-courses, .primary, .secondary):not(:disabled):focus-visible > svg:last-child {
+    transform: translateX(3px);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .landing :is(.welcome-primary, .hero-pitch-cta, .landing-enter, .course-section-enter, .primary, .secondary, .catalog-sections a):not(:disabled):hover {
+    transform: translateY(-2px) scale(1.012);
+  }
+
+  .landing .course-start-entry:hover {
+    transform: translateY(-2px);
+  }
+
+  .landing :is(.catalog-course, .voice-card):hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: 0 14px 28px -22px var(--brand-dark);
+  }
+
+  .landing .catalog-course:hover .catalog-cover > svg {
+    transform: scale(1.12) rotate(-4deg);
+  }
+
+  .landing .course-start-entry:hover > svg:first-child,
+  .landing .hub-modules summary:hover .hub-module-number {
+    transform: scale(1.075) rotate(-3deg);
+  }
+
+  .landing .learning-photo:hover img {
+    transform: scale(1.035);
+  }
+
+  .landing :is(.welcome-primary, .hero-pitch-cta, .landing-enter, .course-start-entry, .hero-course-link, .hero-all-courses, .primary, .secondary):not(:disabled):hover > svg:last-child {
+    transform: translateX(3px);
+  }
+
+  .landing .course-section-enter:hover > svg:last-child {
+    transform: translateY(3px);
+  }
+
+  /* Press feedback wins over hover on a mouse, too. */
+  .landing :is(.welcome-primary, .hero-pitch-cta, .landing-enter, .course-section-enter, .primary, .secondary, .course-start-entry, .catalog-sections a):not(:disabled):active {
+    transform: scale(.985);
+  }
+}
+
+@keyframes disclosure-arrive {
+  from { opacity: .85; translate: 0 4px; }
+  to { opacity: 1; translate: 0 0; }
+}

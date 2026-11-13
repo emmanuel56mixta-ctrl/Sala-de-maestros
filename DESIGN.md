@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: Sala de Maestros
-description: Plataforma de formación para docentes en México. Un sistema sereno y de lectura larga, sobre blanco cálido, con tinta petróleo, Poppins para títulos y Aileron para leer. El color de marca se reserva para la acción y la selección; el verde y el ámbar solo dicen "correcto" y "revisa". La fotografía de docentes aporta la calidez; la interfaz se mantiene quieta para que el caso y la explicación sean lo importante.
+description: Plataforma de formación para docentes en México. Un sistema sereno y de lectura larga, sobre blanco cálido, con tinta petróleo, Poppins para títulos y Aileron para leer. El color de marca se reserva para la acción y la selección; el verde y el ámbar solo dicen "correcto" y "revisa". La fotografía de docentes aporta la calidez; entradas suaves, pequeños acercamientos y respuestas al gesto dan vida a la interfaz, que vuelve al reposo durante la lectura.
 
 colors:
   brand: "#1d5661"          # acción principal, selección, paso activo
@@ -61,6 +61,8 @@ breakpoints:
 motion:
   fast: 140ms
   base: 220ms
+  entrance: 620ms    # entrada única de bloques al entrar en pantalla
+  photo: 900ms       # acercamiento suave dentro del marco de fotografía
   page: 620ms        # transición de retratos entre documentos
   easing: cubic-bezier(.2,.7,.2,1)
   reduced: none      # con prefers-reduced-motion todo se muestra sin animar
@@ -145,7 +147,7 @@ components:
 
 ## Overview
 
-Sala de Maestros es un cuarto tranquilo para estudiar: fondo de papel cálido (`{colors.canvas}`), tinta petróleo (`{colors.ink}`) y un único color de acción (`{colors.brand}`). La personalidad la ponen las personas, en los retratos de la portada y en la fotografía de docentes, nunca la interfaz. Cada pantalla tiene un trabajo: elegir un curso, probar una lección o continuar donde se quedó la persona. Todo lo demás es secundario.
+Sala de Maestros es un cuarto tranquilo para estudiar: fondo de papel cálido (`{colors.canvas}`), tinta petróleo (`{colors.ink}`) y un único color de acción (`{colors.brand}`). La personalidad la ponen las personas, los retratos y las fotografías; el movimiento acompaña el recorrido y las acciones. Cada pantalla tiene un trabajo: elegir un curso, probar una lección o continuar donde se quedó la persona. Todo lo demás es secundario.
 
 El público son docentes de 25 a 60 años, a menudo en el teléfono, al final de la jornada y con poco tiempo. Por eso el sistema prefiere lectura cómoda (18 px en lecciones), botones grandes, estados explícitos con texto y cero movimiento que compita con el contenido.
 
@@ -199,7 +201,9 @@ Tres radios y nada más: `sm` 6 px (controles), `md` 12 px (contenedores), `full
 
 ## Motion
 
-Las transiciones duran 140–220 ms. La transición de retratos de 620 ms se mantiene. No hay carruseles automáticos de contenido que haya que leer. Con `prefers-reduced-motion: reduce`, todo aparece en su sitio sin animar.
+Las respuestas a pulsaciones duran 180–320 ms; las entradas de bloques y el zoom de fotografías, 620–900 ms. Las tarjetas se elevan ligeramente y sus iconos crecen al pasar el cursor; las fotos mantienen el zoom dentro de su marco. Los grupos de tarjetas se escalonan 70–140 ms. La transición de retratos de 620 ms se mantiene.
+
+Las entradas ocurren una sola vez, sin ocultar contenido antes de que cargue JavaScript ni sumar transformaciones a la escena de portada. La lectura y las opciones permanecen estables; al cambiar de etapa o de paso del análisis, el contenido completo entra en 220–280 ms. No hay bucles ni carruseles automáticos. Con `prefers-reduced-motion: reduce`, todo aparece en su sitio sin animar, incluso si la preferencia cambia durante la visita.
 
 ## Do's and Don'ts
 

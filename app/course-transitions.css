@@ -31,13 +31,7 @@
   object-fit: contain;
 }
 
-.section-catalog-content {
-  animation: section-content-reveal 560ms 380ms both;
-}
-@keyframes section-content-reveal {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Cards arrive individually through PublicMotion; the catalogue stays readable. */
 
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }

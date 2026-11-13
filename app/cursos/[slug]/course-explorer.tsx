@@ -98,6 +98,9 @@ export default function CourseExplorer({ course, lesson, source, hasAccess }: Pr
       <section className="lesson-stage" aria-labelledby="lesson-stage-title">
         {step !== 0 && <p className="lesson-context">{showResult ? 'Resultado de esta visita' : `Caso ${caseIndex + 1} de ${totalCases} · ${caseIndex === 0 ? 'Práctica acompañada' : 'Aplicación a otra situación'}`}</p>}
         <h2 id="lesson-stage-title" ref={stepHeading} tabIndex={-1}>{heading}</h2>
+        {/* Stage identity changes only on navigation, never when selecting an answer.
+            The focused heading remains outside the animated content. */}
+        <div className="lesson-motion-content" key={`${step}-${caseIndex}-${showResult ? 'result' : 'activity'}`}>
         {step === 0 && <div className="lesson-reading">
           {reading.map(block => <section className="lesson-reading-block" key={block.title}><h3>{block.title}</h3><p>{block.text}</p></section>)}
           <section className="lesson-worked-example" aria-labelledby="worked-example-title">
@@ -143,6 +146,7 @@ export default function CourseExplorer({ course, lesson, source, hasAccess }: Pr
           <div className="lesson-result-retries">{cases.map((item, index) => <button key={item.id} className="text-button" onClick={() => chooseCase(index)}>Revisar caso {index + 1}</button>)}</div>
           <section className="free-lesson-next" aria-labelledby="lesson-next-title"><h3 id="lesson-next-title">Continúa tu preparación</h3><p>Conoce la ruta de estudio, los talleres y la práctica del curso de {course.title.toLowerCase()}.</p><a className="primary" href={hasAccess ? '/asesor' : `/cursos/${course.slug}/`}>{hasAccess ? 'Continuar en mi curso' : 'Conocer el curso completo'}<ArrowRight size={18} aria-hidden="true" /></a></section>
         </>}
+        </div>
       </section>
       <p className="lesson-local-note">Tus respuestas se conservan mientras permanezcas en esta página. Se borran al recargar o salir y no se guardan en tu cuenta.</p>
     </article>

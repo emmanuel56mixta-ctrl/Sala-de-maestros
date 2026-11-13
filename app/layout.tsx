@@ -10,6 +10,8 @@ import "./word-reveal.css";
 import "./learning-steps-motion.css";
 import "./learning-photography.css";
 import "./public-design.css";
+import "./public-motion.css";
+import "./interaction-motion.css";
 
 export const metadata: Metadata = {
   title: "Sala de Maestros",

@@ -4,12 +4,14 @@ import TeacherCommunity from './teacher-community';
 import InstitutionResources from './institution-resources';
 import LearningPhoto from './learning-photo';
 import PublicFooter from './public-footer';
+import PublicMotion from './public-motion';
 import { ArrowRight } from 'lucide-react';
 
 
 export default function Home() {
   return (
     <div className="landing">
+      <PublicMotion />
       <a className="skip-link" href="#presentacion">Ir al contenido</a>
       <main id="presentacion">
         <DepthHero />
